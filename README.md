@@ -1,4 +1,4 @@
-# Hermes Market API
+# Hermes Market API ⚡
 
 **Hermes** é um sistema backend de gerenciamento de mercado em desenvolvimento, criado para praticar **Java 17 + Spring Boot**, modelagem de domínio e boas práticas de API REST.
 
