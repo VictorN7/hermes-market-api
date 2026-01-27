@@ -1,0 +1,157 @@
+package com.hermes.market.entity;
+
+import java.time.LocalDateTime;
+import java.util.Objects;
+
+import com.hermes.market.enums.ProductStatus;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name="products")
+public class Product {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@Column(nullable = false)
+	private String name;
+	
+	@Column(nullable = false)
+	private String description;
+	
+	@Column(nullable = false)
+	private Double price;
+	
+	@Column(nullable = false)
+	private Integer quantityInStock; 
+	
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private ProductStatus status; 
+	
+	@Column(nullable = false)
+	private LocalDateTime createdAt;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id", nullable = false)
+	private Category category;
+
+	
+	public Product() {
+		
+	}
+
+	public Product(String name, String description, Double price, Integer quantityInStock, Category category) {
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.quantityInStock = quantityInStock;
+		this.status = ProductStatus.ACTIVE;
+		this.createdAt = LocalDateTime.now();
+		this.category = category;
+	}
+	
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		
+		if (category == null) {
+			throw new IllegalArgumentException("Product must have a category!");
+		}
+		this.category = category;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public void setQuantityInStock(Integer quantityInStock) {
+		this.quantityInStock = quantityInStock;
+	}
+
+	public void setStatus(ProductStatus status) {
+		this.status = status;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public Integer getQuantityInStock() {
+		return quantityInStock;
+	}
+
+	public ProductStatus getStatus() {
+		return status;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
+				+ ", quantityInStock=" + quantityInStock + ", status=" + status + ", createdAt=" + createdAt
+				+ "]";
+	}
+	
+}
