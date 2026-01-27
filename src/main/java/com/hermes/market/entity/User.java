@@ -2,6 +2,7 @@ package com.hermes.market.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import com.hermes.market.enums.Role;
@@ -11,9 +12,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,7 +36,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
-	private LocalDate dateBirth;
+	private LocalDate birthDate;
 	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -49,14 +52,17 @@ public class User {
 	@Column(updatable = false)
 	private LocalDateTime createdAt;
 	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Order> orders;
+	
 	public User() {
 	}
 
-	public User(String name, String email, String password, LocalDate dateBirth, String cpf) {
+	public User(String name, String email, String password, LocalDate birthDate, String cpf) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.dateBirth = dateBirth;
+		this.birthDate = birthDate;
 		this.role = Role.CLIENT;
 		this.cpf = cpf;
 		this.status = UserStatus.ACTIVE;
@@ -89,12 +95,12 @@ public class User {
 		this.password = password;
 	}
 
-	public LocalDate getDateBirth() {
-		return dateBirth;
+	public LocalDate getBirthDate() {
+		return birthDate;
 	}
 
-	public void setDateBirth(LocalDate dateBirth) {
-		this.dateBirth = dateBirth;
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public Role getRole() {
@@ -148,7 +154,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", dateBirth=" + dateBirth + ", role=" + role
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", dateBirth=" + birthDate + ", role=" + role
 				+ ", cpf=" + cpf + ", status=" + status + ", createdAt=" + createdAt + "]";
 	}
 }

@@ -35,7 +35,6 @@ public class OrderItem {
 	private Double price;
 
 	public OrderItem() {
-		
 	}
 	
 	public OrderItem(Product product, Order order, Integer quantity, Double price) {
