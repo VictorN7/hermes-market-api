@@ -50,7 +50,6 @@ public class User {
 	private LocalDateTime createdAt;
 	
 	public User() {
-		
 	}
 
 	public User(String name, String email, String password, LocalDate dateBirth, String cpf) {
@@ -66,10 +65,68 @@ public class User {
 	
 	// Implementar o PerPersist e Lombok
 	
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", dateBirth=" + dateBirth + ", role=" + role
-				+ ", cpf=" + cpf + ", status=" + status + ", createdAt=" + createdAt + "]";
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public LocalDate getDateBirth() {
+		return dateBirth;
+	}
+
+	public void setDateBirth(LocalDate dateBirth) {
+		this.dateBirth = dateBirth;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public UserStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(UserStatus status) {
+		this.status = status;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
 
 	@Override
@@ -89,4 +146,9 @@ public class User {
 		return Objects.equals(cpf, other.cpf);
 	}
 	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", dateBirth=" + dateBirth + ", role=" + role
+				+ ", cpf=" + cpf + ", status=" + status + ", createdAt=" + createdAt + "]";
+	}
 }
