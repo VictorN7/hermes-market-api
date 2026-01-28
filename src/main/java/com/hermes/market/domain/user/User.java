@@ -1,12 +1,11 @@
-package com.hermes.market.entity;
+package com.hermes.market.domain.user;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import com.hermes.market.enums.Role;
-import com.hermes.market.enums.UserStatus;
+import com.hermes.market.domain.order.Order;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,7 +56,6 @@ public class User {
 	
 	public User() {
 	}
-
 	public User(String name, String email, String password, LocalDate birthDate, String cpf) {
 		this.name = name;
 		this.email = email;

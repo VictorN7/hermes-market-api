@@ -1,4 +1,4 @@
-package com.hermes.market.enums;
+package com.hermes.market.domain.order;
 
 public enum PaymentMethod {
 	
@@ -9,3 +9,5 @@ public enum PaymentMethod {
 	DEBIT_CARD,
 
 }
+
+

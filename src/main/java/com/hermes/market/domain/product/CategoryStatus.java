@@ -1,4 +1,4 @@
-package com.hermes.market.enums;
+package com.hermes.market.domain.product;
 
 public enum CategoryStatus {
 	

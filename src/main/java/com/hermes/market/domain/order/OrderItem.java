@@ -1,6 +1,8 @@
-package com.hermes.market.entity;
+package com.hermes.market.domain.order;
 
 import java.util.Objects;
+
+import com.hermes.market.domain.product.Product;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

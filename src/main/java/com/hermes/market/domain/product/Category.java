@@ -1,10 +1,8 @@
-package com.hermes.market.entity;
+package com.hermes.market.domain.product;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-
-import com.hermes.market.enums.CategoryStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

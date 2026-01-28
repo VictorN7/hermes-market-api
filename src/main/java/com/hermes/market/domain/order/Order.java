@@ -1,12 +1,10 @@
-package com.hermes.market.entity;
+package com.hermes.market.domain.order;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import com.hermes.market.enums.DeliveryMethod;
-import com.hermes.market.enums.OrderStatus;
-import com.hermes.market.enums.PaymentMethod;
+import com.hermes.market.domain.user.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
