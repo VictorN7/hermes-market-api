@@ -8,8 +8,8 @@ O sistema permite que usuários façam pedidos de compras e agendem um horário 
 Construir um sistema funcional, evoluindo o projeto de forma incremental e pública, enquanto pratico tecnologias e padrões utilizados no mercado.
 
 ## 🧱 Estrutura atual
-- Entidades: User
-- Enums: StatusUser, Role
+- Entidades: User, Category, Order, OrderItem, Product
+- Enums: UserStatus, Role, ProductStatus, PaymentMethod, OrderStatus, DeliveryMethod, CategoryStatus
 - Projeto em fase inicial, focado na modelagem e regras básicas de negócio
 
 ## 🚧 Status do projeto
