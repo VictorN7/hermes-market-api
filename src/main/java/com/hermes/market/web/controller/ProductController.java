@@ -5,9 +5,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(name = "products/")
+@RequestMapping("/products")
 public class ProductController {
 
 	
 
+	
+	
 }
