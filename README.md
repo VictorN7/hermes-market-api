@@ -10,6 +10,7 @@ Construir um sistema funcional, evoluindo o projeto de forma incremental e públ
 ## 🧱 Estrutura atual
 - Entidades: User, Category, Order, OrderItem, Product
 - Enums: UserStatus, Role, ProductStatus, PaymentMethod, OrderStatus, DeliveryMethod, CategoryStatus
+- Controllers: CategoryController, ProductController
 - Projeto em fase inicial, focado na modelagem e regras básicas de negócio
 
 ## 🚧 Status do projeto
