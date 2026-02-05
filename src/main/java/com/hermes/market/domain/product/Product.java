@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="products")
@@ -38,6 +38,9 @@ public class Product {
 	private Integer quantityInStock; 
 	
 	@Column(nullable = false)
+	private String imgUrl;
+	
+	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ProductStatus status; 
 	
@@ -45,7 +48,7 @@ public class Product {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant createdAt;
 
-	@Transient
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
@@ -53,13 +56,15 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String name, String description, Double price, Integer quantityInStock) {
+	public Product(String name, String description, Double price, Integer quantityInStock, String imgUrl, Category category) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.quantityInStock = quantityInStock;
 		this.status = ProductStatus.ACTIVE;
 		this.createdAt = Instant.now();
+		this.imgUrl = imgUrl;
+		setCategory(category);
 	}
 	
 	public Category getCategory() {
@@ -72,6 +77,14 @@ public class Product {
 			throw new IllegalArgumentException("Product must have a category!");
 		}
 		this.category = category;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 	public void setName(String name) {
