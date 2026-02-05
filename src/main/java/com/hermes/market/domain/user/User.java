@@ -1,10 +1,11 @@
 package com.hermes.market.domain.user;
 
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hermes.market.domain.order.Order;
 
 import jakarta.persistence.Column;
@@ -49,13 +50,15 @@ public class User {
 	private UserStatus status;
 	
 	@Column(updatable = false)
-	private LocalDateTime createdAt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	private Instant createdAt;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Order> orders;
 	
 	public User() {
 	}
+	
 	public User(String name, String email, String password, LocalDate birthDate, String cpf) {
 		this.name = name;
 		this.email = email;
@@ -64,7 +67,7 @@ public class User {
 		this.role = Role.CLIENT;
 		this.cpf = cpf;
 		this.status = UserStatus.ACTIVE;
-		this.createdAt = LocalDateTime.now(); // Implementação Temporária
+		this.createdAt = Instant.now(); // Implementação Temporária
 	}
 	
 	// Implementar o PerPersist e Lombok
@@ -129,7 +132,7 @@ public class User {
 		return id;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
 

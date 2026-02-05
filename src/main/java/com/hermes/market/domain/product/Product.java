@@ -1,7 +1,9 @@
 package com.hermes.market.domain.product;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="products")
@@ -39,24 +42,24 @@ public class Product {
 	private ProductStatus status; 
 	
 	@Column(nullable = false)
-	private LocalDateTime createdAt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	private Instant createdAt;
 
+	@Transient
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
 	public Product() {
-		
 	}
 
-	public Product(String name, String description, Double price, Integer quantityInStock, Category category) {
+	public Product(String name, String description, Double price, Integer quantityInStock) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.quantityInStock = quantityInStock;
 		this.status = ProductStatus.ACTIVE;
-		this.createdAt = LocalDateTime.now();
-		this.category = category;
+		this.createdAt = Instant.now();
 	}
 	
 	public Category getCategory() {
@@ -99,11 +102,11 @@ public class Product {
 		this.id = id;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
+	public void setCreatedAt(Instant createdAt) {
 		this.createdAt = createdAt;
 	}
 
@@ -150,5 +153,4 @@ public class Product {
 				+ ", quantityInStock=" + quantityInStock + ", status=" + status + ", createdAt=" + createdAt
 				+ "]";
 	}
-	
 }

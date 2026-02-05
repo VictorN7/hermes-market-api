@@ -1,6 +1,6 @@
 package com.hermes.market.domain.product;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "categories")
@@ -31,20 +32,19 @@ public class Category {
 	private CategoryStatus status;
 
 	@Column(nullable = false)
-	private LocalDateTime createdAt;
+	private Instant createdAt;
 	
+	@Transient
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 	private List<Product> products;
 	
 	public Category() {
-		
 	}
 
-	public Category(String name, List<Product> products) {
+	public Category(String name) {
 		this.name = name;
 		this.status = CategoryStatus.ACTIVE;
-		this.createdAt = LocalDateTime.now();
-		this.products = products;
+		this.createdAt = Instant.now();
 	}
 
 	public void setName(String name) {
@@ -71,7 +71,7 @@ public class Category {
 		return status;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
