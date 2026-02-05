@@ -23,7 +23,7 @@ Construir um sistema funcional, evoluindo o projeto de forma incremental e públ
 - Spring Boot
 - Spring Web (REST)
 - Spring Data JPA
-- Banco de dados: PostgreSQL ou MySQL
+- Banco de dados: H2(Testes)e PostgreSQL
 - Flyway (migrações) – será aplicado em versões futuras
 - Lombok
 - DTOs e mapeamento
