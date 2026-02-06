@@ -1,9 +1,11 @@
 package com.hermes.market.domain.order;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.User;
 
 import jakarta.persistence.CascadeType;
@@ -54,11 +56,11 @@ public class Order {
 	public Order(){
 	}
 
-	public Order(User user, List<OrderItem> orderItens, PaymentMethod payment, DeliveryMethod delivery) {
+	public Order(User user,PaymentMethod payment, DeliveryMethod delivery) {
 		this.user = user;
-		this.orderItens = orderItens;
+		this.orderItens = new ArrayList<>();
 		setStatus(OrderStatus.CREATED);
-		this.totalPrice = calculateTotalPrice();
+		this.totalPrice = 0.0;
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
 		setPayment(payment);
@@ -75,10 +77,6 @@ public class Order {
 
 	public List<OrderItem> getOrderItens() {
 		return orderItens;
-	}
-
-	public void setOrderItens(List<OrderItem> orderItens) {
-		this.orderItens = orderItens;
 	}
 
 	public OrderStatus getStatus() {
@@ -135,8 +133,12 @@ public class Order {
 		return orderItens.stream().mapToDouble(OrderItem::getTotalPrice).sum();
 	}
 
-	public void addItem(OrderItem item) {
+	public void addItem(Product product, Integer quantity) {
+		
+		OrderItem item = new OrderItem(product, quantity);
 		item.setOrder(this);
+		item.setPrice(product.getPrice());
+		this.updatedAt = LocalDateTime.now();
 		this.orderItens.add(item);
 		this.totalPrice = calculateTotalPrice();
 	}

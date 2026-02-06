@@ -8,10 +8,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.hermes.market.domain.order.DeliveryMethod;
+import com.hermes.market.domain.order.Order;
+import com.hermes.market.domain.order.PaymentMethod;
 import com.hermes.market.domain.product.Category;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.User;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
+import com.hermes.market.infrastructure.repository.OrderRepository;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 import com.hermes.market.infrastructure.repository.UserRepository;
 
@@ -28,6 +32,9 @@ public class TestConfig implements CommandLineRunner {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private OrderRepository orderRepository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -48,5 +55,15 @@ public class TestConfig implements CommandLineRunner {
 		userRepository.saveAll(Arrays.asList(user1, user2));
 		productRepository.saveAll(Arrays.asList(banana, maca, cocaCola, detergente));
 
+		Order order1 = new Order(user1, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY);
+		Order order2 = new Order(user2, PaymentMethod.BOLETO, DeliveryMethod.PICKUP);
+		
+		order1.addItem(banana, 2);
+		order1.addItem(cocaCola, 2);
+		
+		order2.addItem(cocaCola, 10);
+		order2.addItem(detergente, 2);
+		
+		orderRepository.saveAll(Arrays.asList(order1, order2));
 	}
 }

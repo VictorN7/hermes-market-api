@@ -2,6 +2,7 @@ package com.hermes.market.domain.order;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hermes.market.domain.product.Product;
 
 import jakarta.persistence.Column;
@@ -26,6 +27,7 @@ public class OrderItem {
 	@JoinColumn(name = "product_id", nullable = false)
 	private Product product;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;
@@ -39,11 +41,9 @@ public class OrderItem {
 	public OrderItem() {
 	}
 	
-	public OrderItem(Product product, Order order, Integer quantity, Double price) {
+	public OrderItem(Product product, Integer quantity) {
 		this.product = product;
-		this.order = order;
 		this.quantity = quantity;
-		this.price = product.getPrice();
 	}
 
 	public Double getTotalPrice() {
@@ -74,6 +74,10 @@ public class OrderItem {
 		return price;
 	}
 	
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
