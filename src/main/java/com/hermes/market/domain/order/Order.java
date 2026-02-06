@@ -9,8 +9,6 @@ import com.hermes.market.domain.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "tb_orders")
 public class Order {
 
 	@Id
@@ -36,8 +34,7 @@ public class Order {
 	private List<OrderItem> orderItens;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private OrderStatus status;
+	private Integer status;
 	
 	@Column(nullable = false)
 	private Double totalPrice;
@@ -49,12 +46,10 @@ public class Order {
 	private LocalDateTime updatedAt;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private PaymentMethod payment;
+	private Integer payment;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private DeliveryMethod delivery;
+	private Integer delivery;
 	
 	public Order(){
 	}
@@ -62,12 +57,12 @@ public class Order {
 	public Order(User user, List<OrderItem> orderItens, PaymentMethod payment, DeliveryMethod delivery) {
 		this.user = user;
 		this.orderItens = orderItens;
-		this.status = OrderStatus.CREATED;
+		setStatus(OrderStatus.CREATED);
 		this.totalPrice = calculateTotalPrice();
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
-		this.payment = payment;
-		this.delivery = delivery;
+		setPayment(payment);
+		setDelivery(delivery);
 	}
 	
 	public User getUser() {
@@ -87,11 +82,13 @@ public class Order {
 	}
 
 	public OrderStatus getStatus() {
-		return status;
+		return OrderStatus.valueOf(status);
 	}
 
 	public void setStatus(OrderStatus status) {
-		this.status = status;
+		if (status != null) {
+			this.status = status.getCode();
+		}
 	}
 
 	public Double getTotalPrice() {
@@ -111,19 +108,23 @@ public class Order {
 	}
 
 	public PaymentMethod getPayment() {
-		return payment;
+		return PaymentMethod.valueOf(payment);
 	}
 
 	public void setPayment(PaymentMethod payment) {
-		this.payment = payment;
+		if (payment != null) {
+			this.payment = payment.getCode();
+		}
 	}
 
 	public DeliveryMethod getDelivery() {
-		return delivery;
+		return DeliveryMethod.valueOf(delivery);
 	}
 
 	public void setDelivery(DeliveryMethod delivery) {
-		this.delivery = delivery;
+		if (delivery != null) {
+			this.delivery = delivery.getCode();
+		}
 	}
 
 	public void setCreatedAt(LocalDateTime createdAt) {

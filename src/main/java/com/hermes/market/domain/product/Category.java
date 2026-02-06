@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "tb_categories")
 public class Category {
 
 	@Id
@@ -29,8 +27,7 @@ public class Category {
 	private String name;
 	
 	@Column(nullable = false )
-	@Enumerated(EnumType.STRING)
-	private CategoryStatus status;
+	private Integer status;
 
 	@Column(nullable = false)
 	private Instant createdAt;
@@ -44,7 +41,7 @@ public class Category {
 
 	public Category(String name) {
 		this.name = name;
-		this.status = CategoryStatus.ACTIVE;
+		setStatus(CategoryStatus.ACTIVE);;
 		this.createdAt = Instant.now();
 	}
 
@@ -53,7 +50,9 @@ public class Category {
 	}
 
 	public void setStatus(CategoryStatus status) {
-		this.status = status;
+		if (status != null) {
+			this.status = status.getCode();
+		}
 	}
 
 	public void setProducts(List<Product> products) {
@@ -69,7 +68,7 @@ public class Category {
 	}
 
 	public CategoryStatus getStatus() {
-		return status;
+		return CategoryStatus.valueOf(status);
 	}
 
 	public Instant getCreatedAt() {

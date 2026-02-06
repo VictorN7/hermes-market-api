@@ -10,8 +10,6 @@ import com.hermes.market.domain.order.Order;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +18,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "tb_users")
 public class User {
 	
 	@Id
@@ -39,15 +37,13 @@ public class User {
 	private LocalDate birthDate;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private Role role;
+	private Integer role;
 	
 	@Column(nullable = false, unique = true, length = 11, updatable = false)
 	private String cpf;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private UserStatus status;
+	private Integer status;
 	
 	@Column(updatable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
@@ -64,9 +60,9 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.birthDate = birthDate;
-		this.role = Role.CLIENT;
+		setRole(Role.CLIENT);
 		this.cpf = cpf;
-		this.status = UserStatus.ACTIVE;
+		setStatus(UserStatus.ACTIVE);
 		this.createdAt = Instant.now(); // Implementação Temporária
 	}
 	
@@ -105,11 +101,13 @@ public class User {
 	}
 
 	public Role getRole() {
-		return role;
+		return Role.valueOf(role);
 	}
 
 	public void setRole(Role role) {
-		this.role = role;
+		if (role != null) {
+			this.role = role.getCode(); 
+		}
 	}
 
 	public String getCpf() {
@@ -121,11 +119,13 @@ public class User {
 	}
 
 	public UserStatus getStatus() {
-		return status;
+		return UserStatus.valueOf(status);
 	}
 
 	public void setStatus(UserStatus status) {
-		this.status = status;
+		if (status != null) {
+			this.status = status.getCode();
+		}
 	}
 
 	public Long getId() {

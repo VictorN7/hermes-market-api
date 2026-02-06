@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="products")
+@Table(name = "tb_products")
 public class Product {
 
 	@Id
@@ -41,8 +39,7 @@ public class Product {
 	private String imgUrl;
 	
 	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private ProductStatus status; 
+	private Integer status; 
 	
 	@Column(nullable = false)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
@@ -61,7 +58,7 @@ public class Product {
 		this.description = description;
 		this.price = price;
 		this.quantityInStock = quantityInStock;
-		this.status = ProductStatus.ACTIVE;
+		setStatus(ProductStatus.ACTIVE);
 		this.createdAt = Instant.now();
 		this.imgUrl = imgUrl;
 		setCategory(category);
@@ -104,7 +101,9 @@ public class Product {
 	}
 
 	public void setStatus(ProductStatus status) {
-		this.status = status;
+		if (status != null) {
+			this.status = status.getCode();
+		}
 	}
 	
 	public Long getId() {
@@ -140,7 +139,7 @@ public class Product {
 	}
 
 	public ProductStatus getStatus() {
-		return status;
+		return ProductStatus.valueOf(status);
 	}
 	
 	@Override
