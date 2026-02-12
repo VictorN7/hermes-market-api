@@ -130,7 +130,7 @@ Os endpoints abaixo representam a primeira fase da API, focada em leitura e nave
 - GET /products/category/{categoryId}
 
 ### 🧾 Pedidos
-- POST /orders
+- GET /orders
 - GET /orders/{id}
 
 
