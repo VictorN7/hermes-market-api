@@ -2,6 +2,7 @@ package com.hermes.market.domain.user;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,7 +53,7 @@ public class User {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<Order> orders;
+	private List<Order> orders = new ArrayList<>();
 	
 	public User() {
 	}

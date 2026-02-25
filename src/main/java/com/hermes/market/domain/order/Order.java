@@ -33,7 +33,7 @@ public class Order {
 	private User user;
 	
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<OrderItem> orderItens;
+	private List<OrderItem> orderItens = new ArrayList<>();
 	
 	@Column(nullable = false)
 	private Integer status;

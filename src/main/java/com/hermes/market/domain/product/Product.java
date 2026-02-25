@@ -45,15 +45,20 @@ public class Product {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant createdAt;
 
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
+
+	@ManyToOne
+	@JoinColumn(name = "brand_id", nullable = false)
+	private Brand brand;
+
 	public Product() {
 	}
 
-	public Product(String name, String description, Double price, Integer quantityInStock, String imgUrl, Category category) {
+	public Product(String name, String description, Double price, Integer quantityInStock, String imgUrl, Category category, Brand brand) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
@@ -62,8 +67,25 @@ public class Product {
 		this.createdAt = Instant.now();
 		this.imgUrl = imgUrl;
 		setCategory(category);
+		setBrand(brand);
 	}
-	
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+
+		if (brand == null){
+			throw new IllegalArgumentException("Product must have a brand!");
+		}
+		this.brand = brand;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	public Category getCategory() {
 		return category;
 	}
@@ -161,8 +183,17 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price
-				+ ", quantityInStock=" + quantityInStock + ", status=" + status + ", createdAt=" + createdAt
-				+ "]";
+		return "Product{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", description='" + description + '\'' +
+				", price=" + price +
+				", quantityInStock=" + quantityInStock +
+				", imgUrl='" + imgUrl + '\'' +
+				", status=" + status +
+				", createdAt=" + createdAt +
+				", category=" + category +
+				", brand=" + brand +
+				'}';
 	}
 }

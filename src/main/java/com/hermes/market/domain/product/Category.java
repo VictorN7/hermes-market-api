@@ -1,6 +1,7 @@
 package com.hermes.market.domain.product;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class Category {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-	private List<Product> products;
+	private List<Product> products = new ArrayList<>();
 	
 	public Category() {
 	}
