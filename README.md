@@ -42,6 +42,9 @@ com.hermes.market
  │
  ├─ application
  │   └─ service
+ │   └─ dto
+ │   └─ mapper
+ │   └─ exception
  │
  ├─ config
  │
@@ -87,12 +90,19 @@ com.hermes.market
 - OrderRepository
 - OrderItemRepository
 
+### 🔹 DTO
+
+- UserResponseDTO
+
+### 🔹 Mapper
+
+- UserMapper
+
 ### 🔹 Configuração
 
 - Ambiente de testes com H2
 - Classe de configuração para carga inicial de dados
 - Testes manuais e de integração dos endpoints
-
 
 ## 🔍 Funcionalidades Implementadas
 
@@ -105,37 +115,35 @@ com.hermes.market
 - Cálculo automático do valor total do pedido
 - Relacionamentos mapeados com JPA
 - Diagrama UML utilizado como guia de desenvolvimento
-
+- retorno de entidades utilizando DTOs 
 
 ## Endpoints Disponíveis
 
 Os endpoints abaixo representam a primeira fase da API, focada em leitura e navegação dos dados:
 
-
 ### 🧑 Usuários
 
-- GET /users
-- GET /users/{id}
+- GET api/v1/users
+- GET api/v1/users/{id}
 
 ### 🗂️ Categorias
 
-- GET /categories
-- GET /categories/{id}
-- GET /categories/{id}/products
+- GET api/v1/categories
+- GET api/v1/categories/{id}
+- GET api/v1/categories/{id}/products
 
 ### 📦 Produtos
 
-- GET /products
-- GET /products/{id}
-- GET /products/category/{categoryId}
+- GET api/v1/products
+- GET api/v1/products/{id}
+- GET api/v1/products/category/{categoryId}
 
 ### 🧾 Pedidos
-- GET /orders
-- GET /orders/{id}
 
+- GET api/v1/orders
+- GET api/v1/orders/{id}
 
 ⚠️ **Alguns endpoints ainda estão em evolução e podem sofrer ajustes conforme o domínio amadurece.** 
-
 
 ## 🚧 Status do Projeto - Em desenvolvimento ativo
 
@@ -145,7 +153,6 @@ Os endpoints abaixo representam a primeira fase da API, focada em leitura e nave
 - Relacionamentos bem definidos
 - Separação clara de responsabilidades
 - Regras mais complexas (validações, DTOs, segurança, etc.) estão planejadas para próximas etapas.
-
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -166,7 +173,7 @@ Os endpoints abaixo representam a primeira fase da API, focada em leitura e nave
 
 ## ▶️ Próximos Passos
 
-- Introduzir DTOs para controle de exposição de dados
+- Introduzir DTOs para controle de exposição de dados(Em andamento)
 - Melhorar validações de entrada
 - Implementar regras de negócio mais complexas
 - CRUD completo de produtos e categorias
