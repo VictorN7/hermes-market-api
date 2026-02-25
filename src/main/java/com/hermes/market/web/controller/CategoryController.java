@@ -14,7 +14,7 @@ import com.hermes.market.domain.product.Product;
 
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/v1/categories")
 public class CategoryController {
 	
 	private final CategoryService categoryService;

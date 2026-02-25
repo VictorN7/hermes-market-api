@@ -13,7 +13,7 @@ import com.hermes.market.infrastructure.repository.ProductRepository;
 
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
 	private final ProductRepository productRepository;

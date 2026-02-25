@@ -12,7 +12,7 @@ import com.hermes.market.application.service.OrderService;
 import com.hermes.market.domain.order.Order;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 
 	private OrderService orderService;

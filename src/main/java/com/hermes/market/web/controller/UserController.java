@@ -12,7 +12,7 @@ import com.hermes.market.application.service.UserService;
 import com.hermes.market.domain.user.User;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
 	private UserService userService;
