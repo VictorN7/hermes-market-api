@@ -52,7 +52,7 @@ public class Category {
 	public void setStatus(CategoryStatus status) {
 		if (status != null) {
 			this.status = status.getCode();
-		}
+		}else { throw new IllegalArgumentException("CategoryStatus cannot be null.");}
 	}
 
 	public void setProducts(List<Product> products) {

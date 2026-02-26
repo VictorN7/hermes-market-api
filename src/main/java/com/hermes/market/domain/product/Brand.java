@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name= "tb_brands")
+@Table(name = "tb_brands")
 public class Brand {
 
     @Id
@@ -18,14 +18,18 @@ public class Brand {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private Integer status;
+
     @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
-    public Brand(){
+    public Brand() {
     }
 
     public Brand(String name) {
         this.name = name;
+        setStatus(BrandStatus.ACTIVE);
     }
 
     public Long getId() {
@@ -52,9 +56,21 @@ public class Brand {
         this.products = products;
     }
 
-    public void addProduct(Product product){
-    products.add(product);
-    product.setBrand(this);
+    public BrandStatus getStatus() {
+        return status == null ? null : BrandStatus.valueOf(status);
+    }
+
+    public void setStatus(BrandStatus status) {
+        if (status != null) {
+            this.status = status.getCode();
+        } else {
+            throw new IllegalArgumentException("BrandStatus cannot be null.");
+        }
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.setBrand(this);
     }
 
     @Override
@@ -69,6 +85,7 @@ public class Brand {
     public int hashCode() {
         return getClass().hashCode();
     }
+
     @Override
     public String toString() {
         return "Brand{" +
