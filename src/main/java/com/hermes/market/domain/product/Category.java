@@ -86,19 +86,15 @@ public class Category {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return getClass().hashCode();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		return Objects.equals(id, other.id);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Category)) return false;
+		Category other = (Category) o;
+		return id != null && id.equals(other.id);
 	}
 
 	@Override

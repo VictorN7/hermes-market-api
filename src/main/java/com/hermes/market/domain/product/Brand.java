@@ -59,16 +59,16 @@ public class Brand {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Brand brand = (Brand) o;
-        return Objects.equals(id, brand.id);
+        if (this == o) return true;
+        if (!(o instanceof Brand)) return false;
+        Brand other = (Brand) o;
+        return id != null && id.equals(other.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return getClass().hashCode();
     }
-
     @Override
     public String toString() {
         return "Brand{" +
