@@ -18,7 +18,6 @@ public class Brand {
     @Column(nullable = false)
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
@@ -53,7 +52,7 @@ public class Brand {
         this.products = products;
     }
 
-    public void addProducts(Product product){
+    public void addProduct(Product product){
     products.add(product);
     product.setBrand(this);
     }

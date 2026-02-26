@@ -32,8 +32,7 @@ public class Category {
 
 	@Column(nullable = false)
 	private Instant createdAt;
-	
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 	private List<Product> products = new ArrayList<>();
 	

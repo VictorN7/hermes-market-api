@@ -45,12 +45,12 @@ public class Product {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
 	private Instant createdAt;
 
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "brand_id", nullable = false)
 	private Brand brand;
