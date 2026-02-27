@@ -1,5 +1,7 @@
 package com.hermes.market.domain.product;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -29,8 +31,8 @@ public class Product {
 	@Column(nullable = false)
 	private String description;
 	
-	@Column(nullable = false)
-	private Double price;
+	@Column(nullable = false, precision = 15, scale = 2)
+	private BigDecimal price;
 	
 	@Column(nullable = false)
 	private Integer quantityInStock; 
@@ -58,11 +60,11 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String name, String description, Double price, Integer quantityInStock, String imgUrl, Category category, Brand brand) {
+	public Product(String name, String description, BigDecimal price, Integer quantityInStock, String imgUrl, Category category, Brand brand) {
 		this.name = name;
 		this.description = description;
-		this.price = price;
-		this.quantityInStock = quantityInStock;
+		setPrice(price);
+		setQuantityInStock(quantityInStock);
 		setStatus(ProductStatus.ACTIVE);
 		this.createdAt = Instant.now();
 		this.imgUrl = imgUrl;
@@ -75,15 +77,10 @@ public class Product {
 	}
 
 	public void setBrand(Brand brand) {
-
 		if (brand == null){
 			throw new IllegalArgumentException("Product must have a brand!");
 		}
 		this.brand = brand;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public Category getCategory() {
@@ -102,47 +99,39 @@ public class Product {
 		return imgUrl;
 	}
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setPrice(BigDecimal price) {
+		if (price == null || price.compareTo(BigDecimal.ZERO) < 0 ){
+			throw new IllegalArgumentException("Price can not be null or negative!");
+		}
+		this.price = price.setScale(2, RoundingMode.HALF_EVEN);
 	}
 
 	public void setQuantityInStock(Integer quantityInStock) {
+		if (quantityInStock == null || quantityInStock < 0){
+			throw new IllegalArgumentException("QuantityInStock can not be null or negative!");
+		}
 		this.quantityInStock = quantityInStock;
 	}
 
 	public void setStatus(ProductStatus status) {
-		if (status != null) {
-			this.status = status.getCode();
+		if (status == null) {
+			throw new IllegalArgumentException("Status cannot be null");
 		}
+		this.status = status.getCode();
 	}
 	
 	public Long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Instant createdAt) {
-		this.createdAt = createdAt;
-	}
 
 	public String getName() {
 		return name;
@@ -152,7 +141,7 @@ public class Product {
 		return description;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
 

@@ -1,5 +1,7 @@
 package com.hermes.market.domain.order;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,19 +37,20 @@ public class OrderItem {
 	@Column(nullable = false)
 	private Integer quantity;
 	
-	@Column(nullable = false)
-	private Double price;
+	@Column(nullable = false, precision = 15, scale = 2)
+	private BigDecimal price = BigDecimal.ZERO;
 
 	public OrderItem() {
 	}
 	
 	public OrderItem(Product product, Integer quantity) {
-		this.product = product;
-		this.quantity = quantity;
+		this.product = Objects.requireNonNull(product);
+		this.quantity = validateQuantity(quantity);
+		price = Objects.requireNonNull(product.getPrice());
 	}
 
-	public Double getTotalPrice() {
-		return this.price * this.quantity;
+	public BigDecimal getTotalPrice() {
+		return price.multiply(BigDecimal.valueOf(quantity)).setScale(2, RoundingMode.HALF_EVEN);
 	}
 
 	public Long getId() {
@@ -58,24 +61,27 @@ public class OrderItem {
 		return product;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-
 	public Order getOrder() {
 		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public Double getPrice() {
+	public BigDecimal getPrice() {
 		return price;
 	}
-	
-	public void setPrice(Double price) {
-		this.price = price;
+
+	private Integer validateQuantity(Integer quantity){
+		if (quantity == null || quantity <= 0){
+			throw new IllegalArgumentException("Quantity can not be null");
+		}
+		return quantity;
 	}
 
 	@Override

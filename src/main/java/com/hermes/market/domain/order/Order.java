@@ -1,5 +1,7 @@
 package com.hermes.market.domain.order;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class Order {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "users_id", nullable = false)
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 	
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -38,8 +40,8 @@ public class Order {
 	@Column(nullable = false)
 	private Integer status;
 	
-	@Column(nullable = false)
-	private Double totalPrice;
+	@Column(nullable = false, precision = 15, scale = 2)
+	private BigDecimal totalPrice;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
@@ -60,7 +62,7 @@ public class Order {
 		this.user = user;
 		orderItens = new ArrayList<>();
 		setStatus(OrderStatus.CREATED);
-		totalPrice = 0.0;
+		totalPrice =  BigDecimal.ZERO;
 		createdAt = LocalDateTime.now();
 		updatedAt = LocalDateTime.now();
 		setPayment(payment);
@@ -71,12 +73,8 @@ public class Order {
 		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public List<OrderItem> getOrderItens() {
-		return orderItens;
+		return List.copyOf(orderItens);
 	}
 
 	public OrderStatus getStatus() {
@@ -89,20 +87,16 @@ public class Order {
 		}
 	}
 
-	public Double getTotalPrice() {
+	public BigDecimal getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(Double totalPrice) {
+	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
-	}
-
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 
 	public PaymentMethod getPayment() {
@@ -124,20 +118,16 @@ public class Order {
 			this.delivery = delivery.getCode();
 		}
 	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
 	
-	public Double calculateTotalPrice() {
-		return orderItens.stream().mapToDouble(OrderItem::getTotalPrice).sum();
+	public BigDecimal calculateTotalPrice() {
+		return orderItens.stream().map(OrderItem::getTotalPrice).reduce(BigDecimal.ZERO,
+				BigDecimal::add).setScale(2, RoundingMode.HALF_EVEN);
 	}
 
 	public void addItem(Product product, Integer quantity) {
 		
 		OrderItem item = new OrderItem(product, quantity);
 		item.setOrder(this);
-		item.setPrice(product.getPrice());
 		this.updatedAt = LocalDateTime.now();
 		this.orderItens.add(item);
 		this.totalPrice = calculateTotalPrice();

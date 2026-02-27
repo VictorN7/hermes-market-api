@@ -14,12 +14,12 @@ public class CategoryResponse {
     private String name;
     private String status;
     private Instant createdAt;
-    private List<ProductResponse> products = new ArrayList<>();
+    private List<ProductSummaryResponse> products = new ArrayList<>();
 
     public CategoryResponse(){
     }
 
-    public CategoryResponse(Long id, String name, String status, Instant createdAt, List<ProductResponse> products) {
+    public CategoryResponse(Long id, String name, String status, Instant createdAt, List<ProductSummaryResponse> products) {
         this.id = id;
         this.name = name;
         this.status = status;
@@ -31,40 +31,21 @@ public class CategoryResponse {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public List<ProductResponse> getProducts() {
+    public List<ProductSummaryResponse> getProducts() {
         return products;
-    }
-
-    public void setProducts(List<ProductResponse> products) {
-        this.products = products;
     }
 
     @Override
