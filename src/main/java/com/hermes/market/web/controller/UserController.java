@@ -2,7 +2,7 @@ package com.hermes.market.web.controller;
 
 import java.util.List;
 
-import com.hermes.market.application.dto.response.UserResponseDTO;
+import com.hermes.market.application.dto.response.UserResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hermes.market.application.service.UserService;
-import com.hermes.market.domain.user.User;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -23,12 +22,12 @@ public class UserController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<UserResponseDTO>> findAll(){
+	public ResponseEntity<List<UserResponse>> findAll(){
 		return ResponseEntity.ok().body(userService.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id){
+	public ResponseEntity<UserResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(userService.findById(id));
 	}
 }

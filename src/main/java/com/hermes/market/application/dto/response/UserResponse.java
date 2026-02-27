@@ -1,21 +1,18 @@
 package com.hermes.market.application.dto.response;
 
-import com.hermes.market.domain.user.Role;
-import com.hermes.market.domain.user.User;
-import com.hermes.market.domain.user.UserStatus;
 
-public class UserResponseDTO {
+public class UserResponse {
 
     private Long id;
     private String name;
     private String email;
-    private UserStatus status;
-    private Role role;
+    private String status;
+    private String role;
 
-    public UserResponseDTO(){
+    public UserResponse(){
     }
 
-    public UserResponseDTO(Long id, String name, String email, UserStatus status, Role role) {
+    public UserResponse(Long id, String name, String email, String status, String role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -47,30 +44,30 @@ public class UserResponseDTO {
         this.email = email;
     }
 
-    public UserStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(UserStatus status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
     @Override
     public String toString() {
-        return "UserResponseDTO{" +
+        return "UserResponse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", status=" + status +
-                ", role=" + role +
+                ", status='" + status + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

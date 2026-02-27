@@ -58,11 +58,11 @@ public class Order {
 
 	public Order(User user,PaymentMethod payment, DeliveryMethod delivery) {
 		this.user = user;
-		this.orderItens = new ArrayList<>();
+		orderItens = new ArrayList<>();
 		setStatus(OrderStatus.CREATED);
-		this.totalPrice = 0.0;
-		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
+		totalPrice = 0.0;
+		createdAt = LocalDateTime.now();
+		updatedAt = LocalDateTime.now();
 		setPayment(payment);
 		setDelivery(delivery);
 	}
