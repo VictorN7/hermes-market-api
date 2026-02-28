@@ -20,7 +20,6 @@ public class CategoryMapper {
     private static List<ProductSummaryResponse> convertProducts(List<Product> products){
         if (products == null) return List.of();
 
-        return products.stream().map(x -> new ProductSummaryResponse(x.getId(), x.getName()
-                ,x.getPrice(),x.getImgUrl(), x.getStatus().name(), x.getBrand().getName())).toList();
+        return products.stream().map(ProductMapper::toSummary).toList();
     }
 }
