@@ -25,12 +25,17 @@ public class OrderMapper {
                 order.getTotalPrice(), order.getCreatedAt(), order.getUpdatedAt(), order.getPayment().name(), order.getDelivery().name());
     }
 
-    public static List<OrderItemResponse> convertItems(List<OrderItem> orderItem){
+    public static List<OrderItemResponse> convertItems(List<OrderItem> orderItems) {
 
-        if (orderItem == null) return List.of();
+        if (orderItems == null) return List.of();
 
-        return orderItem.stream().map(x -> new OrderItemResponse(x.getId(), ProductMapper.toResponse(x.getProduct()),
-                OrderMapper.toResponse(x.getOrder()), x.getQuantity(), x.getPrice())).toList();
-
+        return orderItems.stream()
+                .map(x -> new OrderItemResponse(
+                        x.getId(),
+                        ProductMapper.toResponse(x.getProduct()),
+                        x.getQuantity(),
+                        x.getPrice()
+                ))
+                .toList();
     }
 }

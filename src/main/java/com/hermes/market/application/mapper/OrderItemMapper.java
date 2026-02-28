@@ -12,7 +12,7 @@ public class OrderItemMapper {
     }
 
     public static OrderItemResponse toResponse(OrderItem orderItem){
-        return new OrderItemResponse(orderItem.getId(), ProductMapper.toResponse(orderItem.getProduct()), OrderMapper.toResponse(orderItem.getOrder()),
+        return new OrderItemResponse(orderItem.getId(), ProductMapper.toResponse(orderItem.getProduct()),
                 orderItem.getQuantity(), orderItem.getPrice());
 
     }
