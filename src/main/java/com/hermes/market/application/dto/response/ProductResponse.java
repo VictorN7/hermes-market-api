@@ -22,6 +22,9 @@ public class ProductResponse {
     private String category;
     private String brand;
 
+    public ProductResponse(){
+    }
+
     public ProductResponse(Long id, String name, String description, BigDecimal price, Integer quantityInStock,
                            String imgUrl, String status, Instant createdAt, String category, String brand) {
         this.id = id;

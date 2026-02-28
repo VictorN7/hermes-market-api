@@ -14,6 +14,9 @@ public class ProductDetailResponse {
     private String category;
     private String brand;
 
+    public ProductDetailResponse(){
+    }
+
     public ProductDetailResponse(Long id, String name, String description,
                                  Integer quantityInStock, BigDecimal price, String imgUrl,
                                  String status, String category, String brand) {
