@@ -68,7 +68,15 @@ public class Order {
 		setPayment(payment);
 		setDelivery(delivery);
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
 	public User getUser() {
 		return user;
 	}

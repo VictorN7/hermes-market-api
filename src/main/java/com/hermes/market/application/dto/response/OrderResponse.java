@@ -14,7 +14,7 @@ public class OrderResponse {
     private Long id;
     private UserResponse user;
     private List<OrderItemResponse> orderItens = new ArrayList<>();
-    private Integer status;
+    private String status;
     private BigDecimal totalPrice;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -24,7 +24,7 @@ public class OrderResponse {
     public OrderResponse(){
     }
 
-    public OrderResponse(Long id, UserResponse user, List<OrderItemResponse> orderItens, Integer status, BigDecimal totalPrice,
+    public OrderResponse(Long id, UserResponse user, List<OrderItemResponse> orderItens, String status, BigDecimal totalPrice,
                          LocalDateTime createdAt, LocalDateTime updatedAt, String payment, String delivery) {
         this.id = id;
         this.user = user;
@@ -49,7 +49,7 @@ public class OrderResponse {
         return orderItens;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
