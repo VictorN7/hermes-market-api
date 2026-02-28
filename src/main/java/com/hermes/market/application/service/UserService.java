@@ -22,6 +22,6 @@ public class UserService {
 	}
 	
 	public UserResponse findById(Long id) {
-		return  UserMapper.toResponse(userRepository.findById(id).orElseThrow( () -> new RuntimeException("User not found")));
+		return UserMapper.toResponse(userRepository.findById(id).orElseThrow( () -> new RuntimeException("User not found")));
 	}
 }
