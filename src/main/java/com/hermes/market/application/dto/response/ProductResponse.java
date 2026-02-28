@@ -1,33 +1,40 @@
 package com.hermes.market.application.dto.response;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hermes.market.domain.product.Brand;
+import com.hermes.market.domain.product.Category;
+import jakarta.persistence.*;
 
-public class ProductDetailResponse {
+import java.math.BigDecimal;
+import java.time.Instant;
+
+public class ProductResponse {
 
     private Long id;
     private String name;
     private String description;
-    private Integer quantityInStock;
     private BigDecimal price;
+    private Integer quantityInStock;
     private String imgUrl;
     private String status;
+    private Instant createdAt;
     private String category;
     private String brand;
 
-    public ProductDetailResponse(Long id, String name, String description,
-                                 Integer quantityInStock, BigDecimal price, String imgUrl,
-                                 String status, String category, String brand) {
+    public ProductResponse(Long id, String name, String description, BigDecimal price, Integer quantityInStock,
+                           String imgUrl, String status, Instant createdAt, String category, String brand) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.quantityInStock = quantityInStock;
         this.price = price;
+        this.quantityInStock = quantityInStock;
         this.imgUrl = imgUrl;
         this.status = status;
+        this.createdAt = createdAt;
         this.category = category;
         this.brand = brand;
     }
-
 
     public Long getId() {
         return id;
@@ -41,12 +48,12 @@ public class ProductDetailResponse {
         return description;
     }
 
-    public Integer getQuantityInStock() {
-        return quantityInStock;
-    }
-
     public BigDecimal getPrice() {
         return price;
+    }
+
+    public Integer getQuantityInStock() {
+        return quantityInStock;
     }
 
     public String getImgUrl() {
@@ -57,6 +64,10 @@ public class ProductDetailResponse {
         return status;
     }
 
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -65,16 +76,18 @@ public class ProductDetailResponse {
         return brand;
     }
 
+
     @Override
     public String toString() {
-        return "ProductDetailResponse{" +
+        return "ProductResponse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", quantityInStock=" + quantityInStock +
                 ", price=" + price +
+                ", quantityInStock=" + quantityInStock +
                 ", imgUrl='" + imgUrl + '\'' +
-                ", status='" + status + '\'' +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
                 ", category='" + category + '\'' +
                 ", brand='" + brand + '\'' +
                 '}';

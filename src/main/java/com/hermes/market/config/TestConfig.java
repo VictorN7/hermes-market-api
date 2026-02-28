@@ -1,5 +1,6 @@
 package com.hermes.market.config;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 
@@ -50,16 +51,16 @@ public class TestConfig implements CommandLineRunner {
 		Brand fazendinhayayaBrand = new Brand("Fazendinha YAYA");
 		Brand cocaColaBrand = new Brand("Coca-Cola");
 
-		Product banana = new Product("Banana Prata", "Banana fresca", 4.99, 100,
+		Product banana = new Product("Banana Prata", "Banana fresca", BigDecimal.valueOf(4.99), 100,
 				"https://img.freepik.com/psd-gratuitas/close-up-de-uma-maca-deliciosa_23-2151868338.jpg?semt=ais_hybrid&w=740&q=80",
 				hortifruti,  fazendinhayayaBrand);
-		Product maca = new Product("Maçã Gala", "Maçã doce", 6.49, 80,
+		Product maca = new Product("Maçã Gala", "Maçã doce", BigDecimal.valueOf(6.49), 80,
 				"https://img.freepik.com/fotos-gratis/banana-unica-isolada-sobre-um-fundo-branco_839833-17794.jpg?semt=ais_hybrid&w=740&q=80",
 				hortifruti, fazendinhayayaBrand);
-		Product cocaCola = new Product("Coca-Cola 2L", "Refrigerante", 9.99, 50,
+		Product cocaCola = new Product("Coca-Cola 2L", "Refrigerante", BigDecimal.valueOf(9.99), 50,
 				"https://img.freepik.com/psd-premium/garrafa-de-refrigerante-de-vidro-com-refrigerante-escuro-beber-bebida-fria_632498-54245.jpg?semt=ais_hybrid&w=740&q=80",
 				bebidas, cocaColaBrand);
-		Product detergente = new Product("Detergente Ypê", "Detergente neutro", 2.99, 200,
+		Product detergente = new Product("Detergente Ypê", "Detergente neutro", BigDecimal.valueOf(2.99), 200,
 				"https://img.freepik.com/psd-gratuitas/renderizacao-3d-de-produto-de-limpeza_23-2149929616.jpg?semt=ais_hybrid&w=740&q=80",
 				limpeza, ypeBrand);
 
