@@ -1,10 +1,5 @@
 package com.hermes.market.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hermes.market.domain.order.Order;
-import com.hermes.market.domain.product.Product;
-import jakarta.persistence.*;
-
 import java.math.BigDecimal;
 
 public class OrderItemResponse {

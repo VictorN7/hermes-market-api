@@ -1,8 +1,5 @@
 package com.hermes.market.application.dto.response;
 
-import com.hermes.market.domain.order.OrderItem;
-import com.hermes.market.domain.user.User;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,7 +10,7 @@ public class OrderResponse {
 
     private Long id;
     private UserResponse user;
-    private List<OrderItemResponse> orderItens = new ArrayList<>();
+    private List<OrderItemResponse> orderItems = new ArrayList<>();
     private String status;
     private BigDecimal totalPrice;
     private LocalDateTime createdAt;
@@ -24,11 +21,11 @@ public class OrderResponse {
     public OrderResponse(){
     }
 
-    public OrderResponse(Long id, UserResponse user, List<OrderItemResponse> orderItens, String status, BigDecimal totalPrice,
+    public OrderResponse(Long id, UserResponse user, List<OrderItemResponse> orderItems, String status, BigDecimal totalPrice,
                          LocalDateTime createdAt, LocalDateTime updatedAt, String payment, String delivery) {
         this.id = id;
         this.user = user;
-        this.orderItens = orderItens;
+        this.orderItems = orderItems;
         this.status = status;
         this.totalPrice = totalPrice;
         this.createdAt = createdAt;
@@ -45,8 +42,8 @@ public class OrderResponse {
         return user;
     }
 
-    public List<OrderItemResponse> getOrderItens() {
-        return orderItens;
+    public List<OrderItemResponse> getOrderItems() {
+        return orderItems;
     }
 
     public String getStatus() {

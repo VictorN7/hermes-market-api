@@ -35,7 +35,7 @@ public class Order {
 	private User user;
 	
 	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<OrderItem> orderItens = new ArrayList<>();
+	private List<OrderItem> orderItems;
 	
 	@Column(nullable = false)
 	private Integer status;
@@ -60,7 +60,7 @@ public class Order {
 
 	public Order(User user,PaymentMethod payment, DeliveryMethod delivery) {
 		this.user = user;
-		orderItens = new ArrayList<>();
+		orderItems = new ArrayList<>();
 		setStatus(OrderStatus.CREATED);
 		totalPrice =  BigDecimal.ZERO;
 		createdAt = LocalDateTime.now();
@@ -81,8 +81,8 @@ public class Order {
 		return user;
 	}
 
-	public List<OrderItem> getOrderItens() {
-		return List.copyOf(orderItens);
+	public List<OrderItem> getOrderItems() {
+		return List.copyOf(orderItems);
 	}
 
 	public OrderStatus getStatus() {
@@ -128,7 +128,7 @@ public class Order {
 	}
 	
 	public BigDecimal calculateTotalPrice() {
-		return orderItens.stream().map(OrderItem::getTotalPrice).reduce(BigDecimal.ZERO,
+		return orderItems.stream().map(OrderItem::getTotalPrice).reduce(BigDecimal.ZERO,
 				BigDecimal::add).setScale(2, RoundingMode.HALF_EVEN);
 	}
 
@@ -137,7 +137,7 @@ public class Order {
 		OrderItem item = new OrderItem(product, quantity);
 		item.setOrder(this);
 		this.updatedAt = LocalDateTime.now();
-		this.orderItens.add(item);
+		this.orderItems.add(item);
 		this.totalPrice = calculateTotalPrice();
 	}
 	
