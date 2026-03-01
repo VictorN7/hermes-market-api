@@ -2,37 +2,31 @@ package com.hermes.market.web.controller;
 
 import java.util.List;
 
+import com.hermes.market.application.dto.response.ProductResponse;
+import com.hermes.market.application.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hermes.market.domain.product.Product;
-import com.hermes.market.infrastructure.repository.ProductRepository;
-
-
 @RestController
 @RequestMapping("/api/v1/products")
 public class ProductController {
 
-	private final ProductRepository productRepository;
+	private final ProductService productService;
 	
-	public ProductController(ProductRepository productRepository) {
-		this.productRepository = productRepository;
+	public ProductController(ProductService productService) {
+		this.productService = productService;
 	}
 	
-	@GetMapping()
-	public ResponseEntity<List<Product>> findAll(){
-		
-		List<Product> products = productRepository.findAll();
-		return ResponseEntity.ok(products);
+	@GetMapping
+	public ResponseEntity<List<ProductResponse>> findAll(){
+		return ResponseEntity.ok().body(productService.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Product> findProductById(@PathVariable Long id){
-			return productRepository.findById(id)
-					.map(ResponseEntity::ok)
-					.orElse(ResponseEntity.notFound().build());
+	public ResponseEntity<ProductResponse> findProductById(@PathVariable Long id){
+			return ResponseEntity.ok().body(productService.findById(id));
 	}
 }
