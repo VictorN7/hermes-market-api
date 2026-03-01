@@ -2,6 +2,8 @@ package com.hermes.market.web.controller;
 
 import java.util.List;
 
+import com.hermes.market.application.dto.response.CategoryResponse;
+import com.hermes.market.application.dto.response.ProductResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hermes.market.application.service.CategoryService;
-import com.hermes.market.domain.product.Category;
-import com.hermes.market.domain.product.Product;
 
 
 @RestController
@@ -24,18 +24,17 @@ public class CategoryController {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<List<Category>> findAll() {
-		List<Category> categories = categoryService.findAll();
-		return ResponseEntity.ok(categories);
+	public ResponseEntity<List<CategoryResponse>> findAll() {
+		return ResponseEntity.ok().body(categoryService.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Long id) {
+	public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(categoryService.findById(id));
 	}
 	
 	@GetMapping("/{id}/products")
-	public ResponseEntity<List<Product>> findProductsByCategory(@PathVariable Long id){
+	public ResponseEntity<List<ProductResponse>> findProductsByCategory(@PathVariable Long id){
 		return  ResponseEntity.ok().body(categoryService.findProductsByCategory(id));
 	}
 }
