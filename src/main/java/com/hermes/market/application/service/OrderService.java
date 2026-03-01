@@ -2,25 +2,26 @@ package com.hermes.market.application.service;
 
 import java.util.List;
 
+import com.hermes.market.application.dto.response.OrderResponse;
+import com.hermes.market.application.mapper.OrderMapper;
 import org.springframework.stereotype.Service;
 
-import com.hermes.market.domain.order.Order;
 import com.hermes.market.infrastructure.repository.OrderRepository;
 
 @Service
 public class OrderService {
 
-	private OrderRepository orderRepository;
+	private final OrderRepository orderRepository;
 	
 	public OrderService(OrderRepository orderRepository) {
 		this.orderRepository = orderRepository;
 	}
 	
-	public List<Order> findAll(){
-		return orderRepository.findAll();
+	public List<OrderResponse> findAll(){
+		return orderRepository.findAll().stream().map(OrderMapper::toResponse).toList();
 	}
 	
-	public Order findById(Long id) {
-		return orderRepository.findById(id).orElseThrow();
+	public OrderResponse findById(Long id) {
+		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found!")));
 	}
 }

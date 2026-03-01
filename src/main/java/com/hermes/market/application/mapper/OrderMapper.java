@@ -10,7 +10,6 @@ import java.util.List;
 public class OrderMapper {
 
     private OrderMapper(){
-
     }
 
     public static OrderResponse toResponse(Order order){
