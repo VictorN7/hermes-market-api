@@ -1,6 +1,6 @@
 package com.hermes.market.web.controller;
 
-import com.hermes.market.application.dto.response.BrandResponse;
+import com.hermes.market.application.dto.response.BrandMenuResponse;
 import com.hermes.market.application.service.BrandService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +21,12 @@ public class BrandController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BrandResponse>> findAll(){
+    public ResponseEntity<List<BrandMenuResponse>> findAll(){
      return ResponseEntity.ok().body(brandService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BrandResponse> findById(@PathVariable Long id){
+    public ResponseEntity<BrandMenuResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok().body(brandService.findById(id));
     }
 }
