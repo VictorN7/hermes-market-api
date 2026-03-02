@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.service.ProductService;
-import com.hermes.market.web.controller.util.URL;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
