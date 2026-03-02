@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.hermes.market.application.dto.response.ProductResponse;
+import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
@@ -24,9 +25,9 @@ public class ProductService {
 		this.brandRepository = brandRepository;
 	}
 	
-	public List<ProductResponse> findAll(Long categoryId, Long brandId, String productName, BigDecimal minPrice,
-										 BigDecimal maxPrice, Boolean onSale){
-		return productRepository.findAll().stream().map(ProductMapper::toResponse).toList();
+	public List<ProductSummaryResponse> findAll(Long categoryId, Long brandId, String productName, BigDecimal minPrice,
+												BigDecimal maxPrice, Boolean onSale){
+		return productRepository.findAll().stream().map(ProductMapper::toSummary).toList();
 	}
 	
 	public ProductResponse findById(Long id) {

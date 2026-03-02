@@ -14,12 +14,6 @@ public class CategoryMapper {
 
     public static CategoryResponse toResponse(Category category){
         return new CategoryResponse(category.getId(), category.getName(),
-                category.getStatus().name(), category.getCreatedAt(), convertProducts(category.getProducts()));
-    }
-
-    private static List<ProductSummaryResponse> convertProducts(List<Product> products){
-        if (products == null) return List.of();
-
-        return products.stream().map(ProductMapper::toSummary).toList();
+                category.getStatus().name(), category.getCreatedAt());
     }
 }

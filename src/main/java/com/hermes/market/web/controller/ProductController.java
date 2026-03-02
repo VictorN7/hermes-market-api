@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.hermes.market.application.dto.response.ProductResponse;
+import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.application.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ProductResponse>> findAll(
+	public ResponseEntity<List<ProductSummaryResponse>> findAll(
 			@RequestParam(name = "category", required = false, defaultValue = "0") Long categoryId,
 			@RequestParam(name = "brand", required = false, defaultValue = "0") Long brandId,
 			@RequestParam(name = "name", required = false, defaultValue = "0") String productName,

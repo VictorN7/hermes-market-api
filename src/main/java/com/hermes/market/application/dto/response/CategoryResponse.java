@@ -21,7 +21,7 @@ public class CategoryResponse {
     public CategoryResponse(){
     }
 
-    public CategoryResponse(Long id, String name, String status, Instant createdAt, List<ProductSummaryResponse> products) {
+    public CategoryResponse(Long id, String name, String status, Instant createdAt) {
         this.id = id;
         this.name = name;
         this.status = status;
