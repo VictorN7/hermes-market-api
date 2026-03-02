@@ -24,4 +24,8 @@ public class OrderService {
 	public OrderResponse findById(Long id) {
 		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found!")));
 	}
+
+	public List<OrderResponse> findOrdersByUser(Long id){
+		return orderRepository.findByUserId(id).stream().map(OrderMapper::toResponse).toList();
+	}
 }
