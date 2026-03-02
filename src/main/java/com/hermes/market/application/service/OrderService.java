@@ -3,6 +3,7 @@ package com.hermes.market.application.service;
 import java.util.List;
 
 import com.hermes.market.application.dto.response.OrderResponse;
+import com.hermes.market.application.dto.response.OrderSummaryResponse;
 import com.hermes.market.application.mapper.OrderMapper;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class OrderService {
 		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found!")));
 	}
 
-	public List<OrderResponse> findOrdersByUser(Long id){
-		return orderRepository.findByUserId(id).stream().map(OrderMapper::toResponse).toList();
+	public List<OrderSummaryResponse> findOrdersByUser(Long id){
+		return orderRepository.findByUserId(id).stream().map(OrderMapper::toSummary).toList();
 	}
 }

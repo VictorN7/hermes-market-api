@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import com.hermes.market.domain.product.Brand;
 import com.hermes.market.infrastructure.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -22,71 +21,150 @@ import com.hermes.market.domain.user.User;
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
 
-	@Autowired
-	private CategoryRepository categoryRepository;
+	private final CategoryRepository categoryRepository;
+	private final ProductRepository productRepository;
+	private final UserRepository userRepository;
+	private final OrderRepository orderRepository;
+	private final BrandRepository brandRepository;
 
-	@Autowired
-	private ProductRepository productRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+	public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository,
+					  UserRepository userRepository, OrderRepository orderRepository, BrandRepository brandRepository) {
 
-	@Autowired
-	private OrderRepository orderRepository;
-
-	@Autowired
-	private BrandRepository brandRepository;
+		this.categoryRepository = categoryRepository;
+		this.productRepository = productRepository;
+		this.userRepository = userRepository;
+		this.orderRepository = orderRepository;
+		this.brandRepository = brandRepository;
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
 
-		User user1 = new User("Victor Santos", "victor@email.com", "123456", LocalDate.of(2000, 8, 07), "12345678901");
+// =========================
+		// USERS
+		// =========================
+
+		User user1 = new User("Victor Santos", "victor@email.com", "123456", LocalDate.of(2000, 8, 7), "12345678901");
 		User user2 = new User("Admin Hermes", "admin@hermes.com", "admin123", LocalDate.of(2001, 9, 25), "98765432100");
+		User user3 = new User("Mariana Lima", "mariana@email.com", "123456", LocalDate.of(1998, 3, 15), "11122233344");
+		User user4 = new User("Carlos Souza", "carlos@email.com", "123456", LocalDate.of(1995, 12, 2), "55566677788");
+		User user5 = new User("Ana Oliveira", "ana@email.com", "123456", LocalDate.of(2002, 6, 18), "99988877766");
+
+		userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5));
+
+		// =========================
+		// CATEGORIES
+		// =========================
 
 		Category hortifruti = new Category("Hortifruti");
 		Category bebidas = new Category("Bebidas");
 		Category limpeza = new Category("Limpeza");
 
+		categoryRepository.saveAll(Arrays.asList(hortifruti, bebidas, limpeza));
+
+		// =========================
+		// BRANDS
+		// =========================
+
 		Brand ypeBrand = new Brand("Ypê");
-		Brand fazendinhayayaBrand = new Brand("Fazendinha YAYA");
+		Brand fazendinhaBrand = new Brand("Fazendinha YAYA");
 		Brand cocaColaBrand = new Brand("Coca-Cola");
 
+		brandRepository.saveAll(Arrays.asList(ypeBrand, fazendinhaBrand, cocaColaBrand));
+
+		// =========================
+		// PRODUCTS (10)
+		// =========================
+
 		Product banana = new Product("Banana Prata", "Banana fresca", BigDecimal.valueOf(4.99), 100,
-				"https://img.freepik.com/psd-gratuitas/close-up-de-uma-maca-deliciosa_23-2151868338.jpg?semt=ais_hybrid&w=740&q=80",
-				hortifruti,  fazendinhayayaBrand);
+				"img", hortifruti, fazendinhaBrand);
+
 		Product maca = new Product("Maçã Gala", "Maçã doce", BigDecimal.valueOf(6.49), 80,
-				"https://img.freepik.com/fotos-gratis/banana-unica-isolada-sobre-um-fundo-branco_839833-17794.jpg?semt=ais_hybrid&w=740&q=80",
-				hortifruti, fazendinhayayaBrand);
+				"img", hortifruti, fazendinhaBrand);
+
+		Product laranja = new Product("Laranja Pera", "Laranja fresca", BigDecimal.valueOf(5.99), 120,
+				"img", hortifruti, fazendinhaBrand);
+
+		Product alface = new Product("Alface Crespa", "Alface fresca", BigDecimal.valueOf(3.49), 60,
+				"img", hortifruti, fazendinhaBrand);
+
 		Product cocaCola = new Product("Coca-Cola 2L", "Refrigerante", BigDecimal.valueOf(9.99), 50,
-				"https://img.freepik.com/psd-premium/garrafa-de-refrigerante-de-vidro-com-refrigerante-escuro-beber-bebida-fria_632498-54245.jpg?semt=ais_hybrid&w=740&q=80",
-				bebidas, cocaColaBrand);
+				"img", bebidas, cocaColaBrand);
+
+		Product suco = new Product("Suco de Uva 1L", "Suco integral", BigDecimal.valueOf(7.99), 40,
+				"img", bebidas, cocaColaBrand);
+
+		Product agua = new Product("Água Mineral 1.5L", "Água sem gás", BigDecimal.valueOf(2.49), 150,
+				"img", bebidas, cocaColaBrand);
+
 		Product detergente = new Product("Detergente Ypê", "Detergente neutro", BigDecimal.valueOf(2.99), 200,
-				"https://img.freepik.com/psd-gratuitas/renderizacao-3d-de-produto-de-limpeza_23-2149929616.jpg?semt=ais_hybrid&w=740&q=80",
-				limpeza, ypeBrand);
+				"img", limpeza, ypeBrand);
 
-		ypeBrand.addProduct(detergente);
-		fazendinhayayaBrand.addProduct(maca);
-		cocaColaBrand.addProduct(cocaCola);
+		Product sabao = new Product("Sabão em Pó Ypê", "Sabão 1kg", BigDecimal.valueOf(12.99), 90,
+				"img", limpeza, ypeBrand);
 
+		Product desinfetante = new Product("Desinfetante Ypê", "Lavanda 2L", BigDecimal.valueOf(6.99), 110,
+				"img", limpeza, ypeBrand);
+
+		// Associação bidirecional
 		hortifruti.addProduct(banana);
 		hortifruti.addProduct(maca);
-		bebidas.addProduct(cocaCola);
-		limpeza.addProduct(detergente);
+		hortifruti.addProduct(laranja);
+		hortifruti.addProduct(alface);
 
-		brandRepository.saveAll(Arrays.asList(ypeBrand, fazendinhayayaBrand, cocaColaBrand));
-		categoryRepository.saveAll(Arrays.asList(hortifruti,bebidas,limpeza));
-		userRepository.saveAll(Arrays.asList(user1, user2));
-		productRepository.saveAll(Arrays.asList(banana, maca, cocaCola, detergente));
+		bebidas.addProduct(cocaCola);
+		bebidas.addProduct(suco);
+		bebidas.addProduct(agua);
+
+		limpeza.addProduct(detergente);
+		limpeza.addProduct(sabao);
+		limpeza.addProduct(desinfetante);
+
+		fazendinhaBrand.addProduct(banana);
+		fazendinhaBrand.addProduct(maca);
+		fazendinhaBrand.addProduct(laranja);
+		fazendinhaBrand.addProduct(alface);
+
+		cocaColaBrand.addProduct(cocaCola);
+		cocaColaBrand.addProduct(suco);
+		cocaColaBrand.addProduct(agua);
+
+		ypeBrand.addProduct(detergente);
+		ypeBrand.addProduct(sabao);
+		ypeBrand.addProduct(desinfetante);
+
+		productRepository.saveAll(Arrays.asList(
+				banana, maca, laranja, alface,
+				cocaCola, suco, agua,
+				detergente, sabao, desinfetante
+		));
+
+		// =========================
+		// ORDERS (5)
+		// =========================
 
 		Order order1 = new Order(user1, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY);
-		Order order2 = new Order(user2, PaymentMethod.BOLETO, DeliveryMethod.PICKUP);
-		
+		Order order2 = new Order(user1, PaymentMethod.BOLETO, DeliveryMethod.PICKUP);
+		Order order3 = new Order(user3, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+		Order order4 = new Order(user4, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP);
+		Order order5 = new Order(user4, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+
 		order1.addItem(banana, 2);
 		order1.addItem(cocaCola, 2);
-		
+
 		order2.addItem(cocaCola, 10);
 		order2.addItem(detergente, 2);
-		
-		orderRepository.saveAll(Arrays.asList(order1, order2));
+
+		order3.addItem(laranja, 5);
+		order3.addItem(suco, 3);
+
+		order4.addItem(sabao, 1);
+		order4.addItem(alface, 4);
+
+		order5.addItem(agua, 6);
+		order5.addItem(desinfetante, 2);
+
+		orderRepository.saveAll(Arrays.asList(order1, order2, order3, order4, order5));
 	}
 }

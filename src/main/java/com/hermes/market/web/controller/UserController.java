@@ -3,6 +3,7 @@ package com.hermes.market.web.controller;
 import java.util.List;
 
 import com.hermes.market.application.dto.response.OrderResponse;
+import com.hermes.market.application.dto.response.OrderSummaryResponse;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.service.OrderService;
 import org.apache.coyote.Response;
@@ -37,7 +38,7 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/orders")
-	public ResponseEntity<List<OrderResponse>> findOrdersByUser(@PathVariable Long id){
+	public ResponseEntity<List<OrderSummaryResponse>> findOrdersByUser(@PathVariable Long id){
 		return ResponseEntity.ok().body(orderService.findOrdersByUser(id));
 	}
 }
