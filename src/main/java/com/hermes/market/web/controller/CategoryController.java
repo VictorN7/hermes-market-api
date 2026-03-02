@@ -32,9 +32,4 @@ public class CategoryController {
 	public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(categoryService.findById(id));
 	}
-	
-	@GetMapping("/{id}/products")
-	public ResponseEntity<List<ProductResponse>> findProductsByCategory(@PathVariable Long id){
-		return  ResponseEntity.ok().body(categoryService.findProductsByCategory(id));
-	}
 }

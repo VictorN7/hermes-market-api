@@ -34,16 +34,4 @@ public class CategoryService {
 		return CategoryMapper.toResponse(categoryRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Category not found!")));
 	}
-	
-	public List<ProductResponse> findProductsByCategory(Long id){
-
-		Category category = categoryRepository
-				.findById(id)
-				.orElseThrow(() -> new RuntimeException("Category not found!"));
-
-		return productRepository.findByCategoryId(id)
-				.stream()
-				.map(ProductMapper::toResponse)
-				.toList();
-	}
 }
