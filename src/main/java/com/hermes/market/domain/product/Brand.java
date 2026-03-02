@@ -3,6 +3,7 @@ package com.hermes.market.domain.product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,9 @@ public class Brand {
     @Column(nullable = false)
     private Integer status;
 
+    @Column(nullable = false)
+    private Instant createdAt;
+
     @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
@@ -29,6 +33,7 @@ public class Brand {
 
     public Brand(String name) {
         this.name = name;
+        createdAt = Instant.now();
         setStatus(BrandStatus.ACTIVE);
     }
 
@@ -58,6 +63,10 @@ public class Brand {
 
     public BrandStatus getStatus() {
         return status == null ? null : BrandStatus.valueOf(status);
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
     public void setStatus(BrandStatus status) {

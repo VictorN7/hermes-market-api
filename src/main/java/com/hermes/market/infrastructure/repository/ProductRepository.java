@@ -5,14 +5,17 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hermes.market.domain.product.Product;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import javax.swing.*;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
 	List<Product> findByCategoryId(Long id);
 	List<Product> findByBrandId(Long id);
+
+
 
 }
