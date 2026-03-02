@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.mapper.ProductMapper;
-import com.hermes.market.domain.product.Brand;
-import com.hermes.market.domain.product.Category;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -28,12 +26,10 @@ public class ProductService {
 	
 	public List<ProductResponse> findAll(Long categoryId, Long brandId, String productName, BigDecimal minPrice,
 										 BigDecimal maxPrice, Boolean onSale){
-
 		return productRepository.findAll().stream().map(ProductMapper::toResponse).toList();
 	}
 	
 	public ProductResponse findById(Long id) {
 		return ProductMapper.toResponse(productRepository.findById(id).orElseThrow(()-> new RuntimeException("Product not found!")));
 	}
-
 }

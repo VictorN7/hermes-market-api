@@ -1,9 +1,8 @@
 package com.hermes.market.application.service;
 
+import com.hermes.market.application.dto.response.BrandDetailResponse;
 import com.hermes.market.application.dto.response.BrandMenuResponse;
-import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.mapper.BrandMapper;
-import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -20,10 +19,10 @@ public class BrandService {
     }
 
     public List<BrandMenuResponse> findAll(){
-        return brandRepository.findAll().stream().map(BrandMapper::toResponse).toList();
+        return brandRepository.findAll().stream().map(BrandMapper::toMenu).toList();
     }
 
-    public BrandMenuResponse findById(Long id){
+    public BrandDetailResponse findById(Long id){
         return BrandMapper.toResponse(brandRepository
                 .findById(id)
                 .orElseThrow( () -> new RuntimeException("Brand not found")));

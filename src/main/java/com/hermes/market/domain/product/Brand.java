@@ -1,5 +1,6 @@
 package com.hermes.market.domain.product;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -22,7 +23,7 @@ public class Brand {
     @Column(nullable = false)
     private Integer status;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
     @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)

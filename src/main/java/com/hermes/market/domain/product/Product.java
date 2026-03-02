@@ -43,8 +43,7 @@ public class Product {
 	@Column(nullable = false)
 	private Integer status; 
 	
-	@Column(nullable = false)
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+	@Column(nullable = false, updatable = false)
 	private Instant createdAt;
 
 	@JsonIgnore

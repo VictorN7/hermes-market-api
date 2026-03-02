@@ -43,7 +43,7 @@ public class Order {
 	@Column(nullable = false, precision = 15, scale = 2)
 	private BigDecimal totalPrice;
 
-	@Column(nullable = false)
+	@Column(nullable = false, updatable = false)
 	private LocalDateTime createdAt;
 	
 	@Column(nullable = false)

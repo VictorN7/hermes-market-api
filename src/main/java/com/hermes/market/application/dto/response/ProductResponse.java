@@ -18,7 +18,10 @@ public class ProductResponse {
     private Integer quantityInStock;
     private String imgUrl;
     private String status;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant createdAt;
+
     private String category;
     private String brand;
 

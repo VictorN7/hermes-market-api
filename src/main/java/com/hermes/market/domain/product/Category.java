@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -30,7 +31,7 @@ public class Category {
 	@Column(nullable = false )
 	private Integer status;
 
-	@Column(nullable = false)
+	@Column(nullable = false, updatable = false)
 	private Instant createdAt;
 
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)

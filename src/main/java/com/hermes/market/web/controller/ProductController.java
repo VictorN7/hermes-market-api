@@ -17,16 +17,6 @@ public class ProductController {
 	public ProductController(ProductService productService) {
 		this.productService = productService;
 	}
-	
-//	@GetMapping
-//	public ResponseEntity<List<ProductResponse>> findAll(){
-//		return ResponseEntity.ok().body(productService.findAll());
-//	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<ProductResponse> findProductById(@PathVariable Long id){
-			return ResponseEntity.ok().body(productService.findById(id));
-	}
 
 	@GetMapping
 	public ResponseEntity<List<ProductResponse>> findAll(
@@ -36,8 +26,13 @@ public class ProductController {
 			@RequestParam(name = "brandId", required = false, defaultValue = "0") BigDecimal minPrice,
 			@RequestParam(name = "brandId", required = false, defaultValue = "0.0") BigDecimal maxPrice,
 			@RequestParam(name = "onSale", required = false, defaultValue = "false") Boolean onSale
-			){
+	){
 
 		return ResponseEntity.ok().body(productService.findAll(categoryId, brandId, productName, minPrice, maxPrice, onSale));
+	}
+
+	@GetMapping("/{id}")
+	public ResponseEntity<ProductResponse> findProductById(@PathVariable Long id){
+			return ResponseEntity.ok().body(productService.findById(id));
 	}
 }
