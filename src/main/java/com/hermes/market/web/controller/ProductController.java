@@ -1,8 +1,8 @@
 package com.hermes.market.web.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 
+import com.hermes.market.application.dto.filter.ProductFilter;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.application.service.ProductService;
@@ -20,14 +20,9 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ProductSummaryResponse>> findAll(
-			@RequestParam(name = "category", required = false) Long categoryId,
-			@RequestParam(name = "brand", required = false) Long brandId,
-			@RequestParam(name = "name", required = false) String productName,
-			@RequestParam(name = "onSale", required = false) Boolean onSale
-	){
+	public ResponseEntity<List<ProductSummaryResponse>> findAll(ProductFilter productFilter){
 
-		return ResponseEntity.ok().body(productService.findAll(categoryId, brandId, productName, onSale));
+		return ResponseEntity.ok().body(productService.findAll(productFilter));
 	}
 
 	@GetMapping("/{id}")

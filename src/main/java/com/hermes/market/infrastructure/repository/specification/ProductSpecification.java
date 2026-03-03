@@ -1,7 +1,6 @@
 package com.hermes.market.infrastructure.repository.specification;
 
 import com.hermes.market.domain.product.Product;
-import org.springframework.beans.factory.BeanRegistry;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ProductSpecification {
@@ -22,7 +21,7 @@ public class ProductSpecification {
     public static Specification<Product> nameProductLike(String name){
         return (root, query, cb) ->
                 (name == null || name.isBlank()) ? null :
-                cb.equal(cb.lower(root.get("name")),"%" + name.toLowerCase()+"%");
+                cb.like(cb.lower(root.get("name")),"%" + name.toLowerCase()+"%");
     }
 
 }

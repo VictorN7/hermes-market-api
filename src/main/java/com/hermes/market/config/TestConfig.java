@@ -69,9 +69,10 @@ public class TestConfig implements CommandLineRunner {
 
 		Brand ypeBrand = new Brand("Ypê");
 		Brand fazendinhaBrand = new Brand("Fazendinha YAYA");
+		Brand colheitaBrand = new Brand("Colheita Feliz");
 		Brand cocaColaBrand = new Brand("Coca-Cola");
 
-		brandRepository.saveAll(Arrays.asList(ypeBrand, fazendinhaBrand, cocaColaBrand));
+		brandRepository.saveAll(Arrays.asList(ypeBrand, fazendinhaBrand, cocaColaBrand, colheitaBrand));
 
 		// =========================
 		// PRODUCTS (10)
@@ -94,7 +95,7 @@ public class TestConfig implements CommandLineRunner {
 				80,
 				"https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
 				hortifruti,
-				fazendinhaBrand
+				colheitaBrand
 		);
 
 		Product laranja = new Product(
@@ -104,7 +105,7 @@ public class TestConfig implements CommandLineRunner {
 				120,
 				"https://images.unsplash.com/photo-1580910051074-3eb694886505",
 				hortifruti,
-				fazendinhaBrand
+				colheitaBrand
 		);
 
 		Product alface = new Product(
@@ -192,8 +193,8 @@ public class TestConfig implements CommandLineRunner {
 		limpeza.addProduct(desinfetante);
 
 		fazendinhaBrand.addProduct(banana);
-		fazendinhaBrand.addProduct(maca);
-		fazendinhaBrand.addProduct(laranja);
+		colheitaBrand.addProduct(maca);
+		colheitaBrand.addProduct(laranja);
 		fazendinhaBrand.addProduct(alface);
 
 		cocaColaBrand.addProduct(cocaCola);

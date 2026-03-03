@@ -1,14 +1,15 @@
 package com.hermes.market.application.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
+import com.hermes.market.application.dto.filter.ProductFilter;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
+import com.hermes.market.infrastructure.repository.specification.ProductSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +28,14 @@ public class ProductService {
 		this.brandRepository = brandRepository;
 	}
 	
-	public List<ProductSummaryResponse> findAll(Long categoryId, Long brandId, String productName, Boolean onSale){
+	public List<ProductSummaryResponse> findAll(ProductFilter productFilter){
 
-		Specification<Product> prod = ((root, qr, cb) -> cb.equal(root.get("category").get("id"), categoryId));
+		Specification<Product> spec = Specification.
+				where(ProductSpecification.categoryEqual(productFilter.getCategoryId()))
+				.and(ProductSpecification.brandEqual(productFilter.getBrandId()))
+				.and(ProductSpecification.nameProductLike(productFilter.getName()));
 
-		return productRepository.findAll(prod).stream().map(ProductMapper::toSummary).toList();
-		//return productRepository.findAll().stream().map(ProductMapper::toSummary).toList();
-
+		return productRepository.findAll(spec).stream().map(ProductMapper::toSummary).toList();
 	}
 	
 	public ProductResponse findById(Long id) {
