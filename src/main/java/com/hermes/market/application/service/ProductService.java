@@ -6,8 +6,10 @@ import java.util.List;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.application.mapper.ProductMapper;
+import com.hermes.market.domain.product.Product;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.hermes.market.infrastructure.repository.ProductRepository;
@@ -26,7 +28,12 @@ public class ProductService {
 	}
 	
 	public List<ProductSummaryResponse> findAll(Long categoryId, Long brandId, String productName, Boolean onSale){
-		return productRepository.findAll().stream().map(ProductMapper::toSummary).toList();
+
+		Specification<Product> prod = ((root, qr, cb) -> cb.equal(root.get("category"), categoryId));
+
+		return productRepository.findAll(prod).stream().map(ProductMapper::toSummary).toList();
+		//return productRepository.findAll().stream().map(ProductMapper::toSummary).toList();
+
 	}
 	
 	public ProductResponse findById(Long id) {

@@ -41,7 +41,7 @@ public class TestConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-// =========================
+		// =========================
 		// USERS
 		// =========================
 
@@ -77,35 +77,105 @@ public class TestConfig implements CommandLineRunner {
 		// PRODUCTS (10)
 		// =========================
 
-		Product banana = new Product("Banana Prata", "Banana fresca", BigDecimal.valueOf(4.99), 100,
-				"img", hortifruti, fazendinhaBrand);
+		Product banana = new Product(
+				"Banana Prata",
+				"Banana fresca",
+				BigDecimal.valueOf(4.99),
+				100,
+				"https://images.unsplash.com/photo-1574226516831-e1dff420e8f8",
+				hortifruti,
+				fazendinhaBrand
+		);
 
-		Product maca = new Product("Maçã Gala", "Maçã doce", BigDecimal.valueOf(6.49), 80,
-				"img", hortifruti, fazendinhaBrand);
+		Product maca = new Product(
+				"Maçã Gala",
+				"Maçã doce",
+				BigDecimal.valueOf(6.49),
+				80,
+				"https://images.unsplash.com/photo-1567306226416-28f0efdc88ce",
+				hortifruti,
+				fazendinhaBrand
+		);
 
-		Product laranja = new Product("Laranja Pera", "Laranja fresca", BigDecimal.valueOf(5.99), 120,
-				"img", hortifruti, fazendinhaBrand);
+		Product laranja = new Product(
+				"Laranja Pera",
+				"Laranja fresca",
+				BigDecimal.valueOf(5.99),
+				120,
+				"https://images.unsplash.com/photo-1580910051074-3eb694886505",
+				hortifruti,
+				fazendinhaBrand
+		);
 
-		Product alface = new Product("Alface Crespa", "Alface fresca", BigDecimal.valueOf(3.49), 60,
-				"img", hortifruti, fazendinhaBrand);
+		Product alface = new Product(
+				"Alface Crespa",
+				"Alface fresca",
+				BigDecimal.valueOf(3.49),
+				60,
+				"https://images.unsplash.com/photo-1582515073490-dc4b8c6bcb28",
+				hortifruti,
+				fazendinhaBrand
+		);
 
-		Product cocaCola = new Product("Coca-Cola 2L", "Refrigerante", BigDecimal.valueOf(9.99), 50,
-				"img", bebidas, cocaColaBrand);
+		Product cocaCola = new Product(
+				"Coca-Cola 2L",
+				"Refrigerante",
+				BigDecimal.valueOf(9.99),
+				50,
+				"https://images.unsplash.com/photo-1622484212850-eb596d769edc",
+				bebidas,
+				cocaColaBrand
+		);
 
-		Product suco = new Product("Suco de Uva 1L", "Suco integral", BigDecimal.valueOf(7.99), 40,
-				"img", bebidas, cocaColaBrand);
+		Product suco = new Product(
+				"Suco de Uva 1L",
+				"Suco integral",
+				BigDecimal.valueOf(7.99),
+				40,
+				"https://images.unsplash.com/photo-1600271886742-f049cd451bba",
+				bebidas,
+				cocaColaBrand
+		);
 
-		Product agua = new Product("Água Mineral 1.5L", "Água sem gás", BigDecimal.valueOf(2.49), 150,
-				"img", bebidas, cocaColaBrand);
+		Product agua = new Product(
+				"Água Mineral 1.5L",
+				"Água sem gás",
+				BigDecimal.valueOf(2.49),
+				150,
+				"https://images.unsplash.com/photo-1564419320461-6870880221ad",
+				bebidas,
+				cocaColaBrand
+		);
 
-		Product detergente = new Product("Detergente Ypê", "Detergente neutro", BigDecimal.valueOf(2.99), 200,
-				"img", limpeza, ypeBrand);
+		Product detergente = new Product(
+				"Detergente Ypê",
+				"Detergente neutro",
+				BigDecimal.valueOf(2.99),
+				200,
+				"https://images.unsplash.com/photo-1581578731548-c64695cc6952",
+				limpeza,
+				ypeBrand
+		);
 
-		Product sabao = new Product("Sabão em Pó Ypê", "Sabão 1kg", BigDecimal.valueOf(12.99), 90,
-				"img", limpeza, ypeBrand);
+		Product sabao = new Product(
+				"Sabão em Pó Ypê",
+				"Sabão 1kg",
+				BigDecimal.valueOf(12.99),
+				90,
+				"https://images.unsplash.com/photo-1598032895397-b9472444bf93",
+				limpeza,
+				ypeBrand
+		);
 
-		Product desinfetante = new Product("Desinfetante Ypê", "Lavanda 2L", BigDecimal.valueOf(6.99), 110,
-				"img", limpeza, ypeBrand);
+		Product desinfetante = new Product(
+				"Desinfetante Ypê",
+				"Lavanda 2L",
+				BigDecimal.valueOf(6.99),
+				110,
+				"https://images.unsplash.com/photo-1583947581924-860bda6a26df",
+				limpeza,
+				ypeBrand
+		);
 
 		// Associação bidirecional
 		hortifruti.addProduct(banana);
