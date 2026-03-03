@@ -24,12 +24,10 @@ public class ProductController {
 			@RequestParam(name = "category", required = false, defaultValue = "0") Long categoryId,
 			@RequestParam(name = "brand", required = false, defaultValue = "0") Long brandId,
 			@RequestParam(name = "name", required = false, defaultValue = "0") String productName,
-			@RequestParam(name = "brandId", required = false, defaultValue = "0") BigDecimal minPrice,
-			@RequestParam(name = "brandId", required = false, defaultValue = "0.0") BigDecimal maxPrice,
 			@RequestParam(name = "onSale", required = false, defaultValue = "false") Boolean onSale
 	){
 
-		return ResponseEntity.ok().body(productService.findAll(categoryId, brandId, productName, minPrice, maxPrice, onSale));
+		return ResponseEntity.ok().body(productService.findAll(categoryId, brandId, productName, onSale));
 	}
 
 	@GetMapping("/{id}")

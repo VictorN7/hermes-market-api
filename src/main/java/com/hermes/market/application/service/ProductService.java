@@ -25,8 +25,7 @@ public class ProductService {
 		this.brandRepository = brandRepository;
 	}
 	
-	public List<ProductSummaryResponse> findAll(Long categoryId, Long brandId, String productName, BigDecimal minPrice,
-												BigDecimal maxPrice, Boolean onSale){
+	public List<ProductSummaryResponse> findAll(Long categoryId, Long brandId, String productName, Boolean onSale){
 		return productRepository.findAll().stream().map(ProductMapper::toSummary).toList();
 	}
 	
