@@ -29,7 +29,7 @@ public class ProductService {
 	
 	public List<ProductSummaryResponse> findAll(Long categoryId, Long brandId, String productName, Boolean onSale){
 
-		Specification<Product> prod = ((root, qr, cb) -> cb.equal(root.get("category"), categoryId));
+		Specification<Product> prod = ((root, qr, cb) -> cb.equal(root.get("category").get("id"), categoryId));
 
 		return productRepository.findAll(prod).stream().map(ProductMapper::toSummary).toList();
 		//return productRepository.findAll().stream().map(ProductMapper::toSummary).toList();
