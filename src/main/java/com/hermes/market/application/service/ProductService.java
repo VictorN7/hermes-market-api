@@ -19,13 +19,9 @@ import com.hermes.market.infrastructure.repository.ProductRepository;
 public class ProductService {
 	
 	private final ProductRepository productRepository;
-	private final CategoryRepository categoryRepository;
-	private final BrandRepository brandRepository;
 
 	public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, BrandRepository brandRepository) {
 		this.productRepository = productRepository;
-		this.categoryRepository = categoryRepository;
-		this.brandRepository = brandRepository;
 	}
 	
 	public List<ProductSummaryResponse> findAll(ProductFilter productFilter){
