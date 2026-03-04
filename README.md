@@ -1,39 +1,32 @@
 # 🛒 Hermes Market API
 
-Hermes Market API é uma API REST desenvolvida com Java e Spring Boot que simula um sistema de marketplace.
+Hermes Market API is a RESTful backend application built with Java and Spring Boot that simulates a marketplace system.
 
-O projeto é construído com foco em organização arquitetural, separação de responsabilidades e evolução incremental do domínio.
+The project emphasizes clean architecture, separation of concerns, domain-driven modeling, and scalable design instead of a simple CRUD-oriented approach.
 
-A aplicação já passou da fase inicial de modelagem e atualmente possui:
+This project serves as an architectural playground to explore scalable backend patterns and enterprise-ready design principles.
 
-- Camada de aplicação bem definida
-- Uso consistente de DTOs
-- Separação clara entre respostas resumidas e detalhadas
-- Filtros dinâmicos com Specification
-- Estrutura preparada para crescimento (segurança, banco real, testes automatizados)
+## 🎯 Project Purpose
 
-## 🎯 Objetivo do Projeto
+**The goal of this project is to design a robust and scalable backend architecture that supports:**
 
-**Construir uma API robusta que permita:**
+- User management
+- Product organization by category and brand
+- Structured order queries
+- Dynamic and combinable filters
+- Sustainable domain evolution
 
-- Gerenciamento de usuários
-- Organização de produtos por categorias e marcas
-- Consulta estruturada de pedidos
-- Filtros dinâmicos e combináveis
-- Evolução sustentável da base de código
+**The main focus is not just CRUD operations, but:**
 
-**O foco principal não é apenas CRUD, mas:**
+- Consistent domain modeling
+- Low coupling
+- Clear responsibility separation
+- Architecture prepared for growth
 
-- Modelagem consistente de domínio
-- Separação de responsabilidades
-- Baixo acoplamento
-- Arquitetura preparada para escalar
 
-## 🧩 Arquitetura do Projeto
+## 🧩 Architecture Overview
 
-O projeto segue uma organização inspirada em DDD (Domain-Driven Design) com separação em camadas bem definidas.
-
-## 📦 Estrutura de Pacotes
+The project follows a layered structure inspired by Domain-Driven Design (DDD):
 
 ```text
 com.hermes.market
@@ -61,268 +54,174 @@ com.hermes.market
 │
 └─ config
 ```
-## ⚙️ Tecnologias Utilizadas
+
+## 🔎 Layer Responsibilities
+
+### 🔹 Domain
+
+- JPA entities
+- Enums
+- Core business rules
+- Entity relationships
+
+### 🔹 Application
+
+- Application services
+- DTOs (Request / Response / Filter)
+- Mappers
+- Custom exceptions
+
+### 🔹 Infrastructure
+
+- JPA repositories
+- Dynamic filtering with Specification API
+- Database integration
+
+### 🔹 Web
+
+- REST controllers
+- HTTP exposure layer
+- Input/output mapping via DTOs
+
+
+## 🧱 Domain Model
+
+### Core Entities
+
+- User
+- Category
+- Brand
+- Product
+- Order
+- OrderItem
+
+### Main Relationships
+
+- A Product belongs to a Category
+- A Product belongs to a Brand
+- An Order belongs to a User
+- An Order contains multiple OrderItems
+- Each OrderItem references a Product
+
+Relationships are mapped using JPA best practices, ensuring domain consistency and proper association management.
+
+
+
+## 🚀 Key Technical Highlights
+
+- Clear separation between layers
+- DTO-based API (entities are never exposed directly)
+- Dynamic filtering using Spring Data JPA Specification
+- Summary and detailed response strategies
+- Clean and scalable code structure
+- Domain-focused modeling
+
+
+## 🔍 Dynamic Filtering Example
+
+Products support optional and combinable query parameters:
+```
+GET /api/v1/products?brandId=2&categoryId=1&name=lar
+```
+
+## 🌐 Available Endpoints (Read Layer)
+
+### Users
+
+`GET /api/v1/users`
+`GET /api/v1/users/{id}`
+
+### Categories
+
+`GET /api/v1/categories`
+`GET /api/v1/categories/{id}`
+
+### Brands
+
+`GET /api/v1/brands`
+`GET /api/v1/brands/{id}`
+
+### Products
+
+`GET /api/v1/products`
+`GET /api/v1/products/{id}`
+
+### Orders
+
+`GET /api/v1/orders`
+`GET /api/v1/orders/{id}`
+
+Orders include:
+
+- User information
+- Item list
+- Product reference per item
+- Calculated total value
+
+
+## ⚙️ Technologies
 
 - Java 17
 - Spring Boot
 - Spring Web
 - Spring Data JPA
 - Hibernate
-- H2 Database (em memória)
+- H2 Database (development)
 - Maven
 - Lombok
 - Bean Validation
 - Jackson
 
-## 🔎 Responsabilidade de Cada Camada
 
-### 🔹 Domain
+## 🛠️ Environment
 
-- Entidades JPA
-- Enums
-- Relacionamentos
-- Regras essenciais do núcleo do sistema
-- Essa camada não depende de Controller ou DTO.
+- H2 in-memory database (development)
+- H2 console enabled
+- Prepared for future PostgreSQL migration
 
-### 🔹 Application
+Initial seed data is configured for easy endpoint testing
 
-- Orquestração da lógica
-- Serviços de aplicação
-- DTOs de Request e Response
-- Mapeamentos (Mapper)
-- Exceções customizadas
 
-Aqui está concentrada a regra de negócio da aplicação.
+## 🚧 Current Status
 
-### 🔹 Infrastructure
+**The project is currently focused on:**
 
-- Repositories JPA
-- Implementações com Specification
-- Integração com banco de dados
+- Read layer consolidation  
+- DTO refinement  
+- Architectural improvements  
 
-A camada de domínio não depende diretamente da implementação da persistência.
+**Planned next steps:**
 
-### 🔹 Web
+- Write endpoints (POST, PUT, PATCH, DELETE)  
+- Authentication and authorization  
+- Pagination and sorting  
+- Database versioning (Flyway)  
+- Swagger documentation  
+- Automated testing  
 
-- Controllers REST
-- Exposição HTTP
-- Conversão de entrada/saída via DTO
+## ▶️ How to Run
 
-Os controllers não possuem regra de negócio.
+### 1️⃣ Clone the repository
 
-## 📦 Estrutura Atual do Domínio
-
-### 🔹 Entidades
-
-- User
-- Category
-- Product
-- Brand
-- Order
-- OrderItem
-
-### 🔹 Enums
-
-- UserStatus
-- Role
-- ProductStatus
-- CategoryStatus
-- OrderStatus
-- PaymentMethod
-- DeliveryMethod
-
-### 🔹 Relacionamentos Principais
-
-- Product → pertence a uma Category
-- Product → pertence a uma Brand
-- Order → pertence a um User
-- Order → possui múltiplos OrderItems
-- OrderItem → referencia Product
-
-Os relacionamentos estão mapeados com JPA utilizando boas práticas de associação.
-
-## 🔍 Funcionalidades Implementadas
-
-### ✔️ Camada de Leitura Completa (GET)
-
-Todos os endpoints GET estão implementados.
-
-### ✔️ DTOs de Resposta
-
-A API não expõe entidades diretamente.
-São utilizados DTOs específicos para cada contexto:
-
-- Responses resumidas (Summary)
-- Responses detalhadas (Detail)
-- Responses de menu (MenuResponse)
-
-Isso evita overfetching e exposição desnecessária de dados.
-
-### ✔️ Filtros Dinâmicos com Specification
-
-A listagem de produtos permite filtros combináveis via query params.
-
-Exemplo:
-
-- GET /api/v1/products?brandId=2&categoryId=1&name=lar
-
-Os filtros são opcionais e podem ser combinados dinamicamente.
-
-A implementação utiliza:
-
-- Spring Data JPA
-- Specification API
-- Construção dinâmica de predicates
-
-### ✔️ Separação de Respostas
-
-Exemplo de estratégia adotada:
-
-- ProductSummaryResponse → usado em listagens
-- ProductResponse → usado em detalhamento
-- BrandMenuResponse → usado para menus simples
-- BrandDetailResponse → usado em página específica
-
-Essa separação melhora performance e organização da API.
-
-## 🔄 Fluxo Interno de uma Requisição
-
-```text
-Controller
-   ↓
-Service
-   ↓
-Repository
-   ↓
-Database
-
-Service
-   ↓
-Mapper
-   ↓
-DTO Response
-
-```
-
-
-## 🌐 Endpoints Disponíveis
-
-### 🧑 Usuários
-
-- GET /api/v1/users
-- GET /api/v1/users/{id}
-
-### 🗂️ Categorias
-
-- GET /api/v1/categories
-- GET /api/v1/categories/{id}
-
-### 🏷️ Marcas
-
-- GET /api/v1/brands
-- GET /api/v1/brands/{id}
-
-### 📦 Produtos
-
-- GET /api/v1/products
-- GET /api/v1/products/{id}
-
-Com suporte a filtros opcionais:
-
-- brandId
-- categoryId
-- name
-
-### 🧾 Pedidos
-
-- GET /api/v1/orders
-- GET /api/v1/orders/{id}
-
-As respostas de pedidos incluem:
-
-- Informações do usuário
-- Lista de itens
-- Produto de cada item
-- Valor total calculado
-
-## 🛠️ Configuração e Ambiente
-
-### 🔹 Banco de Dados
-
-- H2 em memória (ambiente de desenvolvimento)
-- Console H2 habilitado
-- Estrutura preparada para migração futura para PostgreSQL
-
-### 🔹 Inicialização de Dados
-
-Existe classe de configuração responsável por carga inicial de dados para testes e navegação dos endpoints.
-
-## 🧠 Decisões Arquiteturais Importantes
-
-- Controllers não contêm regra de negócio
-- DTOs evitam exposição de entidades
-- Camada de aplicação centraliza orquestração
-- Specification permite escalabilidade de filtros
-
-Estrutura modular facilita introdução futura de:
-
-- Segurança
-- Paginação
-- Versionamento de banco
-- Testes automatizados
-
-## 🚧 Status Atual do Projeto
-
-Atualmente o projeto encontra-se na fase de:
-
-- Consolidação da camada de leitura
-- Refinamento de DTOs
-- Organização arquitetural
-
-Funcionalidades planejadas para próximas iterações:
-
-- Endpoints de escrita (POST, PUT, DELETE e PATCH)
-- Segurança com autenticação
-- Paginação e ordenação
-- Versionamento com Flyway
-- Documentação Swagger
-- Testes automatizados
-
-## ▶️ Como Executar o Projeto
-
-### 1️⃣ Clonar o repositório
-
-```
+```bash
 git clone https://github.com/VictorN7/hermes-market-api.git
-```
-
-### 2️⃣ Acessar a pasta
-
-```
 cd hermes-market-api
 ```
 
-### 3️⃣ Executar
-```
-./mvnw spring-boot:run
-```
+**Application runs at:**
 
-**A aplicação ficará disponível em:**
-
-```
+```bash
 http://localhost:8080
 ```
 
-**Console H2:**
+**H2 Console:**
 
-```
+```bash
 http://localhost:8080/h2-console
 ```
+## 👤 Author
 
-## 📌 Observações Finais
+Victor Nogueira
+Backend Developer | Java & Spring Boot
 
-Este projeto tem como principal objetivo aprendizado prático com aplicação de padrões profissionais.
 
-A evolução é incremental e focada em qualidade estrutural antes de complexidade funcional.
-
-Refatorações são parte ativa do processo de construção.
