@@ -5,9 +5,6 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,12 +43,10 @@ public class Product {
 	@Column(nullable = false, updatable = false)
 	private Instant createdAt;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "brand_id", nullable = false)
 	private Brand brand;

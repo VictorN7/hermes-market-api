@@ -11,7 +11,7 @@ public enum PaymentMethod {
 	
 	private int code;
 	
-	private PaymentMethod(int code) {
+	PaymentMethod(int code) {
 		this.code = code;
 	}
 

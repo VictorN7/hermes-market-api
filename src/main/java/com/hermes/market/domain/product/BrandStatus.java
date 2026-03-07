@@ -7,7 +7,7 @@ public enum BrandStatus {
 
 	private int code;
 
-	private BrandStatus(int code) {
+	BrandStatus(int code) {
 		this.code = code;
 	}
 

@@ -6,7 +6,6 @@ import com.hermes.market.application.dto.response.OrderResponse;
 import com.hermes.market.application.dto.response.OrderSummaryResponse;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.service.OrderService;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

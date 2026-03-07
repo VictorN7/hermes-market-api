@@ -2,6 +2,7 @@ package com.hermes.market.domain.order;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +45,10 @@ public class Order {
 	private BigDecimal totalPrice;
 
 	@Column(nullable = false, updatable = false)
-	private LocalDateTime createdAt;
+	private Instant createdAt;
 	
 	@Column(nullable = false)
-	private LocalDateTime updatedAt;
+	private Instant updatedAt;
 	
 	@Column(nullable = false)
 	private Integer payment;
@@ -63,8 +64,8 @@ public class Order {
 		orderItems = new ArrayList<>();
 		setStatus(OrderStatus.CREATED);
 		totalPrice =  BigDecimal.ZERO;
-		createdAt = LocalDateTime.now();
-		updatedAt = LocalDateTime.now();
+		createdAt = Instant.now();
+		updatedAt = Instant.now();
 		setPayment(payment);
 		setDelivery(delivery);
 	}
@@ -73,7 +74,7 @@ public class Order {
 		return id;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public Instant getCreatedAt() {
 		return createdAt;
 	}
 
@@ -90,9 +91,10 @@ public class Order {
 	}
 
 	public void setStatus(OrderStatus status) {
-		if (status != null) {
-			this.status = status.getCode();
+		if (status == null) {
+			throw new IllegalArgumentException("OrderStatus cannot be null");
 		}
+		this.status = status.getCode();
 	}
 
 	public BigDecimal getTotalPrice() {
@@ -103,7 +105,7 @@ public class Order {
 		this.totalPrice = totalPrice;
 	}
 
-	public LocalDateTime getUpdatedAt() {
+	public Instant getUpdatedAt() {
 		return updatedAt;
 	}
 
@@ -112,9 +114,10 @@ public class Order {
 	}
 
 	public void setPayment(PaymentMethod payment) {
-		if (payment != null) {
-			this.payment = payment.getCode();
+		if (payment == null) {
+			throw new IllegalArgumentException("PaymentMethod cannot be null");
 		}
+		this.payment = payment.getCode();
 	}
 
 	public DeliveryMethod getDelivery() {
@@ -123,8 +126,9 @@ public class Order {
 
 	public void setDelivery(DeliveryMethod delivery) {
 		if (delivery != null) {
-			this.delivery = delivery.getCode();
+			throw new IllegalArgumentException("DeliveryMethod cannot be null");
 		}
+		this.delivery = delivery.getCode();
 	}
 	
 	public BigDecimal calculateTotalPrice() {
@@ -136,7 +140,7 @@ public class Order {
 		
 		OrderItem item = new OrderItem(product, quantity);
 		item.setOrder(this);
-		this.updatedAt = LocalDateTime.now();
+		this.updatedAt = Instant.now();
 		this.orderItems.add(item);
 		this.totalPrice = calculateTotalPrice();
 	}

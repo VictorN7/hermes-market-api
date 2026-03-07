@@ -7,7 +7,7 @@ public enum DeliveryMethod {
 	
 	private int code;
 	
-	private DeliveryMethod(int code) {
+	DeliveryMethod(int code) {
 		this.code = code;
 	}
 

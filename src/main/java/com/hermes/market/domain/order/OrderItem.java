@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hermes.market.domain.product.Product;
 
 import jakarta.persistence.Column;
@@ -28,8 +27,7 @@ public class OrderItem {
 	@ManyToOne
 	@JoinColumn(name = "product_id", nullable = false)
 	private Product product;
-	
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn(name = "order_id", nullable = false)
 	private Order order;

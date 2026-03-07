@@ -7,7 +7,7 @@ public enum CategoryStatus {
 	
 	private int code;
 	
-	private CategoryStatus(int code) {
+	CategoryStatus(int code) {
 		this.code = code;
 	}
 

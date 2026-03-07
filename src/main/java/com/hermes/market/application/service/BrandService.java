@@ -14,7 +14,7 @@ public class BrandService {
 
     private final BrandRepository brandRepository;
 
-    public BrandService(BrandRepository brandRepository, ProductRepository productRepository){
+    public BrandService(BrandRepository brandRepository){
         this.brandRepository = brandRepository;
     }
 

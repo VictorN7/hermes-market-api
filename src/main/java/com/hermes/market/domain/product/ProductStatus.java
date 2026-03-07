@@ -8,7 +8,7 @@ public enum ProductStatus {
 	
 	private int code;
 	
-	private ProductStatus(int code) {
+	ProductStatus(int code) {
 		this.code = code;
 	}
 
