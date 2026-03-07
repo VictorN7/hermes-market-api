@@ -137,7 +137,11 @@ public class Order {
 	}
 
 	public void addItem(Product product, Integer quantity) {
-		
+
+		if (product.getQuantityInStock() < quantity){
+			throw new IllegalArgumentException("Insufficient Stock");
+		}
+
 		OrderItem item = new OrderItem(product, quantity);
 		item.setOrder(this);
 		this.updatedAt = Instant.now();
