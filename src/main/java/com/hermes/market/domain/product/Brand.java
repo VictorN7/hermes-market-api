@@ -69,11 +69,10 @@ public class Brand {
     }
 
     public void setStatus(BrandStatus status) {
-        if (status != null) {
-            this.status = status.getCode();
-        } else {
+        if (status == null) {
             throw new IllegalArgumentException("BrandStatus cannot be null.");
         }
+        this.status = status.getCode();
     }
 
     public void addProduct(Product product) {

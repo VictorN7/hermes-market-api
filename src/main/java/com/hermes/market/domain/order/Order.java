@@ -125,7 +125,7 @@ public class Order {
 	}
 
 	public void setDelivery(DeliveryMethod delivery) {
-		if (delivery != null) {
+		if (delivery == null) {
 			throw new IllegalArgumentException("DeliveryMethod cannot be null");
 		}
 		this.delivery = delivery.getCode();
