@@ -41,7 +41,7 @@ public class Order {
 	@Column(nullable = false)
 	private Integer status;
 	
-	@Column(nullable = false, precision = 15, scale = 2)
+	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal totalPrice;
 
 	@Column(nullable = false, updatable = false)

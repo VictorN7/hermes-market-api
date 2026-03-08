@@ -15,7 +15,7 @@ public enum PromotionStatus {
         return code;
     }
 
-    public static PromotionStatus fromCode(int code){
+    public static PromotionStatus valueOf(int code){
 
         for (PromotionStatus status : PromotionStatus.values()){
             if (status.getCode() == code){
