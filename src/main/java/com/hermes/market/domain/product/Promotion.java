@@ -64,7 +64,7 @@ public class Promotion {
         validateTypePromotion();
     }
 
-    public void validateTypePromotion(){
+    private void validateTypePromotion(){
         if (PromotionType.valueOf(type).equals(PromotionType.DIRECT_PRICE)){
 
             if (minQuantity != null || discountedUnitPrice != null){
