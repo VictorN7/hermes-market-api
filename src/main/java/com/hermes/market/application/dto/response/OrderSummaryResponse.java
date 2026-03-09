@@ -3,6 +3,7 @@ package com.hermes.market.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 public class OrderSummaryResponse {
@@ -12,14 +13,14 @@ public class OrderSummaryResponse {
     private BigDecimal totalPrice;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     private String payment;
     private String delivery;
 
     public OrderSummaryResponse(){
     }
 
-    public OrderSummaryResponse(Long id, String status, BigDecimal totalPrice, LocalDateTime createdAt, String payment, String delivery) {
+    public OrderSummaryResponse(Long id, String status, BigDecimal totalPrice, Instant createdAt, String payment, String delivery) {
         this.id = id;
         this.status = status;
         this.totalPrice = totalPrice;
@@ -40,7 +41,7 @@ public class OrderSummaryResponse {
         return totalPrice;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 

@@ -4,6 +4,7 @@ package com.hermes.market.application.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,10 @@ public class OrderResponse {
     private BigDecimal totalPrice;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private LocalDateTime updatedAt;
+    private Instant updatedAt;
 
     private String payment;
     private String delivery;
@@ -29,7 +30,7 @@ public class OrderResponse {
     }
 
     public OrderResponse(Long id, UserResponse user, List<OrderItemResponse> orderItems, String status, BigDecimal totalPrice,
-                         LocalDateTime createdAt, LocalDateTime updatedAt, String payment, String delivery) {
+                         Instant createdAt, Instant updatedAt, String payment, String delivery) {
         this.id = id;
         this.user = user;
         this.orderItems = orderItems;
@@ -61,11 +62,11 @@ public class OrderResponse {
         return totalPrice;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public LocalDateTime getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 

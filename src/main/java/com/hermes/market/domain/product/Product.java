@@ -63,6 +63,10 @@ public class Product {
 		setBrand(brand);
 	}
 
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
 	public Brand getBrand() {
 		return brand;
 	}
