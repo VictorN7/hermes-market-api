@@ -32,16 +32,15 @@ public class Promotion {
     @Column(nullable = false)
     private Integer type;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal promotionalPrice;
 
     @Column
     private Integer minQuantity;
 
-    @Column(precision = 10, scale = 2)
+    @Column(precision = 15, scale = 2)
     private BigDecimal discountedUnitPrice;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tb_product_promotion",

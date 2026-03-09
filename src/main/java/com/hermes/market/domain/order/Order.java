@@ -41,7 +41,7 @@ public class Order {
 	@Column(nullable = false)
 	private Integer status;
 	
-	@Column(nullable = false, precision = 10, scale = 2)
+	@Column(nullable = false, precision = 15, scale = 2)
 	private BigDecimal totalPrice;
 
 	@Column(nullable = false, updatable = false)
@@ -65,7 +65,6 @@ public class Order {
 		setStatus(OrderStatus.CREATED);
 		totalPrice =  BigDecimal.ZERO;
 		createdAt = Instant.now();
-		updatedAt = Instant.now();
 		setPayment(payment);
 		setDelivery(delivery);
 	}
@@ -95,6 +94,7 @@ public class Order {
 			throw new IllegalArgumentException("OrderStatus cannot be null");
 		}
 		this.status = status.getCode();
+		this.updatedAt = Instant.now();
 	}
 
 	public BigDecimal getTotalPrice() {
@@ -104,6 +104,7 @@ public class Order {
 	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
 
 	public Instant getUpdatedAt() {
 		return updatedAt;
