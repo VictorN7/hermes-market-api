@@ -1,6 +1,7 @@
 package com.hermes.market.domain.product;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -40,6 +41,7 @@ public class Promotion {
     @Column(precision = 10, scale = 2)
     private BigDecimal discountedUnitPrice;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tb_product_promotion",
