@@ -50,6 +50,9 @@ public class User {
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Order> orders = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user")
+	private List<Address> addresses = new ArrayList<>();
 	
 	public User() {
 	}
@@ -62,10 +65,16 @@ public class User {
 		setRole(Role.CLIENT);
 		this.cpf = cpf;
 		setStatus(UserStatus.ACTIVE);
-		this.createdAt = Instant.now(); // Implementação Temporária
+		this.createdAt = Instant.now();
 	}
-	
-	// Implementar o PerPersist e Lombok
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
 	
 	public String getName() {
 		return name;

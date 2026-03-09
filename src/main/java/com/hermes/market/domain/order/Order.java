@@ -3,12 +3,12 @@ package com.hermes.market.domain.order;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import com.hermes.market.domain.product.Product;
+import com.hermes.market.domain.user.Address;
 import com.hermes.market.domain.user.User;
 
 import jakarta.persistence.CascadeType;
@@ -55,18 +55,32 @@ public class Order {
 	
 	@Column(nullable = false)
 	private Integer delivery;
+
+	@ManyToOne
+	@JoinColumn(name = "address_id", nullable = false)
+	private Address address;
 	
 	public Order(){
 	}
 
-	public Order(User user,PaymentMethod payment, DeliveryMethod delivery) {
+	public Order(User user,PaymentMethod payment, DeliveryMethod delivery, Address address ) {
 		this.user = user;
 		orderItems = new ArrayList<>();
 		setStatus(OrderStatus.CREATED);
 		totalPrice =  BigDecimal.ZERO;
 		createdAt = Instant.now();
+		updatedAt = Instant.now();
 		setPayment(payment);
 		setDelivery(delivery);
+		this.address = address;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public Long getId() {
