@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 
 import com.hermes.market.domain.product.*;
+import com.hermes.market.domain.user.Address;
 import com.hermes.market.infrastructure.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -26,10 +27,11 @@ public class TestConfig implements CommandLineRunner {
 	private final OrderRepository orderRepository;
 	private final BrandRepository brandRepository;
 	private final PromotionRepository promotionRepository;
+	private final AddressRepository addressRepository;
 
 	public TestConfig(CategoryRepository categoryRepository, ProductRepository productRepository,
 					  UserRepository userRepository, OrderRepository orderRepository,
-					  BrandRepository brandRepository, PromotionRepository promotionRepository) {
+					  BrandRepository brandRepository, PromotionRepository promotionRepository, AddressRepository addressRepository) {
 
 		this.categoryRepository = categoryRepository;
 		this.productRepository = productRepository;
@@ -37,6 +39,7 @@ public class TestConfig implements CommandLineRunner {
 		this.orderRepository = orderRepository;
 		this.brandRepository = brandRepository;
 		this.promotionRepository = promotionRepository;
+		this.addressRepository = addressRepository;
 	}
 
 	@Override
@@ -376,145 +379,167 @@ public class TestConfig implements CommandLineRunner {
 		// =========================
 
 		// user1 — 3 pedidos
-		Order order1 = new Order(user1, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY);
+		// =========================
+		// ADDRESSES
+		// =========================
+
+		Address addr1 = new Address("Rua das Flores", 123, "Apto 45", "Jardim Primavera", "São Paulo", "SP", "01310100", user1);
+		Address addr2 = new Address("Av. Paulista",456 , null, "Bela Vista", "São Paulo", "SP", "01311000", user2);
+		Address addr3 = new Address("Rua das Acácias", 78, "Casa 2", "Vila Madalena", "São Paulo", "SP", "05435000", user3);
+		Address addr4 = new Address("Rua do Comércio", 200, null, "Centro", "Campinas", "SP", "13010050", user4);
+		Address addr5 = new Address( "Rua das Palmeiras", 55, "Bloco B", "Moema", "São Paulo", "SP", "04077000", user5);
+		Address addr6 = new Address("Av. Brasil", 310, null, "Centro", "Rio de Janeiro", "RJ", "20040020", user6);
+		Address addr7 = new Address("Rua das Orquídeas",88, "Sala 3", "Lourdes", "Belo Horizonte", "MG", "30170000", user7);
+		Address addr8 = new Address("Rua das Margaridas", 15, null, "Boa Viagem", "Recife", "PE", "51020010", user8);
+		Address addr9 = new Address("Rua das Violetas",402, "Apto 12", "Moinhos de Vento", "Porto Alegre", "RS", "90570020", user9);
+		Address addr10 = new Address("Av. Goiás", 67, null, "Setor Central", "Goiânia", "GO", "74015010", user10);
+
+		addressRepository.saveAll(Arrays.asList(addr1, addr2, addr3, addr4, addr5, addr6, addr7, addr8, addr9, addr10));
+
+		// =========================
+		// ORDERS
+		// =========================
+
+		// user1 — 3 pedidos
+		Order order1 = new Order(user1, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY, addr1);
 		order1.addItem(banana, 3);
 		order1.addItem(leite, 2);
 		order1.addItem(paoIntegral, 1);
 		order1.addItem(iogurteFruta, 4);
 
-		Order order2 = new Order(user1, PaymentMethod.PIX, DeliveryMethod.PICKUP);
+		Order order2 = new Order(user1, PaymentMethod.PIX, DeliveryMethod.PICKUP, addr1);
 		order2.addItem(arroz, 2);
 		order2.addItem(feijao, 2);
 		order2.addItem(detergente, 1);
 		order2.addItem(sabao, 1);
 
-		Order order3 = new Order(user1, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY);
+		Order order3 = new Order(user1, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY, addr1);
 		order3.addItem(frango, 2);
 		order3.addItem(batataFrita, 3);
 		order3.addItem(cocaCola, 2);
 
 		// user2 — 1 pedido
-		Order order4 = new Order(user2, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY);
+		Order order4 = new Order(user2, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY, addr2);
 		order4.addItem(queijo, 1);
 		order4.addItem(presunto, 2);
 		order4.addItem(paoDeFarma, 1);
 		order4.addItem(manteiga, 1);
 
 		// user3 — 2 pedidos
-		Order order5 = new Order(user3, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+		Order order5 = new Order(user3, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr3);
 		order5.addItem(laranja, 5);
 		order5.addItem(suco, 3);
 		order5.addItem(granola, 1);
 		order5.addItem(aveia, 2);
 
-		Order order6 = new Order(user3, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP);
+		Order order6 = new Order(user3, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr3);
 		order6.addItem(shampoo, 1);
 		order6.addItem(condicionador, 1);
 		order6.addItem(sabonete, 3);
 		order6.addItem(pastaDente, 2);
 
 		// user4 — 4 pedidos
-		Order order7 = new Order(user4, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP);
+		Order order7 = new Order(user4, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr4);
 		order7.addItem(sabao, 1);
 		order7.addItem(alface, 4);
 		order7.addItem(tomate, 3);
 		order7.addItem(cenoura, 2);
 
-		Order order8 = new Order(user4, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+		Order order8 = new Order(user4, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr4);
 		order8.addItem(agua, 6);
 		order8.addItem(desinfetante, 2);
 		order8.addItem(sacoLixo, 1);
 
-		Order order9 = new Order(user4, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY);
+		Order order9 = new Order(user4, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY, addr4);
 		order9.addItem(alcatra, 1);
 		order9.addItem(costelaSuina, 1);
 		order9.addItem(bacon, 2);
 		order9.addItem(linguicaToscana, 1);
 
-		Order order10 = new Order(user4, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP);
+		Order order10 = new Order(user4, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr4);
 		order10.addItem(pizzaCalabreza, 2);
 		order10.addItem(nuggets, 1);
 		order10.addItem(hamburger, 2);
 		order10.addItem(lasanha, 1);
 
 		// user5 — 2 pedidos
-		Order order11 = new Order(user5, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+		Order order11 = new Order(user5, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr5);
 		order11.addItem(requeijao, 2);
 		order11.addItem(queijoMinas, 1);
 		order11.addItem(bisnaguinha, 3);
 		order11.addItem(cookie, 2);
 
-		Order order12 = new Order(user5, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP);
+		Order order12 = new Order(user5, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr5);
 		order12.addItem(camarao, 1);
 		order12.addItem(peixeTilapia, 2);
 		order12.addItem(limao, 4);
 		order12.addItem(alho, 2);
 
 		// user6 — 2 pedidos
-		Order order13 = new Order(user6, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY);
+		Order order13 = new Order(user6, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY, addr6);
 		order13.addItem(mortadela, 2);
 		order13.addItem(salame, 1);
 		order13.addItem(queijoGouda, 1);
 		order13.addItem(sprite, 3);
 
-		Order order14 = new Order(user6, PaymentMethod.PIX, DeliveryMethod.PICKUP);
+		Order order14 = new Order(user6, PaymentMethod.PIX, DeliveryMethod.PICKUP, addr6);
 		order14.addItem(macarrao, 3);
 		order14.addItem(farinha, 2);
 		order14.addItem(creme, 4);
 		order14.addItem(sorvete, 1);
 
 		// user7 — 3 pedidos
-		Order order15 = new Order(user7, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY);
+		Order order15 = new Order(user7, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY, addr7);
 		order15.addItem(bolo, 1);
 		order15.addItem(tortinha, 2);
 		order15.addItem(wafer, 3);
 		order15.addItem(nesquik, 2);
 
-		Order order16 = new Order(user7, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+		Order order16 = new Order(user7, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr7);
 		order16.addItem(fileFrango, 2);
 		order16.addItem(coxinha, 3);
 		order16.addItem(patinho, 1);
 
-		Order order17 = new Order(user7, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP);
+		Order order17 = new Order(user7, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr7);
 		order17.addItem(papelHigienico, 1);
 		order17.addItem(absorvente, 2);
 		order17.addItem(desodorante, 1);
 		order17.addItem(laminaDeBarbear, 2);
 
 		// user8 — 1 pedido
-		Order order18 = new Order(user8, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY);
+		Order order18 = new Order(user8, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY, addr8);
 		order18.addItem(leiteDesn, 4);
 		order18.addItem(iogurte, 3);
 		order18.addItem(nata, 2);
 		order18.addItem(chaPronto, 2);
 
 		// user9 — 2 pedidos
-		Order order19 = new Order(user9, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+		Order order19 = new Order(user9, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr9);
 		order19.addItem(batata, 3);
 		order19.addItem(cebola, 2);
 		order19.addItem(maca, 4);
 		order19.addItem(aguaCom, 3);
 
-		Order order20 = new Order(user9, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP);
+		Order order20 = new Order(user9, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr9);
 		order20.addItem(queijoProvolone, 1);
 		order20.addItem(coppa, 2);
 		order20.addItem(blanquet, 1);
 		order20.addItem(peito, 2);
 
 		// user10 — 3 pedidos
-		Order order21 = new Order(user10, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY);
+		Order order21 = new Order(user10, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY, addr10);
 		order21.addItem(pizzaMargherita, 2);
 		order21.addItem(esfiha, 3);
 		order21.addItem(panqueca, 2);
 		order21.addItem(picoleSorbet, 4);
 
-		Order order22 = new Order(user10, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY);
+		Order order22 = new Order(user10, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr10);
 		order22.addItem(feijaoPreto, 2);
 		order22.addItem(lentilha, 1);
 		order22.addItem(grao, 1);
 		order22.addItem(milho, 2);
 
-		Order order23 = new Order(user10, PaymentMethod.BOLETO, DeliveryMethod.PICKUP);
+		Order order23 = new Order(user10, PaymentMethod.BOLETO, DeliveryMethod.PICKUP, addr10);
 		order23.addItem(luva, 1);
 		order23.addItem(vassoura, 1);
 		order23.addItem(rodo, 1);
@@ -525,6 +550,8 @@ public class TestConfig implements CommandLineRunner {
 				order9, order10, order11, order12, order13, order14, order15,
 				order16, order17, order18, order19, order20, order21, order22, order23
 		));
+
+
 
 		// =========================
 		// PROMOTIONS
