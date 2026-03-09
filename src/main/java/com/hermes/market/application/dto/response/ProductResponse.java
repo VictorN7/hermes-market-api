@@ -1,10 +1,5 @@
 package com.hermes.market.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hermes.market.domain.product.Brand;
-import com.hermes.market.domain.product.Category;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -18,10 +13,7 @@ public class ProductResponse {
     private Integer quantityInStock;
     private String imgUrl;
     private String status;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant createdAt;
-
     private String category;
     private String brand;
 

@@ -1,7 +1,5 @@
 package com.hermes.market.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
 
 import java.time.Instant;
 
@@ -10,8 +8,6 @@ public class BrandDetailResponse {
     private Long id;
     private String name;
     private String status;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant createdAt;
 
     public BrandDetailResponse(){

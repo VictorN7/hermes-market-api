@@ -4,15 +4,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 public class OrderSummaryResponse {
 
     private Long id;
     private String status;
     private BigDecimal totalPrice;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant createdAt;
     private String payment;
     private String delivery;

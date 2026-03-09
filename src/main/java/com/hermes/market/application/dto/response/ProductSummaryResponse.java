@@ -12,7 +12,6 @@ public class ProductSummaryResponse {
     private String brand;
 
     public ProductSummaryResponse(){
-
     }
 
     public ProductSummaryResponse(Long id, String name, BigDecimal price, String imgUrl, String status, String brand) {

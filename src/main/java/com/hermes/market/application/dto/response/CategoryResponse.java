@@ -1,21 +1,13 @@
 package com.hermes.market.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.hermes.market.domain.product.CategoryStatus;
-import com.hermes.market.domain.product.Product;
-import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CategoryResponse {
 
     private Long id;
     private String name;
     private String status;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant createdAt;
 
     public CategoryResponse(){

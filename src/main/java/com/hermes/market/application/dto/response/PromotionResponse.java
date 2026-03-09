@@ -15,6 +15,10 @@ public class PromotionResponse {
     private Integer minQuantity;
     private BigDecimal discountedUnitPrice;
 
+    public PromotionResponse(){
+
+    }
+
     public PromotionResponse(Long id, String name, Instant startDate, Instant endDate,
                              String status, String type, BigDecimal promotionalPrice,
                              Integer minQuantity, BigDecimal discountedUnitPrice) {
