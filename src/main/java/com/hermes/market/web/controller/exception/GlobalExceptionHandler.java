@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.Instant;
 
@@ -67,6 +68,16 @@ public class GlobalExceptionHandler {
         StandardError standardError = new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI());
 
         log.error("Unexpected error", exception);
+
+        return ResponseEntity.status(status).body(standardError);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<StandardError> noResourceFoundException(NoResourceFoundException exception, HttpServletRequest request) {
+
+        String error = "No resource found";
+        HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError standardError = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
 
         return ResponseEntity.status(status).body(standardError);
     }
