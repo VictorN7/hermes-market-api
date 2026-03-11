@@ -5,10 +5,9 @@ import java.util.List;
 import com.hermes.market.application.dto.filter.ProductFilter;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
+import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Product;
-import com.hermes.market.infrastructure.repository.BrandRepository;
-import com.hermes.market.infrastructure.repository.CategoryRepository;
 import com.hermes.market.infrastructure.repository.specification.ProductSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -35,6 +34,6 @@ public class ProductService {
 	}
 	
 	public ProductResponse findById(Long id) {
-		return ProductMapper.toResponse(productRepository.findById(id).orElseThrow(()-> new RuntimeException("Product not found!")));
+		return ProductMapper.toResponse(productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found!")));
 	}
 }

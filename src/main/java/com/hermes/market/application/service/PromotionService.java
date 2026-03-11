@@ -1,5 +1,6 @@
 package com.hermes.market.application.service;
 
+import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.product.Promotion;
 import com.hermes.market.infrastructure.repository.PromotionRepository;
@@ -21,7 +22,7 @@ public class PromotionService {
     }
 
     public Promotion findById(Long id){
-        return promotionRepository.findById(id).orElseThrow( () -> new RuntimeException("Id not found: "+ id));
+        return promotionRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Id not found: "+ id));
     }
 
 }

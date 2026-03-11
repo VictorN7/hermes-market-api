@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hermes.market.application.dto.response.OrderResponse;
 import com.hermes.market.application.dto.response.OrderSummaryResponse;
+import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.OrderMapper;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class OrderService {
 	}
 	
 	public OrderResponse findById(Long id) {
-		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found!")));
+		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found!")));
 	}
 
 	public List<OrderSummaryResponse> findOrdersByUser(Long id){

@@ -1,14 +1,10 @@
 package com.hermes.market.application.service;
 
 import java.util.List;
-
 import com.hermes.market.application.dto.response.CategoryResponse;
-import com.hermes.market.application.dto.response.ProductResponse;
+import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.CategoryMapper;
-import com.hermes.market.application.mapper.ProductMapper;
 import org.springframework.stereotype.Service;
-
-import com.hermes.market.domain.product.Category;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 
@@ -16,11 +12,9 @@ import com.hermes.market.infrastructure.repository.ProductRepository;
 public class CategoryService {
 	
 	private final CategoryRepository categoryRepository;
-	private final ProductRepository productRepository;
 	
-	public CategoryService(CategoryRepository categoryRepository,ProductRepository productRepository) {
+	public CategoryService(CategoryRepository categoryRepository) {
 		this.categoryRepository = categoryRepository;
-		this.productRepository = productRepository;
 	}
 	
 	public List<CategoryResponse> findAll(){
@@ -32,6 +26,6 @@ public class CategoryService {
 	
 	public CategoryResponse findById(Long id) {
 		return CategoryMapper.toResponse(categoryRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Category not found!")));
+				.orElseThrow(() -> new ResourceNotFoundException("Category not found!")));
 	}
 }

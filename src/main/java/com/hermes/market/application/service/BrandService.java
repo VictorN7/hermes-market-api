@@ -2,6 +2,7 @@ package com.hermes.market.application.service;
 
 import com.hermes.market.application.dto.response.BrandDetailResponse;
 import com.hermes.market.application.dto.response.BrandMenuResponse;
+import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.BrandMapper;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.ProductRepository;
@@ -25,6 +26,6 @@ public class BrandService {
     public BrandDetailResponse findById(Long id){
         return BrandMapper.toResponse(brandRepository
                 .findById(id)
-                .orElseThrow( () -> new RuntimeException("Brand not found")));
+                .orElseThrow( () -> new ResourceNotFoundException("Brand not found")));
     }
 }
