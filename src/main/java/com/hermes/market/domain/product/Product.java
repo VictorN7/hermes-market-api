@@ -3,6 +3,7 @@ package com.hermes.market.domain.product;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,7 +47,7 @@ public class Product {
 	private Brand brand;
 
 	@ManyToMany(mappedBy = "products")
-	private List<Promotion> promotions;
+	private List<Promotion> promotions = new ArrayList<>();
 
 	public Product() {
 	}

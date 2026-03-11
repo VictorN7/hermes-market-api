@@ -28,7 +28,8 @@ public class ProductService {
 		Specification<Product> spec = Specification.
 				where(ProductSpecification.categoryEqual(productFilter.getCategoryId()))
 				.and(ProductSpecification.brandEqual(productFilter.getBrandId()))
-				.and(ProductSpecification.nameProductLike(productFilter.getName()));
+				.and(ProductSpecification.nameProductLike(productFilter.getName()))
+				.and(ProductSpecification.containsPromotion(productFilter.getOnSale()));
 
 		return productRepository.findAll(spec).stream().map(ProductMapper::toSummary).toList();
 	}
