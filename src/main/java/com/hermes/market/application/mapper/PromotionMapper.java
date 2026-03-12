@@ -1,6 +1,7 @@
 package com.hermes.market.application.mapper;
 
 import com.hermes.market.application.dto.response.PromotionResponse;
+import com.hermes.market.application.dto.response.PromotionSummaryResponse;
 import com.hermes.market.domain.product.Promotion;
 
 public class PromotionMapper {
@@ -15,4 +16,12 @@ public class PromotionMapper {
                 promotion.getDiscountedUnitPrice());
 
     }
+
+    public static PromotionSummaryResponse toSummary(Promotion promotion){
+
+        return new PromotionSummaryResponse(promotion.getName(), promotion.getType().name(),
+                promotion.getPromotionalPrice(), promotion.getMinQuantity(), promotion.getDiscountedUnitPrice());
+
+    }
+
 }

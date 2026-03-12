@@ -3,6 +3,8 @@ package com.hermes.market.application.dto.response;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductResponse {
 
@@ -16,12 +18,13 @@ public class ProductResponse {
     private Instant createdAt;
     private String category;
     private String brand;
+    private List<PromotionResponse> promotions = new ArrayList<>();
 
     public ProductResponse(){
     }
 
     public ProductResponse(Long id, String name, String description, BigDecimal price, Integer quantityInStock,
-                           String imgUrl, String status, Instant createdAt, String category, String brand) {
+                           String imgUrl, String status, Instant createdAt, String category, String brand, List<PromotionResponse> promotions) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -32,6 +35,11 @@ public class ProductResponse {
         this.createdAt = createdAt;
         this.category = category;
         this.brand = brand;
+        this.promotions = promotions;
+    }
+
+    public List<PromotionResponse> getPromotions() {
+        return promotions;
     }
 
     public Long getId() {
