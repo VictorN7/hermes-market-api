@@ -19,12 +19,13 @@ public class OrderResponse {
     private Instant updatedAt;
     private String payment;
     private String delivery;
+    private AddressResponse address;
 
     public OrderResponse(){
     }
 
     public OrderResponse(Long id, UserResponse user, List<OrderItemResponse> orderItems, String status, BigDecimal totalPrice,
-                         Instant createdAt, Instant updatedAt, String payment, String delivery) {
+                         Instant createdAt, Instant updatedAt, String payment, String delivery, AddressResponse address) {
         this.id = id;
         this.user = user;
         this.orderItems = orderItems;
@@ -34,6 +35,7 @@ public class OrderResponse {
         this.updatedAt = updatedAt;
         this.payment = payment;
         this.delivery = delivery;
+        this.address = address;
     }
 
     public Long getId() {
@@ -72,6 +74,10 @@ public class OrderResponse {
         return delivery;
     }
 
+    public AddressResponse getAddress() {
+        return address;
+    }
+
     @Override
     public String toString() {
         return "OrderResponse{" +
@@ -83,6 +89,7 @@ public class OrderResponse {
                 ", updatedAt=" + updatedAt +
                 ", payment='" + payment + '\'' +
                 ", delivery='" + delivery + '\'' +
+                ", address='"+ address + '\''+
                 '}';
     }
 }

@@ -16,7 +16,7 @@ public class OrderMapper {
     public static OrderResponse toResponse(Order order){
 
         return new OrderResponse(order.getId(), UserMapper.toResponse(order.getUser()), convertItems(order.getOrderItems()), order.getStatus().name(),
-                order.getTotalPrice(), order.getCreatedAt(), order.getUpdatedAt(), order.getPayment().name(), order.getDelivery().name());
+                order.getTotalPrice(), order.getCreatedAt(), order.getUpdatedAt(), order.getPayment().name(), order.getDelivery().name(), AddressMapper.toResponse(order.getAddress()));
     }
 
     public static OrderSummaryResponse toSummary(Order order){
