@@ -1,6 +1,5 @@
 package com.hermes.market.application.dto.response;
 
-
 public class UserResponse {
 
     private Long id;

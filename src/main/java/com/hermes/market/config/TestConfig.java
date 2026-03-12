@@ -393,8 +393,11 @@ public class TestConfig implements CommandLineRunner {
 		Address addr8 = new Address("Rua das Margaridas", 15, null, "Boa Viagem", "Recife", "PE", "51020010", user8);
 		Address addr9 = new Address("Rua das Violetas",402, "Apto 12", "Moinhos de Vento", "Porto Alegre", "RS", "90570020", user9);
 		Address addr10 = new Address("Av. Goiás", 67, null, "Setor Central", "Goiânia", "GO", "74015010", user10);
+		Address addr11 = new Address("Rua das Acácias", 456, "Apto 12", "Vila Nova", "São Paulo", "SP", "04567890", user1);
+		Address addr12 = new Address("Av. Paulista", 1000, null, "Bela Vista", "São Paulo", "SP", "01310100", user4);
+		Address addr13 = new Address("Rua Augusta", 789, "Casa 3", "Consolação", "São Paulo", "SP", "01305000", user3);
 
-		addressRepository.saveAll(Arrays.asList(addr1, addr2, addr3, addr4, addr5, addr6, addr7, addr8, addr9, addr10));
+		addressRepository.saveAll(Arrays.asList(addr1, addr2, addr3, addr4, addr5, addr6, addr7, addr8, addr9, addr10,addr11, addr12, addr13 ));
 
 		// =========================
 		// ORDERS
@@ -407,7 +410,7 @@ public class TestConfig implements CommandLineRunner {
 		order1.addItem(paoIntegral, 1);
 		order1.addItem(iogurteFruta, 4);
 
-		Order order2 = new Order(user1, PaymentMethod.PIX, DeliveryMethod.PICKUP, addr1);
+		Order order2 = new Order(user1, PaymentMethod.PIX, DeliveryMethod.PICKUP, addr11);
 		order2.addItem(arroz, 2);
 		order2.addItem(feijao, 2);
 		order2.addItem(detergente, 1);
@@ -426,7 +429,7 @@ public class TestConfig implements CommandLineRunner {
 		order4.addItem(manteiga, 1);
 
 		// user3 — 2 pedidos
-		Order order5 = new Order(user3, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr3);
+		Order order5 = new Order(user3, PaymentMethod.PIX, DeliveryMethod.HOME_DELIVERY, addr13);
 		order5.addItem(laranja, 5);
 		order5.addItem(suco, 3);
 		order5.addItem(granola, 1);
@@ -456,7 +459,7 @@ public class TestConfig implements CommandLineRunner {
 		order9.addItem(bacon, 2);
 		order9.addItem(linguicaToscana, 1);
 
-		Order order10 = new Order(user4, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr4);
+		Order order10 = new Order(user4, PaymentMethod.CREDIT_CARD, DeliveryMethod.PICKUP, addr12);
 		order10.addItem(pizzaCalabreza, 2);
 		order10.addItem(nuggets, 1);
 		order10.addItem(hamburger, 2);
@@ -576,7 +579,7 @@ public class TestConfig implements CommandLineRunner {
 		// Produtos: cocaCola (9.99), sprite (8.99), energetico (9.49) — todos acima do promotionalPrice (6.99)
 		Promotion promoBebidas = new Promotion(
 				"Promoção Bebidas da Semana",
-				Instant.parse("2026-03-12T00:00:00Z"),
+				Instant.parse("2026-03-16T00:00:00Z"),
 				Instant.parse("2026-03-20T00:00:00Z"),
 				PromotionType.DIRECT_PRICE,
 				new BigDecimal("6.99"),
