@@ -25,7 +25,6 @@ public class GlobalExceptionHandler {
         String error = "Resource not found";
         HttpStatus status = HttpStatus.NOT_FOUND;
         StandardError standardError = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
-
         return ResponseEntity.status(status).body(standardError);
     }
 
@@ -35,7 +34,6 @@ public class GlobalExceptionHandler {
         String error = "Business rule violation";
         HttpStatus status = HttpStatus.CONFLICT;
         StandardError standardError = new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI());
-
         return ResponseEntity.status(status).body(standardError);
     }
 

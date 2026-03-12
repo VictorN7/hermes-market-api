@@ -35,6 +35,7 @@ public class ProductService {
 	}
 	
 	public ProductResponse findById(Long id) {
-		return ProductMapper.toResponse(productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product not found!")));
+		return ProductMapper.toResponse(productRepository.findById(id)
+				.orElseThrow(()-> new ResourceNotFoundException("Product not found!")));
 	}
 }

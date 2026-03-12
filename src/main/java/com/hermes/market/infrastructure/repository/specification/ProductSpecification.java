@@ -1,7 +1,6 @@
 package com.hermes.market.infrastructure.repository.specification;
 
 import com.hermes.market.domain.product.Product;
-import com.hermes.market.domain.product.Promotion;
 import com.hermes.market.domain.product.PromotionStatus;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -34,5 +33,4 @@ public class ProductSpecification {
 
         };
     }
-
 }

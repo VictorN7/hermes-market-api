@@ -6,13 +6,16 @@ The project emphasizes clean architecture, separation of concerns, domain-driven
 
 This project serves as an architectural playground to explore scalable backend patterns and enterprise-ready design principles.
 
+---
+
 ## 🎯 Project Purpose
 
 **The goal of this project is to design a robust and scalable backend architecture that supports:**
 
-- User management
+- User management with address handling
 - Product organization by category and brand
-- Structured order queries
+- Promotion system with multiple discount types
+- Structured order management with delivery address tracking
 - Dynamic and combinable filters
 - Sustainable domain evolution
 
@@ -23,6 +26,7 @@ This project serves as an architectural playground to explore scalable backend p
 - Clear responsibility separation
 - Architecture prepared for growth
 
+---
 
 ## 🧩 Architecture Overview
 
@@ -51,113 +55,178 @@ com.hermes.market
 │
 ├─ web
 │   └─ controller
+│       └─ exception
 │
 └─ config
 ```
 
+---
+
 ## 🔎 Layer Responsibilities
 
 ### 🔹 Domain
-
 - JPA entities
 - Enums
-- Core business rules
+- Core business rules and validations
 - Entity relationships
 
 ### 🔹 Application
-
 - Application services
 - DTOs (Request / Response / Filter)
 - Mappers
 - Custom exceptions
 
 ### 🔹 Infrastructure
-
 - JPA repositories
 - Dynamic filtering with Specification API
 - Database integration
 
 ### 🔹 Web
-
 - REST controllers
 - HTTP exposure layer
+- Global exception handling via `@ControllerAdvice`
 - Input/output mapping via DTOs
 
+---
 
 ## 🧱 Domain Model
 
 ### Core Entities
 
-- User
-- Category
-- Brand
-- Product
-- Order
-- OrderItem
+| Entity | Description |
+|--------|-------------|
+| User | System user with role and status |
+| Address | User address, referenced by orders |
+| Category | Product category |
+| Brand | Product brand |
+| Product | Market product with stock and status |
+| Promotion | Promotional campaign with discount types |
+| Order | Customer order with items and delivery info |
+| OrderItem | Individual item within an order |
 
 ### Main Relationships
 
-- A Product belongs to a Category
-- A Product belongs to a Brand
-- An Order belongs to a User
-- An Order contains multiple OrderItems
-- Each OrderItem references a Product
+- A `Product` belongs to a `Category` and a `Brand`
+- A `Product` can have multiple `Promotions` (ManyToMany)
+- A `User` has multiple `Addresses` (OneToMany)
+- An `Order` belongs to a `User`
+- An `Order` references an `Address` for delivery tracking
+- An `Order` contains multiple `OrderItems`
+- Each `OrderItem` references a `Product`
 
-Relationships are mapped using JPA best practices, ensuring domain consistency and proper association management.
-
-
+---
 
 ## 🚀 Key Technical Highlights
 
 - Clear separation between layers
-- DTO-based API (entities are never exposed directly)
-- Dynamic filtering using Spring Data JPA Specification
-- Summary and detailed response strategies
+- DTO-based API — entities are never exposed directly
+- Dynamic filtering using Spring Data JPA Specification with Join
+- Summary and detailed response strategies per endpoint
+- Active promotion filter applied at the mapper level
+- Domain-rich entities with business rule enforcement
+- Global exception handling with custom exception types
 - Clean and scalable code structure
-- Domain-focused modeling
 
+---
 
-## 🔍 Dynamic Filtering Example
+## 🏷️ Promotion System
+
+The API supports two promotion types:
+
+| Type | Description |
+|------|-------------|
+| `DIRECT_PRICE` | Fixed promotional price applied directly to the product |
+| `QUANTITY_DISCOUNT` | Discount triggered from a minimum quantity |
+
+Business rules enforced in the domain:
+- Promotional price must be lower than the original price
+- Promotion period must be valid (end date after start date)
+- A product cannot have two active promotions simultaneously
+
+---
+
+## 🛡️ Exception Handling
+
+Global exception handling via `@ControllerAdvice` with a standardized `StandardError` response:
+
+| Status | Exception | Description |
+|--------|-----------|-------------|
+| 400 | `IllegalArgumentException` | Invalid argument |
+| 404 | `ResourceNotFoundException` | Resource not found |
+| 409 | `BusinessException` | Business rule violation |
+| 409 | `DataIntegrityViolationException` | Data integrity violation |
+| 500 | `Exception` | Unexpected internal error |
+
+---
+
+## 🔍 Dynamic Filtering
 
 Products support optional and combinable query parameters:
+
 ```
-GET /api/v1/products?brandId=2&categoryId=1&name=lar
+GET /api/v1/products?brandId=2&categoryId=1&name=lar&onSale=true
 ```
 
-## 🌐 Available Endpoints (Read Layer)
+Filters available:
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `categoryId` | Long | Filter by category |
+| `brandId` | Long | Filter by brand |
+| `name` | String | Partial name search (case-insensitive) |
+| `onSale` | Boolean | Filter products with active promotions |
+
+Implemented via **Spring Data JPA Specification with Join** — no manual queries.
+
+---
+
+## 🌐 Available Endpoints
 
 ### Users
 
-`GET /api/v1/users`
-`GET /api/v1/users/{id}`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/users` | List all users |
+| GET | `/api/v1/users/{id}` | Get user by id |
+| GET | `/api/v1/users/{id}/orders` | List orders by user |
+| GET | `/api/v1/users/{id}/addresses` | List addresses by user |
 
 ### Categories
 
-`GET /api/v1/categories`
-`GET /api/v1/categories/{id}`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/categories` | List all categories |
+| GET | `/api/v1/categories/{id}` | Get category by id |
 
 ### Brands
 
-`GET /api/v1/brands`
-`GET /api/v1/brands/{id}`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/brands` | List all brands |
+| GET | `/api/v1/brands/{id}` | Get brand by id |
 
 ### Products
 
-`GET /api/v1/products`
-`GET /api/v1/products/{id}`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/products` | List products with optional filters |
+| GET | `/api/v1/products/{id}` | Get product by id |
 
 ### Orders
 
-`GET /api/v1/orders`
-`GET /api/v1/orders/{id}`
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/orders` | List all orders |
+| GET | `/api/v1/orders/{id}` | Get order by id |
 
-Orders include:
+### Promotions
 
-- User information
-- Item list
-- Product reference per item
-- Calculated total value
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/v1/promotions` | List all promotions |
+| GET | `/api/v1/promotions/{id}` | Get promotion by id |
 
+---
 
 ## ⚙️ Technologies
 
@@ -171,33 +240,42 @@ Orders include:
 - Lombok
 - Bean Validation
 - Jackson
+- SLF4J
 
+---
 
 ## 🛠️ Environment
 
 - H2 in-memory database (development)
-- H2 console enabled
+- H2 console enabled at `/h2-console`
 - Prepared for future PostgreSQL migration
 
-Initial seed data is configured for easy endpoint testing
+Initial seed data is configured via `TestConfig` for easy endpoint testing.
 
+---
 
 ## 🚧 Current Status
 
-**The project is currently focused on:**
-
-- Read layer consolidation  
-- DTO refinement  
-- Architectural improvements  
+**Completed:**
+- Full read layer (GET endpoints for all entities)
+- Domain-rich entities with business rule enforcement
+- Dynamic filtering with JPA Specification
+- Promotion system with `DIRECT_PRICE` and `QUANTITY_DISCOUNT` types
+- Address management linked to users and orders
+- Global exception handling with custom exceptions
+- DTO-based responses with active promotion filtering
 
 **Planned next steps:**
+- Write endpoints (POST, PUT, PATCH, DELETE)
+- Bean Validation on request DTOs
+- Migration to PostgreSQL
+- Pagination and sorting
+- Spring Security + JWT authentication
+- Swagger / OpenAPI documentation
+- Database versioning with Flyway
+- Automated testing
 
-- Write endpoints (POST, PUT, PATCH, DELETE)  
-- Authentication and authorization  
-- Pagination and sorting  
-- Database versioning (Flyway)  
-- Swagger documentation  
-- Automated testing  
+---
 
 ## ▶️ How to Run
 
@@ -208,21 +286,29 @@ git clone https://github.com/VictorN7/hermes-market-api.git
 cd hermes-market-api
 ```
 
-**Application runs at:**
+### 2️⃣ Run the application
 
 ```bash
+./mvnw spring-boot:run
+```
+
+**Application runs at:**
+```
 http://localhost:8080
 ```
 
 **H2 Console:**
-
-```bash
+```
 http://localhost:8080/h2-console
 ```
+
+---
+
 ## 👤 Author
 
-Victor Nogueira
+**Victor Nogueira**
 
 Backend Developer | Java & Spring Boot
 
-
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-victor--nogueira--ti-blue)](https://www.linkedin.com/in/victor-nogueira-ti/)
+[![GitHub](https://img.shields.io/badge/GitHub-VictorN7-black)](https://github.com/VictorN7)
