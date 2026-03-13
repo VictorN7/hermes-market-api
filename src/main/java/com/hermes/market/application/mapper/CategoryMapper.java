@@ -1,5 +1,6 @@
 package com.hermes.market.application.mapper;
 
+import com.hermes.market.application.dto.request.CategoryRequest;
 import com.hermes.market.application.dto.response.CategoryResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.domain.product.Category;
@@ -15,5 +16,9 @@ public class CategoryMapper {
     public static CategoryResponse toResponse(Category category){
         return new CategoryResponse(category.getId(), category.getName(),
                 category.getStatus().name(), category.getCreatedAt());
+    }
+
+    public static Category toCreate(CategoryRequest categoryRequest){
+        return new Category(categoryRequest.getName());
     }
 }

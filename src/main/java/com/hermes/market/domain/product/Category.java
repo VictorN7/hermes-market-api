@@ -33,7 +33,7 @@ public class Category {
 	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 	private List<Product> products = new ArrayList<>();
 	
-	public Category() {
+	protected Category() {
 	}
 
 	public Category(String name) {

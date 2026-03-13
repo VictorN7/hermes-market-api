@@ -1,6 +1,8 @@
 package com.hermes.market.application.service;
 
 import java.util.List;
+
+import com.hermes.market.application.dto.request.CategoryRequest;
 import com.hermes.market.application.dto.response.CategoryResponse;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.CategoryMapper;
@@ -27,5 +29,9 @@ public class CategoryService {
 	public CategoryResponse findById(Long id) {
 		return CategoryMapper.toResponse(categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Category not found!")));
+	}
+
+	public CategoryResponse createCategory(CategoryRequest categoryRequest){
+		return CategoryMapper.toResponse(categoryRepository.save(CategoryMapper.toCreate(categoryRequest)));
 	}
 }
