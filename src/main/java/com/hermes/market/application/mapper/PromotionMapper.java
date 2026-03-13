@@ -12,15 +12,14 @@ public class PromotionMapper {
     public static PromotionResponse toResponse(Promotion promotion){
 
         return new PromotionResponse(promotion.getId(), promotion.getName(), promotion.getStartDate(), promotion.getEndDate(),
-                promotion.getStatus().name(), promotion.getType().name(), promotion.getPromotionalPrice(), promotion.getMinQuantity(),
-                promotion.getDiscountedUnitPrice());
+                promotion.getStatus().name(), promotion.getType().name(), promotion.getPromotionalPrice(), promotion.getMinQuantity());
 
     }
 
     public static PromotionSummaryResponse toSummary(Promotion promotion){
 
         return new PromotionSummaryResponse(promotion.getName(), promotion.getType().name(),
-                promotion.getPromotionalPrice(), promotion.getMinQuantity(), promotion.getDiscountedUnitPrice());
+                promotion.getPromotionalPrice(), promotion.getMinQuantity());
 
     }
 

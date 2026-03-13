@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_address")
+@Table(name = "tb_addresses")
 public class Address {
 
     @Id

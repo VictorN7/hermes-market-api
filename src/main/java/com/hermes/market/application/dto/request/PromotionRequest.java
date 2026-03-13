@@ -32,6 +32,4 @@ public class PromotionRequest {
 
     private Integer minQuantity;
 
-    private BigDecimal discountedUnitPrice;
-
 }

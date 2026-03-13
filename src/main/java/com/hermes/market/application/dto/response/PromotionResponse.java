@@ -13,7 +13,6 @@ public class PromotionResponse {
     private String type;
     private BigDecimal promotionalPrice;
     private Integer minQuantity;
-    private BigDecimal discountedUnitPrice;
 
     public PromotionResponse(){
 
@@ -21,7 +20,7 @@ public class PromotionResponse {
 
     public PromotionResponse(Long id, String name, Instant startDate, Instant endDate,
                              String status, String type, BigDecimal promotionalPrice,
-                             Integer minQuantity, BigDecimal discountedUnitPrice) {
+                             Integer minQuantity) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -30,7 +29,6 @@ public class PromotionResponse {
         this.type = type;
         this.promotionalPrice = promotionalPrice;
         this.minQuantity = minQuantity;
-        this.discountedUnitPrice = discountedUnitPrice;
     }
 
     public Long getId() {
@@ -65,9 +63,6 @@ public class PromotionResponse {
         return minQuantity;
     }
 
-    public BigDecimal getDiscountedUnitPrice() {
-        return discountedUnitPrice;
-    }
 
     @Override
     public String toString() {
@@ -80,7 +75,6 @@ public class PromotionResponse {
                 ", type='" + type + '\'' +
                 ", promotionalPrice=" + promotionalPrice +
                 ", minQuantity=" + minQuantity +
-                ", discountedUnitPrice=" + discountedUnitPrice +
                 '}';
     }
 }

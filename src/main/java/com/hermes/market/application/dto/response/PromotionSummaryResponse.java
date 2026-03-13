@@ -8,18 +8,16 @@ public class PromotionSummaryResponse {
     private String type;
     private BigDecimal promotionalPrice;
     private Integer minQuantity;
-    private BigDecimal discountedUnitPrice;
 
     public PromotionSummaryResponse(){
 
     }
     public PromotionSummaryResponse(String name, String type, BigDecimal promotionalPrice,
-                                    Integer minQuantity, BigDecimal discountedUnitPrice) {
+                                    Integer minQuantity) {
         this.name = name;
         this.type = type;
         this.promotionalPrice = promotionalPrice;
         this.minQuantity = minQuantity;
-        this.discountedUnitPrice = discountedUnitPrice;
     }
 
     public String getName() {
@@ -38,10 +36,6 @@ public class PromotionSummaryResponse {
         return minQuantity;
     }
 
-    public BigDecimal getDiscountedUnitPrice() {
-        return discountedUnitPrice;
-    }
-
     @Override
     public String toString() {
         return "PromotionSummaryResponse{" +
@@ -49,7 +43,6 @@ public class PromotionSummaryResponse {
                 ", type='" + type + '\'' +
                 ", promotionalPrice=" + promotionalPrice +
                 ", minQuantity=" + minQuantity +
-                ", discountedUnitPrice=" + discountedUnitPrice +
                 '}';
     }
 }
