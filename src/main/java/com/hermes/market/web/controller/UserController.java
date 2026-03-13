@@ -2,17 +2,17 @@ package com.hermes.market.web.controller;
 
 import java.util.List;
 
+import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.response.AddressResponse;
-import com.hermes.market.application.dto.response.OrderResponse;
 import com.hermes.market.application.dto.response.OrderSummaryResponse;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.service.AddressService;
 import com.hermes.market.application.service.OrderService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.hermes.market.application.service.UserService;
 
@@ -48,5 +48,10 @@ public class UserController {
 	@GetMapping("/{id}/addresses")
 	public ResponseEntity<List<AddressResponse>> findAllAddress(@PathVariable Long id){
 		return ResponseEntity.ok().body(addressService.findAddressByUser(id));
+	}
+
+	@PostMapping
+	public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest){
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
 	}
 }

@@ -54,7 +54,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Address> addresses = new ArrayList<>();
 	
-	public User() {
+	protected User() {
 	}
 	
 	public User(String name, String email, String password, LocalDate birthDate, String cpf) {

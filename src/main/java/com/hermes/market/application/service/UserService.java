@@ -2,6 +2,7 @@ package com.hermes.market.application.service;
 
 import java.util.List;
 
+import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.UserMapper;
@@ -25,4 +26,9 @@ public class UserService {
 	public UserResponse findById(Long id) {
 		return UserMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found")));
 	}
+
+	public UserResponse createUser(UserRequest userRequest){
+		return UserMapper.toResponse(userRepository.save(UserMapper.toCreate(userRequest)));
+	}
+
 }
