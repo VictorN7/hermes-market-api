@@ -564,7 +564,7 @@ public class TestConfig implements CommandLineRunner {
 		// Produtos: nesquik (6.99), sucoLaranja (7.49), chaPronto (5.49) — todos acima do promotionalPrice (4.99)
 		Promotion promoNestle = new Promotion(
 				"Semana Nestlé",
-				Instant.parse("2026-03-14T00:00:00Z"),
+				Instant.parse("2026-03-17T00:00:00Z"),
 				Instant.parse("2026-03-31T00:00:00Z"),
 				PromotionType.QUANTITY_DISCOUNT,
 				new BigDecimal("4.99"),
