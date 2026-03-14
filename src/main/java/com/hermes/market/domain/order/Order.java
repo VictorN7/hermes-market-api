@@ -158,9 +158,9 @@ public class Order {
 
 		OrderItem item = new OrderItem(product, quantity);
 		item.setOrder(this);
-		this.updatedAt = Instant.now();
-		this.orderItems.add(item);
-		this.totalPrice = calculateTotalPrice();
+		updatedAt = Instant.now();
+		orderItems.add(item);
+		totalPrice = calculateTotalPrice();
 	}
 	
 	@Override
