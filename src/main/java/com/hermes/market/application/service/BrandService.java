@@ -1,11 +1,11 @@
 package com.hermes.market.application.service;
 
+import com.hermes.market.application.dto.request.BrandRequest;
 import com.hermes.market.application.dto.response.BrandDetailResponse;
 import com.hermes.market.application.dto.response.BrandMenuResponse;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.BrandMapper;
 import com.hermes.market.infrastructure.repository.BrandRepository;
-import com.hermes.market.infrastructure.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,5 +27,9 @@ public class BrandService {
         return BrandMapper.toResponse(brandRepository
                 .findById(id)
                 .orElseThrow( () -> new ResourceNotFoundException("Brand not found")));
+    }
+
+    public BrandDetailResponse createBrand(BrandRequest brandRequest){
+        return BrandMapper.toResponse(brandRepository.save(BrandMapper.toCreate(brandRequest)));
     }
 }

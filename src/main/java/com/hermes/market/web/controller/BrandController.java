@@ -1,13 +1,13 @@
 package com.hermes.market.web.controller;
 
+import com.hermes.market.application.dto.request.BrandRequest;
 import com.hermes.market.application.dto.response.BrandDetailResponse;
 import com.hermes.market.application.dto.response.BrandMenuResponse;
 import com.hermes.market.application.service.BrandService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +30,10 @@ public class BrandController {
     public ResponseEntity<BrandDetailResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok().body(brandService.findById(id));
     }
+
+    @PostMapping
+    public ResponseEntity<BrandDetailResponse> createBrand(@RequestBody @Valid BrandRequest brandRequest){
+        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.createBrand(brandRequest));
+    }
+
 }

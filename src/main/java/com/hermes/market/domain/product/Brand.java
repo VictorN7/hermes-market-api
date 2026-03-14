@@ -27,7 +27,7 @@ public class Brand {
     @OneToMany(mappedBy = "brand", fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
-    public Brand() {
+    protected Brand() {
     }
 
     public Brand(String name) {
