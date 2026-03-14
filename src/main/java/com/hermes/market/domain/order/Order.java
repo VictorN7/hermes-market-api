@@ -119,7 +119,6 @@ public class Order {
 		this.totalPrice = totalPrice;
 	}
 
-
 	public Instant getUpdatedAt() {
 		return updatedAt;
 	}

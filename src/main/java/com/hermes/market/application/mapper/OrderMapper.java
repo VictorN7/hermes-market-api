@@ -1,10 +1,15 @@
 package com.hermes.market.application.mapper;
 
+import com.hermes.market.application.dto.request.OrderRequest;
 import com.hermes.market.application.dto.response.OrderItemResponse;
 import com.hermes.market.application.dto.response.OrderResponse;
 import com.hermes.market.application.dto.response.OrderSummaryResponse;
+import com.hermes.market.domain.order.DeliveryMethod;
 import com.hermes.market.domain.order.Order;
 import com.hermes.market.domain.order.OrderItem;
+import com.hermes.market.domain.order.PaymentMethod;
+import com.hermes.market.domain.user.Address;
+import com.hermes.market.domain.user.User;
 
 import java.util.List;
 
@@ -28,4 +33,9 @@ public class OrderMapper {
         if (orderItems == null) return List.of();
         return orderItems.stream().map(OrderItemMapper::toResponse).toList();
     }
+
+    public static Order toCreate(PaymentMethod paymentMethod, DeliveryMethod deliveryMethod, User user, Address address){
+        return new Order(user, paymentMethod, deliveryMethod, address);
+    }
+
 }
