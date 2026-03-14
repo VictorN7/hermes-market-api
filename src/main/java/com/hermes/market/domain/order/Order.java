@@ -60,7 +60,7 @@ public class Order {
 	@JoinColumn(name = "address_id", nullable = false)
 	private Address address;
 	
-	public Order(){
+	protected Order(){
 	}
 
 	public Order(User user,PaymentMethod payment, DeliveryMethod delivery, Address address ) {

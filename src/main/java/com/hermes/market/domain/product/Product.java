@@ -49,7 +49,7 @@ public class Product {
 	@ManyToMany(mappedBy = "products")
 	private List<Promotion> promotions = new ArrayList<>();
 
-	public Product() {
+	protected Product() {
 	}
 
 	public Product(String name, String description, BigDecimal price, Integer quantityInStock, String imgUrl, Category category, Brand brand) {

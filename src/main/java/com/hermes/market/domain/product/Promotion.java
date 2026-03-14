@@ -44,7 +44,7 @@ public class Promotion {
     )
     private List<Product> products = new ArrayList<>();
 
-    public Promotion(){
+    protected Promotion(){
 
     }
 

@@ -41,7 +41,7 @@ public class Address {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Address(){
+    protected Address(){
     }
 
     public Address(String street, Integer number, String complement, String neighborhood, String city,
