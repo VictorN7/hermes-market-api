@@ -4,7 +4,10 @@ import com.hermes.market.application.dto.request.PromotionRequest;
 import com.hermes.market.application.dto.response.PromotionResponse;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.PromotionMapper;
+import com.hermes.market.domain.product.Product;
+import com.hermes.market.domain.product.Promotion;
 import com.hermes.market.domain.product.PromotionType;
+import com.hermes.market.infrastructure.repository.ProductRepository;
 import com.hermes.market.infrastructure.repository.PromotionRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -13,9 +16,11 @@ import java.util.List;
 public class PromotionService {
 
     private final PromotionRepository promotionRepository;
+    private final ProductRepository productRepository;
 
-    public PromotionService(PromotionRepository promotionRepository) {
+    public PromotionService(PromotionRepository promotionRepository, ProductRepository productRepository) {
         this.promotionRepository = promotionRepository;
+        this.productRepository = productRepository;
     }
 
     public List<PromotionResponse> findAll(){
@@ -30,6 +35,17 @@ public class PromotionService {
 
         return PromotionMapper.toResponse(promotionRepository.save(PromotionMapper.toCreate(promotionRequest,
                 PromotionType.valueOf(promotionRequest.getType()))));
+    }
+
+    public PromotionResponse insertProduct(Long productId, Long promotionId){
+
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found!"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+
+        promotion.addProduct(product);
+        promotionRepository.save(promotion);
+
+        return PromotionMapper.toResponse(promotion);
     }
 
 }

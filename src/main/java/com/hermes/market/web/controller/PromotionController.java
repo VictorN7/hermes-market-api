@@ -35,5 +35,10 @@ public class PromotionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.createPromotion(promotionRequest));
     }
 
+    @PostMapping("/{promotionId}/products/{productId}")
+    public ResponseEntity<PromotionResponse> insertProduct(@PathVariable Long promotionId, @PathVariable Long productId){
+        return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(productId, promotionId));
+    }
+
 }
 
