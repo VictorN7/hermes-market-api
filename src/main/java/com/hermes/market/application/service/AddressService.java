@@ -28,15 +28,10 @@ public class AddressService {
     }
 
     public AddressResponse insertAddress(Long userId, AddressRequest addressRequest){
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
-
         Address address = AddressMapper.toCreate(addressRequest, user);
         user.addAddress(address);
         userRepository.save(user);
-
         return AddressMapper.toResponse(address);
-
     }
-
 }
