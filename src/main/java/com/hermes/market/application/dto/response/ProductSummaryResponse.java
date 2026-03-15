@@ -9,6 +9,7 @@ public class ProductSummaryResponse {
     private Long id;
     private String name;
     private BigDecimal price;
+    private BigDecimal promotionalPrice;
     private String imgUrl;
     private String status;
     private String brand;
@@ -17,7 +18,7 @@ public class ProductSummaryResponse {
     public ProductSummaryResponse(){
     }
 
-    public ProductSummaryResponse(Long id, String name, BigDecimal price, String imgUrl,
+    public ProductSummaryResponse(Long id, String name, BigDecimal price, BigDecimal promotionalPrice, String imgUrl,
                                   String status, String brand, List<PromotionSummaryResponse> promotions) {
         this.id = id;
         this.name = name;
@@ -26,6 +27,7 @@ public class ProductSummaryResponse {
         this.status = status;
         this.brand = brand;
         this.promotions = promotions;
+        this.promotionalPrice = promotionalPrice;
     }
 
     public List<PromotionSummaryResponse> getPromotions() {
@@ -56,15 +58,21 @@ public class ProductSummaryResponse {
         return brand;
     }
 
+    public BigDecimal getPromotionalPrice() {
+        return promotionalPrice;
+    }
+
     @Override
     public String toString() {
         return "ProductSummaryResponse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
+                ", promotionalPrice=" + promotionalPrice +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", status='" + status + '\'' +
                 ", brand='" + brand + '\'' +
+                ", promotions=" + promotions +
                 '}';
     }
 }
