@@ -41,10 +41,10 @@ public class OrderItem {
 	protected OrderItem() {
 	}
 	
-	public OrderItem(Product product, Integer quantity) {
+	public OrderItem(Product product, Integer quantity, BigDecimal price) {
 		this.product = Objects.requireNonNull(product);
 		this.quantity = validateQuantity(quantity);
-		price = Objects.requireNonNull(product.getPrice());
+		this.price = Objects.requireNonNull(price);
 	}
 
 	public BigDecimal getTotalPrice() {
