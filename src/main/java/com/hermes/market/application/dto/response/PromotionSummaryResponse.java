@@ -6,17 +6,17 @@ public class PromotionSummaryResponse {
 
     private String name;
     private String type;
-    private BigDecimal promotionalPrice;
+    private BigDecimal discountPercentage;
     private Integer minQuantity;
 
     public PromotionSummaryResponse(){
 
     }
-    public PromotionSummaryResponse(String name, String type, BigDecimal promotionalPrice,
+    public PromotionSummaryResponse(String name, String type, BigDecimal discountPercentage,
                                     Integer minQuantity) {
         this.name = name;
         this.type = type;
-        this.promotionalPrice = promotionalPrice;
+        this.discountPercentage = discountPercentage;
         this.minQuantity = minQuantity;
     }
 
@@ -28,8 +28,8 @@ public class PromotionSummaryResponse {
         return type;
     }
 
-    public BigDecimal getPromotionalPrice() {
-        return promotionalPrice;
+    public BigDecimal getDiscountPercentage() {
+        return discountPercentage;
     }
 
     public Integer getMinQuantity() {
@@ -41,7 +41,7 @@ public class PromotionSummaryResponse {
         return "PromotionSummaryResponse{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", promotionalPrice=" + promotionalPrice +
+                ", discountPercentage=" + discountPercentage +
                 ", minQuantity=" + minQuantity +
                 '}';
     }

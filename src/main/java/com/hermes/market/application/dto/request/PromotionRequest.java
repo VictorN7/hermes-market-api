@@ -26,9 +26,9 @@ public class PromotionRequest {
     @NotNull(message = "Type is required")
     private Integer type;
 
-    @NotNull(message = "PromotionalPrice is required")
-    @DecimalMin(value = "0.01", message = "PromotionalPrice must be greater than zero")
-    private BigDecimal promotionalPrice;
+    @NotNull(message = "DiscountPercentage is required")
+    @DecimalMin(value = "0.01", message = "DiscountPercentage must be greater than zero")
+    private BigDecimal discountPercentage;
 
     private Integer minQuantity;
 

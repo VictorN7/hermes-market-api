@@ -567,7 +567,7 @@ public class TestConfig implements CommandLineRunner {
 				Instant.parse("2026-03-17T00:00:00Z"),
 				Instant.parse("2026-03-31T00:00:00Z"),
 				PromotionType.QUANTITY_DISCOUNT,
-				new BigDecimal("4.99"),
+				new BigDecimal("15"),
 				3
 		);
 		promoNestle.addProduct(nesquik);
@@ -581,7 +581,7 @@ public class TestConfig implements CommandLineRunner {
 				Instant.parse("2026-03-16T00:00:00Z"),
 				Instant.parse("2026-03-20T00:00:00Z"),
 				PromotionType.DIRECT_PRICE,
-				new BigDecimal("6.99"),
+				new BigDecimal("5"),
 				null
 		);
 		promoBebidas.addProduct(cocaCola);
@@ -595,7 +595,7 @@ public class TestConfig implements CommandLineRunner {
 				Instant.parse("2026-03-15T00:00:00Z"),
 				Instant.parse("2026-03-25T00:00:00Z"),
 				PromotionType.DIRECT_PRICE,
-				new BigDecimal("11.99"),
+				new BigDecimal("10"),
 				null
 		);
 		promoCarnes.addProduct(frango);

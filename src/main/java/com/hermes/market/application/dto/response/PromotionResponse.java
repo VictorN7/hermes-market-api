@@ -11,7 +11,7 @@ public class PromotionResponse {
     private Instant endDate;
     private String status;
     private String type;
-    private BigDecimal promotionalPrice;
+    private BigDecimal discountPercentage;
     private Integer minQuantity;
 
     public PromotionResponse(){
@@ -19,7 +19,7 @@ public class PromotionResponse {
     }
 
     public PromotionResponse(Long id, String name, Instant startDate, Instant endDate,
-                             String status, String type, BigDecimal promotionalPrice,
+                             String status, String type, BigDecimal discountPercentage,
                              Integer minQuantity) {
         this.id = id;
         this.name = name;
@@ -27,7 +27,7 @@ public class PromotionResponse {
         this.endDate = endDate;
         this.status = status;
         this.type = type;
-        this.promotionalPrice = promotionalPrice;
+        this.discountPercentage = discountPercentage;
         this.minQuantity = minQuantity;
     }
 
@@ -55,8 +55,8 @@ public class PromotionResponse {
         return type;
     }
 
-    public BigDecimal getPromotionalPrice() {
-        return promotionalPrice;
+    public BigDecimal getDiscountPercentage() {
+        return discountPercentage;
     }
 
     public Integer getMinQuantity() {
@@ -73,7 +73,7 @@ public class PromotionResponse {
                 ", endDate=" + endDate +
                 ", status='" + status + '\'' +
                 ", type='" + type + '\'' +
-                ", promotionalPrice=" + promotionalPrice +
+                ", discountPercentage=" + discountPercentage +
                 ", minQuantity=" + minQuantity +
                 '}';
     }

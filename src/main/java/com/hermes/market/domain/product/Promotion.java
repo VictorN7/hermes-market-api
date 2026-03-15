@@ -30,8 +30,8 @@ public class Promotion {
     @Column(nullable = false)
     private Integer type;
 
-    @Column(nullable = false, precision = 15, scale = 2)
-    private BigDecimal promotionalPrice;
+    @Column(nullable = false, precision = 5, scale = 2)
+    private BigDecimal discountPercentage;
 
     @Column
     private Integer minQuantity;
@@ -49,12 +49,12 @@ public class Promotion {
     }
 
     public Promotion(String name, Instant startDate, Instant endDate,
-                     PromotionType type, BigDecimal promotionalPrice, Integer minQuantity) {
+                     PromotionType type, BigDecimal discountPercentage, Integer minQuantity) {
         this.name = name;
         setPeriod(startDate,endDate);
         setStatus(PromotionStatus.ACTIVE);
         setType(type);
-        setPromotionalPrice(promotionalPrice);
+        setDiscountPercentage(discountPercentage);
         this.minQuantity = minQuantity;
         validateTypePromotion();
     }
@@ -127,8 +127,8 @@ public class Promotion {
         return PromotionType.valueOf(type);
     }
 
-    public BigDecimal getPromotionalPrice() {
-        return promotionalPrice;
+    public BigDecimal getDiscountPercentage() {
+        return discountPercentage;
     }
 
     public Integer getMinQuantity() {
@@ -151,25 +151,25 @@ public class Promotion {
         this.endDate = endDate;
     }
 
-    public void setPromotionalPrice(BigDecimal promotionalPrice){
+    public void setDiscountPercentage(BigDecimal discountPercentage){
 
-        if (promotionalPrice == null){
-            throw new IllegalArgumentException();
+        if (discountPercentage == null){
+            throw new IllegalArgumentException("DiscountPercentage do not be null");
         }
-        if (promotionalPrice.compareTo(BigDecimal.ZERO) <= 0 ){
-            throw new IllegalArgumentException("Price must be greater than zero");
+        if (discountPercentage.compareTo(BigDecimal.valueOf(0.01)) < 0 ||
+                discountPercentage.compareTo(BigDecimal.valueOf(100)) > 0){
+            throw new IllegalArgumentException("DiscountPercentage must be greater than zero");
         }
-        this.promotionalPrice = promotionalPrice;
+        this.discountPercentage = discountPercentage;
     }
 
     public void addProduct(Product product){
 
-        if (promotionalPrice.compareTo(product.getPrice()) >= 0){
-            throw new IllegalArgumentException("promotionalPrice cannot be less than or equal to the product's value");
+        if (product == null ){
+            throw new IllegalArgumentException("Product do not be null");
         }
         products.add(product);
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -188,11 +188,11 @@ public class Promotion {
         return "Promotion{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", begin=" + startDate +
-                ", end=" + endDate +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", status=" + status +
                 ", type=" + type +
-                ", promotionalPrice=" + promotionalPrice +
+                ", discountPercentage=" + discountPercentage +
                 ", minQuantity=" + minQuantity +
                 '}';
     }

@@ -13,16 +13,16 @@ public class PromotionMapper {
 
     public static PromotionResponse toResponse(Promotion promotion){
         return new PromotionResponse(promotion.getId(), promotion.getName(), promotion.getStartDate(), promotion.getEndDate(),
-                promotion.getStatus().name(), promotion.getType().name(), promotion.getPromotionalPrice(), promotion.getMinQuantity());
+                promotion.getStatus().name(), promotion.getType().name(), promotion.getDiscountPercentage(), promotion.getMinQuantity());
     }
 
     public static PromotionSummaryResponse toSummary(Promotion promotion){
         return new PromotionSummaryResponse(promotion.getName(), promotion.getType().name(),
-                promotion.getPromotionalPrice(), promotion.getMinQuantity());
+                promotion.getDiscountPercentage(), promotion.getMinQuantity());
     }
 
     public static Promotion toCreate(PromotionRequest promotionRequest, PromotionType promotionType){
         return new Promotion(promotionRequest.getName(), promotionRequest.getStartDate(), promotionRequest.getEndDate(), promotionType,
-                promotionRequest.getPromotionalPrice(),promotionRequest.getMinQuantity());
+                promotionRequest.getDiscountPercentage(),promotionRequest.getMinQuantity());
     }
 }
