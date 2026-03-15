@@ -6,16 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.order.Order;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_users")
@@ -51,7 +45,7 @@ public class User {
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 	private List<Order> orders = new ArrayList<>();
 
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Address> addresses = new ArrayList<>();
 	
 	protected User() {
@@ -68,12 +62,13 @@ public class User {
 		this.createdAt = Instant.now();
 	}
 
-	public List<Address> getAddresses() {
-		return addresses;
+	public void addAddress(Address address){
+		if (address == null) throw new IllegalArgumentException("Address do not be null");
+		addresses.add(address);
 	}
 
-	public void setAddresses(List<Address> addresses) {
-		this.addresses = addresses;
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 	
 	public String getName() {

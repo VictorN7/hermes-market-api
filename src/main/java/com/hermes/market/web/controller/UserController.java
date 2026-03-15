@@ -2,6 +2,7 @@ package com.hermes.market.web.controller;
 
 import java.util.List;
 
+import com.hermes.market.application.dto.request.AddressRequest;
 import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.response.AddressResponse;
 import com.hermes.market.application.dto.response.OrderSummaryResponse;
@@ -54,4 +55,10 @@ public class UserController {
 	public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest userRequest){
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
 	}
+
+	@PostMapping("/{id}/addresses")
+	public ResponseEntity<AddressResponse> insertAddress(@PathVariable Long id, @RequestBody @Valid AddressRequest addressRequest){
+		return ResponseEntity.status(HttpStatus.CREATED).body(addressService.insertAddress(id, addressRequest));
+	}
+
 }
