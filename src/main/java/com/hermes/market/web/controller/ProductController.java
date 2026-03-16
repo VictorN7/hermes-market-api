@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hermes.market.application.dto.filter.ProductFilter;
 import com.hermes.market.application.dto.request.ProductRequest;
+import com.hermes.market.application.dto.request.ProductUpdateRequest;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.application.service.ProductService;
@@ -36,6 +37,11 @@ public class ProductController {
 	@PostMapping
 	public ResponseEntity<ProductResponse> createProduct(@RequestBody @Valid ProductRequest productRequest){
 		return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(productRequest));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductUpdateRequest productUpdateRequest){
+		return ResponseEntity.ok().body(productService.updateProduct(id, productUpdateRequest));
 	}
 
 }

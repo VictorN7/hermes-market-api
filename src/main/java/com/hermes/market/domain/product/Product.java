@@ -64,6 +64,17 @@ public class Product {
 		setBrand(brand);
 	}
 
+	public void updateProduct(String name, String description, BigDecimal price, String imgUrl, Category category, Brand brand){
+
+		if(name != null) this.name = name;
+		if(description != null) this.description = description;
+		if(price != null)setPrice(price);
+		if(imgUrl != null) this.imgUrl = imgUrl;
+		if(category != null)setCategory(category);
+		if(brand != null)setBrand(brand);
+	}
+
+
 	public List<Promotion> getPromotions() {
 		return promotions;
 	}
@@ -95,11 +106,7 @@ public class Product {
 		return imgUrl;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setPrice(BigDecimal price) {
+	private void setPrice(BigDecimal price) {
 		if (price == null || price.compareTo(BigDecimal.ZERO) < 0 ){
 			throw new IllegalArgumentException("Price can not be null or negative!");
 		}
@@ -127,7 +134,6 @@ public class Product {
 	public Instant getCreatedAt() {
 		return createdAt;
 	}
-
 
 	public String getName() {
 		return name;
@@ -177,8 +183,6 @@ public class Product {
 				", imgUrl='" + imgUrl + '\'' +
 				", status=" + status +
 				", createdAt=" + createdAt +
-				", category=" + category +
-				", brand=" + brand +
 				'}';
 	}
 }
