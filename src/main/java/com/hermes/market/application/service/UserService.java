@@ -3,9 +3,11 @@ package com.hermes.market.application.service;
 import java.util.List;
 
 import com.hermes.market.application.dto.request.UserRequest;
+import com.hermes.market.application.dto.request.UserUpdateRequest;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.UserMapper;
+import com.hermes.market.domain.user.User;
 import org.springframework.stereotype.Service;
 
 import com.hermes.market.infrastructure.repository.UserRepository;
@@ -29,6 +31,15 @@ public class UserService {
 
 	public UserResponse createUser(UserRequest userRequest){
 		return UserMapper.toResponse(userRepository.save(UserMapper.toCreate(userRequest)));
+	}
+
+	public UserResponse updateUser(Long userId, UserUpdateRequest userUpdateRequest){
+
+		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+		user.updateUser(userUpdateRequest.getName(), userUpdateRequest.getEmail(), userUpdateRequest.getBirthDate());
+		userRepository.save(user);
+
+		return UserMapper.toResponse(user);
 	}
 
 }

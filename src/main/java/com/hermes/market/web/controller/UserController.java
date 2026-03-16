@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hermes.market.application.dto.request.AddressRequest;
 import com.hermes.market.application.dto.request.UserRequest;
+import com.hermes.market.application.dto.request.UserUpdateRequest;
 import com.hermes.market.application.dto.response.AddressResponse;
 import com.hermes.market.application.dto.response.OrderSummaryResponse;
 import com.hermes.market.application.dto.response.UserResponse;
@@ -59,6 +60,11 @@ public class UserController {
 	@PostMapping("/{id}/addresses")
 	public ResponseEntity<AddressResponse> insertAddress(@PathVariable Long id, @RequestBody @Valid AddressRequest addressRequest){
 		return ResponseEntity.status(HttpStatus.CREATED).body(addressService.insertAddress(id, addressRequest));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest userUpdateRequest){
+		return ResponseEntity.ok().body(userService.updateUser(id, userUpdateRequest));
 	}
 
 }

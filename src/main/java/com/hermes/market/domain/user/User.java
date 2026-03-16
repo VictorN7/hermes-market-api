@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.order.Order;
 
 import jakarta.persistence.*;
@@ -49,6 +48,7 @@ public class User {
 	private List<Address> addresses = new ArrayList<>();
 	
 	protected User() {
+
 	}
 	
 	public User(String name, String email, String password, LocalDate birthDate, String cpf) {
@@ -60,6 +60,13 @@ public class User {
 		this.cpf = cpf;
 		setStatus(UserStatus.ACTIVE);
 		this.createdAt = Instant.now();
+	}
+
+	public void updateUser(String name, String email, LocalDate birthDate){
+
+		if (name != null) this.name = name;
+		if (email != null)this.email = email;
+		if (birthDate != null)this.birthDate = birthDate;
 	}
 
 	public void addAddress(Address address){
@@ -75,32 +82,16 @@ public class User {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getEmail() {
 		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public LocalDate getBirthDate() {
 		return birthDate;
-	}
-
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
 	}
 
 	public Role getRole() {
