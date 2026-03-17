@@ -17,87 +17,86 @@ import jakarta.persistence.Table;
 @Table(name = "tb_categories")
 public class Category {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(nullable = false, unique = true)
-	private String name;
-	
-	@Column(nullable = false )
-	private Integer status;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false, updatable = false)
-	private Instant createdAt;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-	private List<Product> products = new ArrayList<>();
-	
-	protected Category() {
-	}
+    @Column(nullable = false)
+    private Integer status;
 
-	public Category(String name) {
-		this.name = name;
-		setStatus(CategoryStatus.ACTIVE);;
-		this.createdAt = Instant.now();
-	}
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
 
-	public void setStatus(CategoryStatus status) {
-		if (status == null) {
-			throw new IllegalArgumentException("CategoryStatus cannot be null.");
-		}
-		this.status = status.getCode();
-	}
+    protected Category() {
+    }
 
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
+    public Category(String name) {
+        this.name = name;
+        setStatus(CategoryStatus.ACTIVE);
+        this.createdAt = Instant.now();
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void updateName(String name){
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty");
+        }
+        this.name = name;
+    }
 
-	public String getName() {
-		return name;
-	}
+    private void setStatus(CategoryStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException("CategoryStatus cannot be null.");
+        }
+        this.status = status.getCode();
+    }
 
-	public CategoryStatus getStatus() {
-		return CategoryStatus.valueOf(status);
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Instant getCreatedAt() {
-		return createdAt;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public List<Product> getProducts() {
-		return products;
-	}
-	
-	public void addProduct(Product product) {
-		products.add(product);
-		product.setCategory(this);
-	}
-	
-	@Override
-	public int hashCode() {
-		return getClass().hashCode();
-	}
+    public CategoryStatus getStatus() {
+        return CategoryStatus.valueOf(status);
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Category)) return false;
-		Category other = (Category) o;
-		return id != null && id.equals(other.id);
-	}
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
 
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", status=" + status + ", createdAt=" + createdAt
-				+"]";
-	}
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void addProduct(Product product) {
+        products.add(product);
+        product.setCategory(this);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category other = (Category) o;
+        return id != null && id.equals(other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Category [id=" + id + ", name=" + name + ", status=" + status + ", createdAt=" + createdAt
+                + "]";
+    }
 }

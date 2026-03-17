@@ -38,4 +38,9 @@ public class CategoryController {
 		 return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createCategory(categoryRequest));
 	}
 
+	@PatchMapping("/{id}/name")
+	public ResponseEntity<CategoryResponse> updateCategoryName(@PathVariable Long id, @RequestBody @Valid CategoryRequest categoryRequest){
+		return ResponseEntity.ok().body(categoryService.updateCategoryName(id, categoryRequest));
+	}
+
 }

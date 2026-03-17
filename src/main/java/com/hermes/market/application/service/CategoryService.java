@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.hermes.market.application.dto.request.CategoryRequest;
 import com.hermes.market.application.dto.response.CategoryResponse;
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.CategoryMapper;
+import com.hermes.market.domain.product.Category;
 import org.springframework.stereotype.Service;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
-import com.hermes.market.infrastructure.repository.ProductRepository;
 
 @Service
 public class CategoryService {
@@ -34,4 +35,18 @@ public class CategoryService {
 	public CategoryResponse createCategory(CategoryRequest categoryRequest){
 		return CategoryMapper.toResponse(categoryRepository.save(CategoryMapper.toCreate(categoryRequest)));
 	}
+
+	public CategoryResponse updateCategoryName(Long categoryId, CategoryRequest categoryRequest){
+
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found!"));
+
+		if (!category.getName().equalsIgnoreCase(categoryRequest.getName()) && categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())){
+			throw new BusinessException("Category name already exists!");
+		}
+
+		category.updateName(categoryRequest.getName());
+
+		return CategoryMapper.toResponse(categoryRepository.save(category));
+	}
+
 }
