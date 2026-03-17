@@ -3,6 +3,7 @@ package com.hermes.market.web.controller;
 import java.util.List;
 
 import com.hermes.market.application.dto.request.AddressRequest;
+import com.hermes.market.application.dto.request.UserPasswordRequest;
 import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.request.UserUpdateRequest;
 import com.hermes.market.application.dto.response.AddressResponse;
@@ -65,6 +66,13 @@ public class UserController {
 	@PutMapping("/{id}")
 	public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest userUpdateRequest){
 		return ResponseEntity.ok().body(userService.updateUser(id, userUpdateRequest));
+	}
+
+	@PatchMapping("/{id}/password")
+	public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody @Valid UserPasswordRequest userPasswordRequest){
+
+		userService.updatePassword(id, userPasswordRequest);
+		return ResponseEntity.noContent().build();
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.order.Order;
 
 import jakarta.persistence.*;
@@ -67,6 +68,24 @@ public class User {
 		if (name != null) this.name = name;
 		if (email != null)this.email = email;
 		if (birthDate != null)this.birthDate = birthDate;
+	}
+
+	public void updatePassword(String newPassword, String confirmPassword, String currentPassword){
+
+		if (newPassword == null || confirmPassword == null){
+			throw new IllegalArgumentException("NewPassword or ConfirmPassword can not be null");
+		}
+		if (!this.password.equals(currentPassword)) {
+			throw new BusinessException("Current password is incorrect");
+		}
+		if (!newPassword.equals(confirmPassword)){
+			throw new BusinessException("The new passwords do not match");
+		}
+		if (newPassword.equals(this.password)) {
+			throw new BusinessException("The new password can not be the same as the old one");
+		}
+
+		this.password = newPassword;
 	}
 
 	public void addAddress(Address address){

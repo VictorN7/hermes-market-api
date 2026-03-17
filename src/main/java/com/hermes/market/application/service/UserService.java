@@ -2,6 +2,7 @@ package com.hermes.market.application.service;
 
 import java.util.List;
 
+import com.hermes.market.application.dto.request.UserPasswordRequest;
 import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.request.UserUpdateRequest;
 import com.hermes.market.application.dto.response.UserResponse;
@@ -40,6 +41,13 @@ public class UserService {
 		userRepository.save(user);
 
 		return UserMapper.toResponse(user);
+	}
+
+	public void updatePassword(Long userId, UserPasswordRequest userPasswordRequest){
+
+		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+		user.updatePassword(userPasswordRequest.getNewPassword(), userPasswordRequest.getConfirmPassword(), userPasswordRequest.getCurrentPassword());
+		userRepository.save(user);
 	}
 
 }
