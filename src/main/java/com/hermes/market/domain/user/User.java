@@ -132,7 +132,7 @@ public class User {
 	}
 
 	private void ensureUserIsNotBlocked(){
-		if (getStatus().equals(UserStatus.BLOCKED)){
+		if (UserStatus.BLOCKED.equals(getStatus())){
 			throw new BusinessException("User is blocked");
 		}
 	}
@@ -141,7 +141,7 @@ public class User {
 
 		ensureUserIsNotBlocked();
 
-		if (getStatus().equals(UserStatus.ACTIVE)){
+		if (UserStatus.ACTIVE.equals(getStatus())){
 			throw new BusinessException("User is already active");
 		}
 
@@ -152,11 +152,20 @@ public class User {
 
 		ensureUserIsNotBlocked();
 
-		if (getStatus().equals(UserStatus.INACTIVE)){
+		if (UserStatus.INACTIVE.equals(getStatus())){
 			throw new BusinessException("User is already inactive");
 		}
 
 		setStatus(UserStatus.INACTIVE);
+	}
+
+	public void blockUser(){
+
+		if (UserStatus.BLOCKED.equals(getStatus())){
+			throw new BusinessException("User is already blocked");
+		}
+
+		setStatus(UserStatus.BLOCKED);
 	}
 
 	private void setStatus(UserStatus status) {

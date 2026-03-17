@@ -89,4 +89,11 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PatchMapping("/{id}/block")
+	public ResponseEntity<Void> blockUser(@PathVariable Long id){
+
+		userService.blockUser(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }
