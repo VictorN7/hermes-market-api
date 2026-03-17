@@ -22,6 +22,6 @@ public enum Role {
 				return role;
 			}
 		}
-		throw new IllegalArgumentException("Invalid Role code");
+		throw new IllegalArgumentException("Invalid Role code " + code);
 	}
 }

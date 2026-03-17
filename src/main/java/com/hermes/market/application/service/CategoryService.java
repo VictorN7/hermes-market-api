@@ -29,7 +29,7 @@ public class CategoryService {
 	
 	public CategoryResponse findById(Long id) {
 		return CategoryMapper.toResponse(categoryRepository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Category not found!")));
+				.orElseThrow(() -> new ResourceNotFoundException("Category not found")));
 	}
 
 	public CategoryResponse createCategory(CategoryRequest categoryRequest){
@@ -38,15 +38,22 @@ public class CategoryService {
 
 	public CategoryResponse updateCategoryName(Long categoryId, CategoryRequest categoryRequest){
 
-		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found!"));
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
 		if (!category.getName().equalsIgnoreCase(categoryRequest.getName()) && categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())){
-			throw new BusinessException("Category name already exists!");
+			throw new BusinessException("Category name already exists");
 		}
 
 		category.updateName(categoryRequest.getName());
 
 		return CategoryMapper.toResponse(categoryRepository.save(category));
+	}
+
+	public void deactivateCategory(Long categoryId){
+
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		category.deactivateCategory();
+		categoryRepository.save(category);
 	}
 
 }

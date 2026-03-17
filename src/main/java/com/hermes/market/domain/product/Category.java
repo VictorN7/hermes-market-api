@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hermes.market.application.exception.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -49,9 +50,18 @@ public class Category {
         this.name = name;
     }
 
+    public void deactivateCategory(){
+
+        if (getStatus() == CategoryStatus.INACTIVE){
+            throw new BusinessException("Category is already inactive");
+        }
+
+        setStatus(CategoryStatus.INACTIVE);
+    }
+
     private void setStatus(CategoryStatus status) {
         if (status == null) {
-            throw new IllegalArgumentException("CategoryStatus cannot be null.");
+            throw new IllegalArgumentException("CategoryStatus cannot be null");
         }
         this.status = status.getCode();
     }

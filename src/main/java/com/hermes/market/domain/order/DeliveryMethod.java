@@ -22,6 +22,6 @@ public enum DeliveryMethod {
 				return deliveryMethod;
 			}
 		}
-		throw new IllegalArgumentException("Invalid DeliveryMethod code");
+		throw new IllegalArgumentException("Invalid DeliveryMethod code "+ code);
 	}
 }

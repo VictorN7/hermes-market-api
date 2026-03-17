@@ -24,6 +24,6 @@ public enum PromotionType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Invalid PromotionType code" + code);
+        throw new IllegalArgumentException("Invalid PromotionType code " + code);
     }
 }

@@ -23,6 +23,6 @@ public enum ProductStatus {
 				return productStatus;
 			}
 		}
-		throw new IllegalArgumentException("Invalid ProductStatus code");
+		throw new IllegalArgumentException("Invalid ProductStatus code " + code);
 	}
 }

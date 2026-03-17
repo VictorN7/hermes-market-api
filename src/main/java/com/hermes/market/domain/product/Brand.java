@@ -70,7 +70,7 @@ public class Brand {
 
     public void setStatus(BrandStatus status) {
         if (status == null) {
-            throw new IllegalArgumentException("BrandStatus cannot be null.");
+            throw new IllegalArgumentException("BrandStatus cannot be null");
         }
         this.status = status.getCode();
     }

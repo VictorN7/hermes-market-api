@@ -22,6 +22,6 @@ public enum CategoryStatus {
 				return categoryStatus;
 			}
 		}
-		throw new IllegalArgumentException("Invalid CategoryStatus code");
+		throw new IllegalArgumentException("Invalid CategoryStatus code " + code);
 	}
 }

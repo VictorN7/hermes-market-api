@@ -24,6 +24,6 @@ public enum UserStatus {
 				return status;
 			}
 		}
-		throw new IllegalArgumentException("Invalid UserStatus code");
+		throw new IllegalArgumentException("Invalid UserStatus code "+ code);
 	}
 }

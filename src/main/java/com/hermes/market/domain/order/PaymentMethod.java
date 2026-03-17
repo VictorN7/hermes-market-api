@@ -26,6 +26,6 @@ public enum PaymentMethod {
 				return paymentMethod;
 			}
 		}
-		throw new IllegalArgumentException("Invalid PaymentMethod code");
+		throw new IllegalArgumentException("Invalid PaymentMethod code " + code);
 	}
 }

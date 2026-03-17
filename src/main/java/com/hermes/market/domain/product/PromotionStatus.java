@@ -22,6 +22,6 @@ public enum PromotionStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException("Invalid PromotionStatus code"+code);
+        throw new IllegalArgumentException("Invalid PromotionStatus code "+code);
     }
 }
