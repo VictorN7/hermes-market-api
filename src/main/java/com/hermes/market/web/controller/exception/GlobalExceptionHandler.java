@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         String error = "Data integrity violation";
         HttpStatus status = HttpStatus.CONFLICT;
 
-        return ResponseEntity.status(status).body(new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI()););
+        return ResponseEntity.status(status).body(new StandardError(Instant.now(), status.value(), error, exception.getMessage(), request.getRequestURI()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

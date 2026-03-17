@@ -131,7 +131,21 @@ public class User {
 		return UserStatus.valueOf(status);
 	}
 
-	public void setStatus(UserStatus status) {
+	public void deactivateUser(){
+
+		UserStatus currentStatus = UserStatus.valueOf(status);
+
+		if (currentStatus.equals(UserStatus.INACTIVE)){
+			throw new BusinessException("User is already inactive");
+		}
+		if (currentStatus.equals(UserStatus.BLOCKED)){
+			throw new BusinessException("User is blocked");
+		}
+
+		setStatus(UserStatus.INACTIVE);
+	}
+
+	private void setStatus(UserStatus status) {
 		if (status != null) {
 			this.status = status.getCode();
 		}

@@ -50,4 +50,11 @@ public class UserService {
 		userRepository.save(user);
 	}
 
+	public void deactivateUser(Long userId){
+
+		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+		user.deactivateUser();
+		userRepository.save(user);
+	}
+
 }
