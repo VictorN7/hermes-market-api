@@ -96,4 +96,11 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PatchMapping("/{id}/unlock")
+	public ResponseEntity<Void> unlockUser(@PathVariable Long id){
+
+		userService.unlockUser(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }

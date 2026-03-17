@@ -168,6 +168,15 @@ public class User {
 		setStatus(UserStatus.BLOCKED);
 	}
 
+	public void unlockUser(){
+
+		if (!UserStatus.BLOCKED.equals(getStatus())){
+			throw new BusinessException("User is not blocked");
+		}
+
+		setStatus(UserStatus.ACTIVE);
+	}
+
 	private void setStatus(UserStatus status) {
 		if (status != null) {
 			this.status = status.getCode();

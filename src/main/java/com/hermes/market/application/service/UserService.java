@@ -71,4 +71,11 @@ public class UserService {
 		userRepository.save(user);
 	}
 
+	public void unlockUser(Long userId){
+
+		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+		user.unlockUser();
+		userRepository.save(user);
+	}
+
 }
