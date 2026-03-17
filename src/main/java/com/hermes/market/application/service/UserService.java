@@ -57,4 +57,11 @@ public class UserService {
 		userRepository.save(user);
 	}
 
+	public void activateUser(Long userId){
+
+		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
+		user.activateUser();
+		userRepository.save(user);
+	}
+
 }

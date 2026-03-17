@@ -82,4 +82,11 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PatchMapping("/{id}/activate")
+	public ResponseEntity<Void> activateUser(@PathVariable Long id){
+
+		userService.activateUser(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }
