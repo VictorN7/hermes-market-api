@@ -56,4 +56,11 @@ public class CategoryService {
 		categoryRepository.save(category);
 	}
 
+	public void activateCategory(Long categoryId){
+
+		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		category.activateCategory();
+		categoryRepository.save(category);
+	}
+
 }

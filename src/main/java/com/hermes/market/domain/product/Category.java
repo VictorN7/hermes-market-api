@@ -52,11 +52,20 @@ public class Category {
 
     public void deactivateCategory(){
 
-        if (getStatus() == CategoryStatus.INACTIVE){
+        if (CategoryStatus.INACTIVE.equals(getStatus())){
             throw new BusinessException("Category is already inactive");
         }
 
         setStatus(CategoryStatus.INACTIVE);
+    }
+
+    public void activateCategory(){
+
+        if (CategoryStatus.ACTIVE.equals(getStatus())){
+            throw new BusinessException("Category is already active");
+        }
+
+        setStatus(CategoryStatus.ACTIVE);
     }
 
     private void setStatus(CategoryStatus status) {

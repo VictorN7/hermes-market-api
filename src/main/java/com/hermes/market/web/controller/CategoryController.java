@@ -49,4 +49,10 @@ public class CategoryController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@PatchMapping("/{id}/activate")
+	public ResponseEntity<Void> activateCategory(@PathVariable Long id){
+		categoryService.activateCategory(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }
