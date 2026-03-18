@@ -1,6 +1,7 @@
 package com.hermes.market.domain.product;
 
 
+import com.hermes.market.application.exception.BusinessException;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -31,33 +32,38 @@ public class Brand {
     }
 
     public Brand(String name) {
-        this.name = name;
-        createdAt = Instant.now();
+        setName(name);
         setStatus(BrandStatus.ACTIVE);
+        createdAt = Instant.now();
+    }
+
+    private void setName(String name) {
+
+        if (name == null || name.isBlank()) {
+            throw new BusinessException("Brand name cannot be null or empty");
+        }
+        this.name = name;
+    }
+
+    public void updateName(String name) {
+
+        if (BrandStatus.INACTIVE.equals(getStatus())) {
+            throw new BusinessException("Inactive brand cannot be updated");
+        }
+
+        setName(name);
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public List<Product> getProducts() {
         return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 
     public BrandStatus getStatus() {
@@ -68,9 +74,9 @@ public class Brand {
         return createdAt;
     }
 
-    public void setStatus(BrandStatus status) {
+    private void setStatus(BrandStatus status) {
         if (status == null) {
-            throw new IllegalArgumentException("BrandStatus cannot be null");
+            throw new BusinessException("Brand status cannot be null");
         }
         this.status = status.getCode();
     }

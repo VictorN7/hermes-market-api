@@ -3,8 +3,10 @@ package com.hermes.market.application.service;
 import com.hermes.market.application.dto.request.BrandRequest;
 import com.hermes.market.application.dto.response.BrandDetailResponse;
 import com.hermes.market.application.dto.response.BrandMenuResponse;
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.BrandMapper;
+import com.hermes.market.domain.product.Brand;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,4 +34,18 @@ public class BrandService {
     public BrandDetailResponse createBrand(BrandRequest brandRequest){
         return BrandMapper.toResponse(brandRepository.save(BrandMapper.toCreate(brandRequest)));
     }
+
+    public BrandDetailResponse updateBrand(Long id, BrandRequest brandRequest){
+
+        String newName = brandRequest.getName();
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+
+        if (!brand.getName().equalsIgnoreCase(newName) && brandRepository.existsByNameIgnoreCase(newName)) {
+            throw new BusinessException("Brand name already exists");
+        }
+
+        brand.updateName(newName);
+        return BrandMapper.toResponse(brand);
+    }
+
 }

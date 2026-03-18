@@ -36,4 +36,9 @@ public class BrandController {
         return ResponseEntity.status(HttpStatus.CREATED).body(brandService.createBrand(brandRequest));
     }
 
+    @PatchMapping("/{id}/name")
+    public ResponseEntity<BrandDetailResponse> updateBrand(@PathVariable Long id, @RequestBody @Valid BrandRequest brandRequest){
+        return ResponseEntity.ok().body(brandService.updateBrand(id, brandRequest));
+    }
+
 }
