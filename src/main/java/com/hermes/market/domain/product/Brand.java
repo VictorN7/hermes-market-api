@@ -54,6 +54,15 @@ public class Brand {
         setName(name);
     }
 
+    public void activeBrand() {
+
+        if (BrandStatus.ACTIVE.equals(getStatus())) {
+            throw new BusinessException("Brand is already active");
+        }
+
+        setStatus(BrandStatus.ACTIVE);
+    }
+
     public Long getId() {
         return id;
     }

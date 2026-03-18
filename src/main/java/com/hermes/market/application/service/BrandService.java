@@ -35,10 +35,10 @@ public class BrandService {
         return BrandMapper.toResponse(brandRepository.save(BrandMapper.toCreate(brandRequest)));
     }
 
-    public BrandDetailResponse updateBrand(Long id, BrandRequest brandRequest){
+    public BrandDetailResponse updateBrand(Long brandId, BrandRequest brandRequest){
 
         String newName = brandRequest.getName();
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
         if (!brand.getName().equalsIgnoreCase(newName) && brandRepository.existsByNameIgnoreCase(newName)) {
             throw new BusinessException("Brand name already exists");
@@ -46,6 +46,12 @@ public class BrandService {
 
         brand.updateName(newName);
         return BrandMapper.toResponse(brand);
+    }
+
+    public void activateBrand(Long brandId){
+
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+        brand.activeBrand();
     }
 
 }

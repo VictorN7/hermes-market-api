@@ -41,4 +41,10 @@ public class BrandController {
         return ResponseEntity.ok().body(brandService.updateBrand(id, brandRequest));
     }
 
+    @PatchMapping("/{id}/activate")
+    public ResponseEntity<Void> activateBrand(@PathVariable Long id){
+        brandService.activateBrand(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
