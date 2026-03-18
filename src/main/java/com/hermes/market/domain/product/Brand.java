@@ -54,7 +54,7 @@ public class Brand {
         setName(name);
     }
 
-    public void activeBrand() {
+    public void activateBrand() {
 
         if (BrandStatus.ACTIVE.equals(getStatus())) {
             throw new BusinessException("Brand is already active");
@@ -62,6 +62,16 @@ public class Brand {
 
         setStatus(BrandStatus.ACTIVE);
     }
+
+    public void deactivateBrand() {
+
+        if (BrandStatus.INACTIVE.equals(getStatus())) {
+            throw new BusinessException("Brand is already inactive");
+        }
+
+        setStatus(BrandStatus.INACTIVE);
+    }
+
 
     public Long getId() {
         return id;

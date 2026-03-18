@@ -47,4 +47,10 @@ public class BrandController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivateBrand(@PathVariable Long id){
+        brandService.deactivateBrand(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
