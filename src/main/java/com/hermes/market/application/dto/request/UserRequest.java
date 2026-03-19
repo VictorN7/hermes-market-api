@@ -25,7 +25,7 @@ public class UserRequest {
     private String email;
 
     @NotBlank(message = "Password is required")
-    @Size(max = 15)
+    @Size(min = 8, max = 15)
     private String password;
 
     @NotNull()

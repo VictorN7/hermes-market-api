@@ -27,7 +27,7 @@ public class PromotionRequest {
     private Integer type;
 
     @NotNull(message = "DiscountPercentage is required")
-    @DecimalMin(value = "0.01", message = "DiscountPercentage must be greater than zero")
+    @DecimalMin(value = "1", message = "DiscountPercentage must be greater than zero")
     private BigDecimal discountPercentage;
 
     private Integer minQuantity;

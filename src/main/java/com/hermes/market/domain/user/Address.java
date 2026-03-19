@@ -1,5 +1,6 @@
 package com.hermes.market.domain.user;
 
+import com.hermes.market.application.exception.BusinessException;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -46,69 +47,80 @@ public class Address {
 
     public Address(String street, Integer number, String complement, String neighborhood, String city,
                    String state, String zipcode, User user) {
-        this.number = number;
-        this.complement = complement;
-        this.neighborhood = neighborhood;
-        this.city = city;
-        this.state = state;
-        this.zipcode = zipcode;
+
+        setStreet(street);
+        setNumber(number);
+        setComplement(complement);
+        setNeighborhood(neighborhood);
+        setCity(city);
+        setState(state);
+        setZipcode(zipcode);
         createdAt = Instant.now();
-        this.user = user;
+        setUser(user);
+    }
+
+    private void setComplement(String complement) {
+        this.complement = (complement != null && !complement.isBlank()) ? complement : null;
+    }
+
+    private void setStreet(String street) {
+
+        if (street == null || street.isBlank()){
+            throw new BusinessException("Street cannot be null or empty");
+        }
         this.street = street;
+    }
+
+    private void setUser(User user) {
+        if (user == null){
+            throw new BusinessException("User cannot be null");
+        }
+        this.user = user;
+    }
+
+    private void setZipcode(String zipcode) {
+        if (zipcode == null){
+            throw new BusinessException("zipcode cannot be null");
+        }
+        if (!zipcode.matches("\\d{8}")){
+            throw new BusinessException("Zipcode must contain 8 numeric digits");
+        }
+        this.zipcode = zipcode;
+    }
+
+    private void setState(String state) {
+        if (state == null || state.isBlank()){
+            throw new BusinessException("State cannot be null or empty");
+        }
+        this.state = state;
+    }
+
+    private void setCity(String city) {
+        if (city == null || city.isBlank()){
+            throw new BusinessException("City cannot be null or empty");
+        }
+        this.city = city;
+    }
+
+    private void setNeighborhood(String neighborhood) {
+        if (neighborhood == null || neighborhood.isBlank()){
+            throw new BusinessException("Neighborhood cannot be null or empty");
+        }
+        this.neighborhood = neighborhood;
+    }
+
+    private void setNumber(Integer number) {
+        if (number == null){
+            throw new BusinessException("Number cannot be null");
+        }
+        if (number <= 0){
+            throw new BusinessException("Number cannot be less than or equal to 0");
+        }
+        this.number = number;
     }
 
     public String getStreet() {
         return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setUser(User user) {
-        if (user == null){
-            throw new IllegalArgumentException("User can not be null");
-        }
-        this.user = user;
-    }
-
-    public void setZipcode(String zipcode) {
-        if (zipcode == null){
-            throw new IllegalArgumentException("zipcode can not be null");
-        }
-        this.zipcode = zipcode;
-    }
-
-    public void setState(String state) {
-        if (state == null){
-            throw new IllegalArgumentException("State can not be null");
-        }
-        this.state = state;
-    }
-
-    public void setCity(String city) {
-        if (city == null){
-            throw new IllegalArgumentException("City can not be null");
-        }
-        this.city = city;
-    }
-
-    public void setNeighborhood(String neighborhood) {
-        if (neighborhood == null){
-            throw new IllegalArgumentException("neighborhood can not be null");
-        }
-        this.neighborhood = neighborhood;
-    }
-
-    public void setComplement(String complement) {
-        this.complement = complement;
-    }
-
-    public void setNumber(Integer number) {
-        if (number == null){
-            throw new IllegalArgumentException("Number can not be null");
-        }
-        this.number = number;
     }
 
     public Long getId() {
@@ -170,7 +182,6 @@ public class Address {
                 ", state='" + state + '\'' +
                 ", zipcode=" + zipcode +
                 ", createdAt=" + createdAt +
-                ", user=" + user +
                 '}';
     }
 

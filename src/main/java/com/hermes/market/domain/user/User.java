@@ -53,27 +53,87 @@ public class User {
 	}
 	
 	public User(String name, String email, String password, LocalDate birthDate, String cpf) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.birthDate = birthDate;
+
+		setName(name);
+		setEmail(email);
+		setPassword(password);
+		setBirthDate(birthDate);
 		setRole(Role.CLIENT);
-		this.cpf = cpf;
+		setCpf(cpf);
 		setStatus(UserStatus.ACTIVE);
-		this.createdAt = Instant.now();
+		createdAt = Instant.now();
+	}
+
+	private void setRole(Role role) {
+		if (role == null) {
+			throw new BusinessException("Role cannot be null");
+		}
+		this.role = role.getCode();
+	}
+
+	private void setName(String name) {
+		if (name == null || name.isBlank()){
+			throw new BusinessException("User name cannot be null or empty");
+		}
+		this.name = name;
+	}
+
+	private void setEmail(String email) {
+
+		if (email == null || email.isBlank()){
+			throw new BusinessException("Email cannot be null");
+		}
+
+		if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")){
+			throw new BusinessException("Email format is invalid");
+		}
+
+		this.email = email.toLowerCase();
+	}
+
+	private void setPassword(String password) {
+		if (password == null || password.isBlank()){
+			throw new BusinessException("Password cannot be null or empty");
+		}
+		if (password.length() < 8 || password.length() > 15){
+			throw new BusinessException("Password must be between 8 and 15 characters long");
+		}
+		this.password = password;
+	}
+
+	private void setBirthDate(LocalDate birthDate) {
+		if (birthDate == null){
+			throw new BusinessException("Birth date cannot be null");
+		}
+		if (birthDate.isAfter(LocalDate.now())){
+			throw new BusinessException("Birth date cannot be in the future");
+		}
+
+		this.birthDate = birthDate;
+	}
+
+	private void setCpf(String cpf) {
+		if (cpf == null || cpf.isBlank()){
+			throw new BusinessException("CPF cannot be null");
+		}
+		if (!cpf.matches("\\d{11}")){
+			throw new BusinessException("CPF must have 11 digits");
+		}
+
+		this.cpf = cpf;
 	}
 
 	public void updateUser(String name, String email, LocalDate birthDate){
 
-		if (name != null) this.name = name;
-		if (email != null)this.email = email;
-		if (birthDate != null)this.birthDate = birthDate;
+		setName(name);
+		setEmail(email);
+		setBirthDate(birthDate);
 	}
 
 	public void updatePassword(String newPassword, String confirmPassword, String currentPassword){
 
 		if (newPassword == null || confirmPassword == null){
-			throw new IllegalArgumentException("NewPassword or ConfirmPassword can not be null");
+			throw new BusinessException("NewPassword or ConfirmPassword can not be null");
 		}
 		if (!this.password.equals(currentPassword)) {
 			throw new BusinessException("Current password is incorrect");
@@ -85,18 +145,83 @@ public class User {
 			throw new BusinessException("The new password can not be the same as the old one");
 		}
 
-		this.password = newPassword;
+		setPassword(newPassword);
 	}
 
 	public void addAddress(Address address){
-		if (address == null) throw new IllegalArgumentException("Address do not be null");
+		if (address == null){
+			throw new BusinessException("Address do not be null");
+		}
+		if (addresses.contains(address)) return;
+
 		addresses.add(address);
+	}
+
+	private void ensureUserIsNotBlocked(){
+		if (UserStatus.BLOCKED.equals(getStatus())){
+			throw new BusinessException("User is blocked");
+		}
+	}
+
+	public void activate(){
+
+		ensureUserIsNotBlocked();
+
+		if (UserStatus.ACTIVE.equals(getStatus())){
+			throw new BusinessException("User is already active");
+		}
+
+		setStatus(UserStatus.ACTIVE);
+	}
+
+	public void deactivate(){
+
+		ensureUserIsNotBlocked();
+
+		if (UserStatus.INACTIVE.equals(getStatus())){
+			throw new BusinessException("User is already inactive");
+		}
+
+		setStatus(UserStatus.INACTIVE);
+	}
+
+	public void block(){
+
+		if (UserStatus.BLOCKED.equals(getStatus())){
+			throw new BusinessException("User is already blocked");
+		}
+
+		setStatus(UserStatus.BLOCKED);
+	}
+
+	public void unlock(){
+
+		if (!UserStatus.BLOCKED.equals(getStatus())){
+			throw new BusinessException("User is not blocked");
+		}
+
+		setStatus(UserStatus.ACTIVE);
+	}
+
+	private void setStatus(UserStatus status) {
+		if (status == null) {
+			throw new BusinessException("User status cannot be null");
+		}
+		this.status = status.getCode();
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public UserStatus getStatus() {
+		return UserStatus.valueOf(status);
 	}
 
 	public List<Address> getAddresses() {
 		return addresses;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -115,72 +240,6 @@ public class User {
 
 	public Role getRole() {
 		return Role.valueOf(role);
-	}
-
-	public void setRole(Role role) {
-		if (role != null) {
-			this.role = role.getCode(); 
-		}
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public UserStatus getStatus() {
-		return UserStatus.valueOf(status);
-	}
-
-	private void ensureUserIsNotBlocked(){
-		if (UserStatus.BLOCKED.equals(getStatus())){
-			throw new BusinessException("User is blocked");
-		}
-	}
-
-	public void activateUser(){
-
-		ensureUserIsNotBlocked();
-
-		if (UserStatus.ACTIVE.equals(getStatus())){
-			throw new BusinessException("User is already active");
-		}
-
-		setStatus(UserStatus.ACTIVE);
-	}
-
-	public void deactivateUser(){
-
-		ensureUserIsNotBlocked();
-
-		if (UserStatus.INACTIVE.equals(getStatus())){
-			throw new BusinessException("User is already inactive");
-		}
-
-		setStatus(UserStatus.INACTIVE);
-	}
-
-	public void blockUser(){
-
-		if (UserStatus.BLOCKED.equals(getStatus())){
-			throw new BusinessException("User is already blocked");
-		}
-
-		setStatus(UserStatus.BLOCKED);
-	}
-
-	public void unlockUser(){
-
-		if (!UserStatus.BLOCKED.equals(getStatus())){
-			throw new BusinessException("User is not blocked");
-		}
-
-		setStatus(UserStatus.ACTIVE);
-	}
-
-	private void setStatus(UserStatus status) {
-		if (status != null) {
-			this.status = status.getCode();
-		}
 	}
 
 	public Long getId() {

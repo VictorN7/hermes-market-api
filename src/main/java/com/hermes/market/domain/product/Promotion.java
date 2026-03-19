@@ -1,8 +1,10 @@
 package com.hermes.market.domain.product;
 
+import com.hermes.market.application.exception.BusinessException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,62 +47,107 @@ public class Promotion {
     private List<Product> products = new ArrayList<>();
 
     protected Promotion(){
-
     }
 
     public Promotion(String name, Instant startDate, Instant endDate,
                      PromotionType type, BigDecimal discountPercentage, Integer minQuantity) {
-        this.name = name;
+        setName(name);
         setPeriod(startDate,endDate);
         setStatus(PromotionStatus.ACTIVE);
         setType(type);
         setDiscountPercentage(discountPercentage);
-        this.minQuantity = minQuantity;
+        setMinQuantity(minQuantity);
         validateTypePromotion();
     }
 
-    private void validateTypePromotion(){
-        if (PromotionType.valueOf(type).equals(PromotionType.DIRECT_PRICE)){
-
-            if (minQuantity != null){
-                throw new IllegalArgumentException("minQuantity are not allowed for DIRECT_PRICE promotions");
-            }
-        }
-        if (PromotionType.valueOf(type).equals(PromotionType.QUANTITY_DISCOUNT)){
-            if (minQuantity == null){
-                throw new IllegalArgumentException("minQuantity is required for QUANTITY_DISCOUNT promotions");
-            }
-            if (minQuantity <= 0){
-                throw new IllegalArgumentException("discountedUnitPrice or minQuantity must be greater than zero");
-            }
-        }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setStatus(PromotionStatus status) {
+    private void setStatus(PromotionStatus status) {
         if (status == null) {
-            throw new IllegalArgumentException("Status can not be null");
+            throw new BusinessException("Status can not be null");
         }
         this.status = status.getCode();
     }
 
-    public void setType(PromotionType type) {
+    private void setType(PromotionType type) {
 
         if (type == null){
-            throw new IllegalArgumentException("Type can not be null");
+            throw new BusinessException("Type can not be null");
         }
         this.type = type.getCode();
     }
 
-    public void setMinQuantity(Integer minQuantity) {
+    private void setMinQuantity(Integer minQuantity) {
+
+        if (minQuantity != null && minQuantity <= 0){
+            throw new BusinessException("Minimum quantity cannot be less than or equal to 0");
+        }
         this.minQuantity = minQuantity;
+    }
+
+    private void setPeriod(Instant startDate, Instant endDate){
+
+        if (startDate == null || endDate == null){
+            throw new BusinessException("Promotion dates cannot be null");
+        }
+        if (endDate.isBefore(startDate)){
+            throw new BusinessException("End date must be after begin date");
+        }
+        if (startDate.isBefore(Instant.now())){
+            throw new BusinessException("Begin date cannot be in the past");
+        }
+
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    private void setDiscountPercentage(BigDecimal discountPercentage){
+
+        if (discountPercentage == null){
+            throw new BusinessException("Discount percentage cannot be null");
+        }
+        if (discountPercentage.compareTo(BigDecimal.ONE) < 0 ||
+                discountPercentage.compareTo(BigDecimal.valueOf(100)) > 0){
+            throw new BusinessException("Discount percentage must be between 1 and 100");
+        }
+        this.discountPercentage = discountPercentage.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private void setName(String name) {
+
+        if (name == null || name.isBlank()){
+            throw new BusinessException("Name cannot be null or empty");
+        }
+        this.name = name;
+    }
+
+    private void validateTypePromotion(){
+
+        PromotionType promotionType = getType();
+
+        if (promotionType.equals(PromotionType.DIRECT_PRICE)){
+
+            if (minQuantity != null){
+                throw new BusinessException("Minimum quantity are not allowed for DIRECT_PRICE promotions");
+            }
+        }
+        if (promotionType.equals(PromotionType.QUANTITY_DISCOUNT)){
+            if (minQuantity == null){
+                throw new BusinessException("Minimum quantity is required for QUANTITY_DISCOUNT promotions");
+            }
+        }
+    }
+
+    public void addProduct(Product product){
+
+        if (product == null ){
+            throw new BusinessException("Product cannot be null");
+        }
+        if (products.contains(product)) return;
+
+        products.add(product);
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Instant getStartDate() {
@@ -133,42 +180,6 @@ public class Promotion {
 
     public Integer getMinQuantity() {
         return minQuantity;
-    }
-
-    public void setPeriod(Instant startDate, Instant endDate){
-
-        if (startDate == null || endDate == null){
-            throw new IllegalArgumentException("Promotion dates cannot be null");
-        }
-        if (endDate.isBefore(startDate)){
-            throw new IllegalArgumentException("End date must be after begin date");
-        }
-        if (startDate.isBefore(Instant.now())){
-            throw new IllegalArgumentException("Begin date cannot be in the past");
-        }
-
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public void setDiscountPercentage(BigDecimal discountPercentage){
-
-        if (discountPercentage == null){
-            throw new IllegalArgumentException("DiscountPercentage do not be null");
-        }
-        if (discountPercentage.compareTo(BigDecimal.valueOf(0.01)) < 0 ||
-                discountPercentage.compareTo(BigDecimal.valueOf(100)) > 0){
-            throw new IllegalArgumentException("DiscountPercentage must be greater than zero");
-        }
-        this.discountPercentage = discountPercentage;
-    }
-
-    public void addProduct(Product product){
-
-        if (product == null ){
-            throw new IllegalArgumentException("Product do not be null");
-        }
-        products.add(product);
     }
 
     @Override
