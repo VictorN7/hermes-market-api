@@ -51,13 +51,13 @@ public class BrandService {
     public void activateBrand(Long brandId){
 
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
-        brand.activateBrand();
+        brand.activate();
     }
 
     public void deactivateBrand(Long brandId){
 
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
-        brand.deactivateBrand();
+        brand.deactivate();
     }
 
 }

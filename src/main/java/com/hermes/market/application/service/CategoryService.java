@@ -52,14 +52,14 @@ public class CategoryService {
 	public void deactivateCategory(Long categoryId){
 
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-		category.deactivateCategory();
+		category.deactivate();
 		categoryRepository.save(category);
 	}
 
 	public void activateCategory(Long categoryId){
 
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-		category.activateCategory();
+		category.activate();
 		categoryRepository.save(category);
 	}
 
