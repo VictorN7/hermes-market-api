@@ -3,6 +3,7 @@ package com.hermes.market.domain.product;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.hermes.market.application.exception.BusinessException;
 import jakarta.persistence.Column;
@@ -38,19 +39,28 @@ public class Category {
     }
 
     public Category(String name) {
-        this.name = name;
+        setName(name);
         setStatus(CategoryStatus.ACTIVE);
         this.createdAt = Instant.now();
     }
 
-    public void updateName(String name){
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+    private void setName(String name) {
+
+        if (name == null || name.isBlank()){
+            throw new BusinessException("Name cannot be null or empty");
         }
         this.name = name;
     }
 
-    public void deactivateCategory(){
+    public void updateName(String name){
+
+        if (CategoryStatus.INACTIVE.equals(getStatus())) {
+            throw new BusinessException("Inactive category cannot be updated");
+        }
+        setName(name);
+    }
+
+    public void deactivate(){
 
         if (CategoryStatus.INACTIVE.equals(getStatus())){
             throw new BusinessException("Category is already inactive");
@@ -59,20 +69,30 @@ public class Category {
         setStatus(CategoryStatus.INACTIVE);
     }
 
-    public void activateCategory(){
+    public void activate(){
 
         if (CategoryStatus.ACTIVE.equals(getStatus())){
             throw new BusinessException("Category is already active");
         }
-
         setStatus(CategoryStatus.ACTIVE);
     }
 
     private void setStatus(CategoryStatus status) {
         if (status == null) {
-            throw new IllegalArgumentException("CategoryStatus cannot be null");
+            throw new BusinessException("Category status cannot be null");
         }
         this.status = status.getCode();
+    }
+
+    public void addProduct(Product product) {
+
+        if (product == null){
+            throw new BusinessException("Product cannot be null");
+        }
+        if (products.contains(product)) return;
+
+        products.add(product);
+        product.assignCategory(this);
     }
 
     public Long getId() {
@@ -95,22 +115,16 @@ public class Category {
         return products;
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
-        product.setCategory(this);
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(id, category.id);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Category)) return false;
-        Category other = (Category) o;
-        return id != null && id.equals(other.id);
+        return Objects.hashCode(id);
     }
 
     @Override

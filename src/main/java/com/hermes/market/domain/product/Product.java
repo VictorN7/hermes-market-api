@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.hermes.market.application.exception.BusinessException;
 import jakarta.persistence.*;
 
 @Entity
@@ -53,51 +54,62 @@ public class Product {
 	}
 
 	public Product(String name, String description, BigDecimal price, Integer quantityInStock, String imgUrl, Category category, Brand brand) {
-		this.name = name;
-		this.description = description;
+		setName(name);
+		setDescription(description);
 		setPrice(price);
 		setQuantityInStock(quantityInStock);
 		setStatus(ProductStatus.ACTIVE);
 		this.createdAt = Instant.now();
-		this.imgUrl = imgUrl;
-		setCategory(category);
-		setBrand(brand);
+		setImgUrl(imgUrl);
+		assignCategory(category);
+		assignBrand(brand);
 	}
 
 	public void updateProduct(String name, String description, BigDecimal price, String imgUrl, Category category, Brand brand){
 
-		if(name != null) this.name = name;
-		if(description != null) this.description = description;
-		if(price != null)setPrice(price);
-		if(imgUrl != null) this.imgUrl = imgUrl;
-		if(category != null)setCategory(category);
-		if(brand != null)setBrand(brand);
+		setName(name);
+		setDescription(description);
+		setPrice(price);
+		setImgUrl(imgUrl);
+		assignCategory(category);
+		assignBrand(brand);
 	}
 
+	private void setName(String name) {
 
-	public List<Promotion> getPromotions() {
-		return promotions;
+		if (name == null){
+			throw new BusinessException("Name cannot be null");
+		}
+		this.name = name;
 	}
 
-	public Brand getBrand() {
-		return brand;
+	private void setDescription(String description) {
+
+		if (description == null){
+			throw new BusinessException("Description cannot be null");
+		}
+		this.description = description;
 	}
 
-	public void setBrand(Brand brand) {
+	private void setImgUrl(String imgUrl) {
+
+		if (imgUrl == null){
+			throw new BusinessException("Image Url cannot be null");
+		}
+		this.imgUrl = imgUrl;
+	}
+
+	public void assignBrand(Brand brand){
 		if (brand == null){
-			throw new IllegalArgumentException("Product must have a brand!");
+			throw new BusinessException("Brand cannot be null");
 		}
 		this.brand = brand;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
+	public void assignCategory(Category category){
 
-	public void setCategory(Category category) {
-		
 		if (category == null) {
-			throw new IllegalArgumentException("Product must have a category!");
+			throw new BusinessException("Category cannot be null");
 		}
 		this.category = category;
 	}
@@ -108,25 +120,35 @@ public class Product {
 
 	private void setPrice(BigDecimal price) {
 		if (price == null || price.compareTo(BigDecimal.ZERO) < 0 ){
-			throw new IllegalArgumentException("Price can not be null or negative!");
+			throw new BusinessException("Price cannot be null or negative");
 		}
 		this.price = price.setScale(2, RoundingMode.HALF_EVEN);
 	}
 
-	public void setQuantityInStock(Integer quantityInStock) {
+	private void setQuantityInStock(Integer quantityInStock) {
 		if (quantityInStock == null || quantityInStock < 0){
-			throw new IllegalArgumentException("QuantityInStock can not be null or negative!");
+			throw new BusinessException("QuantityInStock cannot be null or negative");
 		}
 		this.quantityInStock = quantityInStock;
 	}
 
-	public void setStatus(ProductStatus status) {
+	private void setStatus(ProductStatus status) {
 		if (status == null) {
-			throw new IllegalArgumentException("Status cannot be null");
+			throw new BusinessException("Status cannot be null");
 		}
 		this.status = status.getCode();
 	}
-	
+
+	public List<Promotion> getPromotions() { return promotions; }
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -154,22 +176,17 @@ public class Product {
 	public ProductStatus getStatus() {
 		return ProductStatus.valueOf(status);
 	}
-	
+
 	@Override
-	public int hashCode() {
-		return Objects.hash(id);
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Product product = (Product) o;
+		return Objects.equals(id, product.id);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
+	public int hashCode() {
+		return Objects.hashCode(id);
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_brands")
@@ -54,7 +55,7 @@ public class Brand {
         setName(name);
     }
 
-    public void activateBrand() {
+    public void activate() {
 
         if (BrandStatus.ACTIVE.equals(getStatus())) {
             throw new BusinessException("Brand is already active");
@@ -63,7 +64,7 @@ public class Brand {
         setStatus(BrandStatus.ACTIVE);
     }
 
-    public void deactivateBrand() {
+    public void deactivate() {
 
         if (BrandStatus.INACTIVE.equals(getStatus())) {
             throw new BusinessException("Brand is already inactive");
@@ -71,7 +72,6 @@ public class Brand {
 
         setStatus(BrandStatus.INACTIVE);
     }
-
 
     public Long getId() {
         return id;
@@ -101,21 +101,27 @@ public class Brand {
     }
 
     public void addProduct(Product product) {
+
+
+        if (product == null){
+            throw new BusinessException("Product cannot be null");
+        }
+        if (products.contains(product)) return;
+
         products.add(product);
-        product.setBrand(this);
+        product.assignBrand(this);
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Brand)) return false;
-        Brand other = (Brand) o;
-        return id != null && id.equals(other.id);
+        if (o == null || getClass() != o.getClass()) return false;
+        Brand brand = (Brand) o;
+        return Objects.equals(id, brand.id);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hashCode(id);
     }
 
     @Override
