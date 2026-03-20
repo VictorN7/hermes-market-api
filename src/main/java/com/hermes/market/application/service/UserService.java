@@ -53,28 +53,28 @@ public class UserService {
 	public void deactivateUser(Long userId){
 
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
-		user.deactivateUser();
+		user.deactivate();
 		userRepository.save(user);
 	}
 
 	public void activateUser(Long userId){
 
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
-		user.activateUser();
+		user.activate();
 		userRepository.save(user);
 	}
 
 	public void blockUser(Long userId){
 
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
-		user.blockUser();
+		user.block();
 		userRepository.save(user);
 	}
 
 	public void unlockUser(Long userId){
 
 		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found!"));
-		user.unlockUser();
+		user.unlock();
 		userRepository.save(user);
 	}
 
