@@ -1,10 +1,10 @@
 package com.hermes.market.application.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.hermes.market.application.dto.filter.ProductFilter;
 import com.hermes.market.application.dto.request.ProductRequest;
+import com.hermes.market.application.dto.request.ProductStockUpdateRequest;
 import com.hermes.market.application.dto.request.ProductUpdateRequest;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
@@ -74,4 +74,14 @@ public class ProductService {
 
 		return ProductMapper.toResponse(product);
     }
+
+    public ProductResponse adjustStock(Long productId, ProductStockUpdateRequest request){
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        product.adjustStock(request.getQuantity());
+        productRepository.save(product);
+
+        return ProductMapper.toResponse(product);
+    }
+
 }

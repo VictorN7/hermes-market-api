@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @Getter
 @ToString
-public class ProductStockRequest {
+public class ProductStockUpdateRequest {
 
     @NotNull(message = "QuantityInStock is required")
     @Min(value = 0, message = "Quantity in stock must be greater than or equal to zero")

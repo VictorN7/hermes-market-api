@@ -65,6 +65,17 @@ public class Product {
 		assignBrand(brand);
 	}
 
+	public void adjustStock(Integer quantityInStock){
+
+		if (quantityInStock == null) {
+			throw new BusinessException("Quantity cannot be null");
+		}
+		if (quantityInStock < 0) {
+			throw new BusinessException("Stock cannot be negative");
+		}
+		this.quantityInStock = quantityInStock;
+	}
+
 	public void updateProduct(String name, String description, BigDecimal price, String imgUrl, Category category, Brand brand){
 
 		setName(name);
@@ -127,7 +138,7 @@ public class Product {
 
 	private void setQuantityInStock(Integer quantityInStock) {
 		if (quantityInStock == null || quantityInStock < 0){
-			throw new BusinessException("QuantityInStock cannot be null or negative");
+			throw new BusinessException("Quantity In Stock cannot be null or negative");
 		}
 		this.quantityInStock = quantityInStock;
 	}
