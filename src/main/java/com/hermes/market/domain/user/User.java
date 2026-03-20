@@ -125,12 +125,15 @@ public class User {
 
 	public void updateUser(String name, String email, LocalDate birthDate){
 
+		ensureUserIsNotBlocked();
 		setName(name);
 		setEmail(email);
 		setBirthDate(birthDate);
 	}
 
 	public void updatePassword(String newPassword, String confirmPassword, String currentPassword){
+
+		ensureUserIsNotBlocked();
 
 		if (newPassword == null || confirmPassword == null){
 			throw new BusinessException("NewPassword or ConfirmPassword can not be null");
@@ -159,7 +162,7 @@ public class User {
 
 	private void ensureUserIsNotBlocked(){
 		if (UserStatus.BLOCKED.equals(getStatus())){
-			throw new BusinessException("User is blocked");
+			throw new BusinessException("User is blocked and cannot perform this action");
 		}
 	}
 
