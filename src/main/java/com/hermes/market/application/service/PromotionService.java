@@ -55,4 +55,11 @@ public class PromotionService {
         promotionRepository.save(promotion);
     }
 
+    public void activatePromotion(Long promotionId){
+
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found!"));
+        promotion.activate();
+        promotionRepository.save(promotion);
+    }
+
 }

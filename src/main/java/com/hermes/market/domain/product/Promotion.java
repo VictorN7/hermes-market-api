@@ -68,6 +68,14 @@ public class Promotion {
         setStatus(PromotionStatus.INACTIVE);
     }
 
+    public void activate(){
+
+        if (PromotionStatus.ACTIVE.equals(getStatus())){
+            throw new BusinessException("Promotion is already active");
+        }
+        setStatus(PromotionStatus.ACTIVE);
+    }
+
     private void setStatus(PromotionStatus status) {
         if (status == null) {
             throw new BusinessException("Status can not be null");

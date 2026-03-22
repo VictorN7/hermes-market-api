@@ -46,5 +46,11 @@ public class PromotionController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/{id}/activate")
+    public ResponseEntity<Void> activatePromotion(@PathVariable Long id){
+        promotionService.activatePromotion(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
 
