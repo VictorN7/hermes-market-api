@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.hermes.market.application.exception.BusinessException;
+import com.hermes.market.application.mapper.ProductMapper;
 import jakarta.persistence.*;
 
 @Entity
@@ -74,6 +75,15 @@ public class Product {
 			throw new BusinessException("Stock cannot be negative");
 		}
 		this.quantityInStock = quantityInStock;
+	}
+
+	public void deactivate(){
+
+		if (ProductStatus.INACTIVE.equals(getStatus())){
+			throw new BusinessException("Product is already inactive");
+		}
+
+		setStatus(ProductStatus.INACTIVE);
 	}
 
 	public void updateProduct(String name, String description, BigDecimal price, String imgUrl, Category category, Brand brand){

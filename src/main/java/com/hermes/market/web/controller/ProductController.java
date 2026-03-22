@@ -50,4 +50,10 @@ public class ProductController {
 		return ResponseEntity.ok().body(productService.adjustStock(id, request));
 	}
 
+	@PatchMapping("/{id}/deactivate")
+	public ResponseEntity<Void> deactivateProduct(@PathVariable Long id){
+		productService.deactivateProduct(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }

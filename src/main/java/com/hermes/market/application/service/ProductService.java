@@ -84,4 +84,11 @@ public class ProductService {
         return ProductMapper.toResponse(product);
     }
 
+    public void deactivateProduct(Long productId){
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+        product.deactivate();
+        productRepository.save(product);
+    }
+
 }
