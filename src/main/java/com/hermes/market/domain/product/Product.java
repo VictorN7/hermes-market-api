@@ -82,8 +82,15 @@ public class Product {
 		if (ProductStatus.INACTIVE.equals(getStatus())){
 			throw new BusinessException("Product is already inactive");
 		}
-
 		setStatus(ProductStatus.INACTIVE);
+	}
+
+	public void activate(){
+
+		if (ProductStatus.ACTIVE.equals(getStatus())){
+			throw new BusinessException("Product is already active");
+		}
+		setStatus(ProductStatus.ACTIVE);
 	}
 
 	public void updateProduct(String name, String description, BigDecimal price, String imgUrl, Category category, Brand brand){

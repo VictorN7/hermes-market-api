@@ -91,4 +91,11 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    public void activateProduct(Long productId){
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+        product.activate();
+        productRepository.save(product);
+    }
+
 }
