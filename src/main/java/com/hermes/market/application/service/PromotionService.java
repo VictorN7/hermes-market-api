@@ -48,4 +48,11 @@ public class PromotionService {
         return PromotionMapper.toResponse(promotion);
     }
 
+    public void deactivatePromotion(Long promotionId){
+
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found!"));
+        promotion.deactivate();
+        promotionRepository.save(promotion);
+    }
+
 }

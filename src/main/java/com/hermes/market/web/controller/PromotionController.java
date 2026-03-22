@@ -40,5 +40,11 @@ public class PromotionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(productId, promotionId));
     }
 
+    @PatchMapping("/{id}/deactivate")
+    public ResponseEntity<Void> deactivatePromotion(@PathVariable Long id){
+        promotionService.deactivatePromotion(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
 

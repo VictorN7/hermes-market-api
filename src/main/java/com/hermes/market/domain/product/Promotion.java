@@ -60,6 +60,14 @@ public class Promotion {
         validateTypePromotion();
     }
 
+    public void deactivate(){
+
+        if (PromotionStatus.INACTIVE.equals(getStatus())){
+            throw new BusinessException("Promotion is already inactive");
+        }
+        setStatus(PromotionStatus.INACTIVE);
+    }
+
     private void setStatus(PromotionStatus status) {
         if (status == null) {
             throw new BusinessException("Status can not be null");
