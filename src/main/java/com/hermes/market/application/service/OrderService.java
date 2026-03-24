@@ -3,6 +3,7 @@ package com.hermes.market.application.service;
 import java.util.List;
 
 import com.hermes.market.application.dto.request.OrderItemRequest;
+import com.hermes.market.application.dto.request.OrderItemUpdateQuantityRequest;
 import com.hermes.market.application.dto.request.OrderRequest;
 import com.hermes.market.application.dto.response.OrderItemResponse;
 import com.hermes.market.application.dto.response.OrderResponse;
@@ -72,4 +73,13 @@ public class OrderService {
 
 		return OrderItemMapper.toResponse(order.getOrderItems().get(order.getOrderItems().size()-1));
 	}
+
+	public OrderResponse updateOrderItemQuantity(Long orderId, Long itemId, OrderItemUpdateQuantityRequest request){
+
+		Order order =  orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not foundgit "));
+		order.updateItemQuantity(itemId,  request.getQuantity());
+
+		return OrderMapper.toResponse(orderRepository.save(order));
+	}
+
 }
