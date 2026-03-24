@@ -49,7 +49,7 @@ public class Product {
 	private Brand brand;
 
 	@ManyToMany(mappedBy = "products")
-	private List<Promotion> promotions = new ArrayList<>();
+	private final List<Promotion> promotions = new ArrayList<>();
 
 	protected Product() {
 	}
@@ -142,10 +142,6 @@ public class Product {
 		this.category = category;
 	}
 
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
 	private void setPrice(BigDecimal price) {
 		if (price == null || price.compareTo(BigDecimal.ZERO) < 0 ){
 			throw new BusinessException("Price cannot be null or negative");
@@ -165,6 +161,20 @@ public class Product {
 			throw new BusinessException("Status cannot be null");
 		}
 		this.status = status.getCode();
+	}
+
+	public BigDecimal getEffectivePrice(){
+		return getPromotions().stream().filter(x -> x.getStatus() == PromotionStatus.ACTIVE)
+				.findFirst()
+				.map(x -> getPrice()
+						.subtract(getPrice()
+								.multiply(x.getDiscountPercentage())
+								.divide(BigDecimal.valueOf(100))))
+				.orElse(getPrice());
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
 	}
 
 	public List<Promotion> getPromotions() { return promotions; }

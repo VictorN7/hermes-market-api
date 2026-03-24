@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.product.Product;
-import com.hermes.market.domain.product.PromotionStatus;
 import com.hermes.market.domain.user.Address;
 import com.hermes.market.domain.user.User;
 
@@ -37,7 +37,7 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
+    private final List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(nullable = false)
     private Integer status;
@@ -65,23 +65,112 @@ public class Order {
     }
 
     public Order(User user, PaymentMethod payment, DeliveryMethod delivery, Address address) {
-        this.user = user;
-        orderItems = new ArrayList<>();
+        setUser(user);
         setStatus(OrderStatus.CREATED);
-        totalPrice = BigDecimal.ZERO;
+        setTotalPrice(BigDecimal.ZERO);
         createdAt = Instant.now();
         updatedAt = Instant.now();
         setPayment(payment);
         setDelivery(delivery);
+        setAddress(address);
+    }
+
+    private void setUser(User user) {
+
+        if (user == null) {
+            throw new BusinessException("User cannot be null");
+        }
+        this.user = user;
+    }
+
+    private void setStatus(OrderStatus status) {
+        if (status == null) {
+            throw new BusinessException("Order status cannot be null");
+        }
+        this.status = status.getCode();
+        this.updatedAt = Instant.now();
+    }
+
+    private void setTotalPrice(BigDecimal totalPrice) {
+
+        if (totalPrice == null) {
+            throw new BusinessException("Total price cannot be null");
+        }
+        if (totalPrice.compareTo(BigDecimal.ZERO) < 0) {
+            throw new BusinessException("Total price cannot be negative");
+        }
+
+        this.totalPrice = totalPrice;
+    }
+
+    private void setPayment(PaymentMethod payment) {
+        if (payment == null) {
+            throw new BusinessException("Payment method cannot be null");
+        }
+        this.payment = payment.getCode();
+    }
+
+    private void setDelivery(DeliveryMethod delivery) {
+        if (delivery == null) {
+            throw new BusinessException("Delivery method cannot be null");
+        }
+        this.delivery = delivery.getCode();
+    }
+
+    private void setAddress(Address address) {
+
+        if (address == null) {
+            throw new BusinessException("Address cannot be null");
+        }
         this.address = address;
+    }
+
+    private BigDecimal calculateTotalPrice() {
+        return orderItems.stream().map(OrderItem::getTotalPrice).reduce(BigDecimal.ZERO,
+                BigDecimal::add).setScale(2, RoundingMode.HALF_EVEN);
+    }
+
+    public void addItem(Product product, Integer quantity) {
+
+        if (product == null) {
+            throw new BusinessException("Product cannot be null");
+        }
+
+        if (quantity == null || quantity <= 0) {
+            throw new BusinessException("Quantity must be greater than zero");
+        }
+
+        if (product.getQuantityInStock() == null|| product.getQuantityInStock() < quantity) {
+            throw new BusinessException("Insufficient Stock or null");
+        }
+
+        BigDecimal price = product.getEffectivePrice();
+
+        OrderItem item = new OrderItem(product, quantity, price);
+        item.setOrder(this);
+        updatedAt = Instant.now();
+        orderItems.add(item);
+        totalPrice = calculateTotalPrice();
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public DeliveryMethod getDelivery() {
+        return DeliveryMethod.valueOf(delivery);
+    }
+
+    public PaymentMethod getPayment() {
+        return PaymentMethod.valueOf(payment);
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 
     public Address getAddress() {
         return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public Long getId() {
@@ -102,74 +191,6 @@ public class Order {
 
     public OrderStatus getStatus() {
         return OrderStatus.valueOf(status);
-    }
-
-    public void setStatus(OrderStatus status) {
-        if (status == null) {
-            throw new IllegalArgumentException("OrderStatus cannot be null");
-        }
-        this.status = status.getCode();
-        this.updatedAt = Instant.now();
-    }
-
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public PaymentMethod getPayment() {
-        return PaymentMethod.valueOf(payment);
-    }
-
-    public void setPayment(PaymentMethod payment) {
-        if (payment == null) {
-            throw new IllegalArgumentException("PaymentMethod cannot be null");
-        }
-        this.payment = payment.getCode();
-    }
-
-    public DeliveryMethod getDelivery() {
-        return DeliveryMethod.valueOf(delivery);
-    }
-
-    public void setDelivery(DeliveryMethod delivery) {
-        if (delivery == null) {
-            throw new IllegalArgumentException("DeliveryMethod cannot be null");
-        }
-        this.delivery = delivery.getCode();
-    }
-
-    public BigDecimal calculateTotalPrice() {
-        return orderItems.stream().map(OrderItem::getTotalPrice).reduce(BigDecimal.ZERO,
-                BigDecimal::add).setScale(2, RoundingMode.HALF_EVEN);
-    }
-
-    public void addItem(Product product, Integer quantity) {
-
-        if (product.getQuantityInStock() < quantity) {
-            throw new IllegalArgumentException("Insufficient Stock");
-        }
-
-        BigDecimal price = product.getPromotions().stream().filter(x -> x.getStatus() == PromotionStatus.ACTIVE)
-                .findFirst()
-                .map(x -> product.getPrice()
-                        .subtract(product.getPrice()
-                                .multiply(x.getDiscountPercentage())
-                                .divide(BigDecimal.valueOf(100))))
-                .orElse(product.getPrice());
-
-        OrderItem item = new OrderItem(product, quantity, price);
-        item.setOrder(this);
-        updatedAt = Instant.now();
-        orderItems.add(item);
-        totalPrice = calculateTotalPrice();
     }
 
     @Override
