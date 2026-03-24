@@ -19,7 +19,6 @@ public class OrderItemResponse {
         this.price = price;
     }
 
-
     public Long getId() {
         return id;
     }
@@ -27,7 +26,6 @@ public class OrderItemResponse {
     public ProductResponse getProduct() {
         return product;
     }
-
 
     public Integer getQuantity() {
         return quantity;

@@ -130,6 +130,29 @@ public class Order {
                 BigDecimal::add).setScale(2, RoundingMode.HALF_EVEN);
     }
 
+    public void updateItemQuantity(Long itemId, Integer quantity){
+
+        if (!OrderStatus.CREATED.equals(getStatus())){
+            throw new BusinessException("Cannot modify items after checkout");
+        }
+
+        OrderItem orderItem = orderItems.stream()
+                .filter(x -> x.getId()
+                        .equals(itemId))
+                .findFirst()
+                .orElseThrow(() -> new BusinessException("Item not found"));
+
+        Product product = orderItem.getProduct();
+
+        if (product.getQuantityInStock() < quantity){
+            throw new BusinessException("Insufficient stock");
+        }
+
+        orderItem.updateQuantity(quantity);
+        setTotalPrice(calculateTotalPrice());
+
+    }
+
     public void addItem(Product product, Integer quantity) {
 
         if (product == null) {
@@ -150,7 +173,7 @@ public class Order {
         item.setOrder(this);
         updatedAt = Instant.now();
         orderItems.add(item);
-        totalPrice = calculateTotalPrice();
+        setTotalPrice(calculateTotalPrice());
     }
 
     public Instant getUpdatedAt() {

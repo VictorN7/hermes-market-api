@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.product.Product;
 
 import jakarta.persistence.Column;
@@ -47,6 +48,14 @@ public class OrderItem {
 		this.price = Objects.requireNonNull(price);
 	}
 
+	public void updateQuantity(Integer quantity){
+
+		if (quantity == null || quantity <= 0){
+			throw new BusinessException("Quantity cannot be zero, negative, or null");
+		}
+		this.quantity = quantity;
+	}
+
 	public BigDecimal getTotalPrice() {
 		return price.multiply(BigDecimal.valueOf(quantity)).setScale(2, RoundingMode.HALF_EVEN);
 	}
@@ -77,7 +86,7 @@ public class OrderItem {
 
 	private Integer validateQuantity(Integer quantity){
 		if (quantity == null || quantity <= 0){
-			throw new IllegalArgumentException("Quantity can not be null");
+			throw new BusinessException("Quantity can not be null");
 		}
 		return quantity;
 	}

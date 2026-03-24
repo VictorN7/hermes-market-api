@@ -169,7 +169,7 @@ public class Product {
 				.map(x -> getPrice()
 						.subtract(getPrice()
 								.multiply(x.getDiscountPercentage())
-								.divide(BigDecimal.valueOf(100))))
+								.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_EVEN)))
 				.orElse(getPrice());
 	}
 
@@ -177,7 +177,7 @@ public class Product {
 		return imgUrl;
 	}
 
-	public List<Promotion> getPromotions() { return promotions; }
+	public List<Promotion> getPromotions() { return List.copyOf(promotions); }
 
 	public Brand getBrand() {
 		return brand;
