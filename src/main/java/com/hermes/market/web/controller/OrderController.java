@@ -45,7 +45,9 @@ public class OrderController {
 	}
 
 	@PatchMapping("/{id}/items/{itemId}/quantity")
-	public ResponseEntity<OrderResponse> updateOrderItemQuantity(@PathVariable Long id, @PathVariable Long itemId, @RequestBody @Valid OrderItemUpdateQuantityRequest request){
+	public ResponseEntity<OrderResponse> updateOrderItemQuantity(@PathVariable Long id,
+																 @PathVariable Long itemId,
+																 @RequestBody @Valid OrderItemUpdateQuantityRequest request){
 		return ResponseEntity.ok().body(orderService.updateOrderItemQuantity(id, itemId, request));
 	}
 

@@ -111,6 +111,11 @@ public class Order {
     }
 
     private void setDelivery(DeliveryMethod delivery) {
+
+        if (!OrderStatus.CREATED.equals(getStatus())){
+            throw new BusinessException("Cannot modify items after checkout");
+        }
+
         if (delivery == null) {
             throw new BusinessException("Delivery method cannot be null");
         }
@@ -154,6 +159,10 @@ public class Order {
     }
 
     public void addItem(Product product, Integer quantity) {
+
+        if(!OrderStatus.CREATED.equals(getStatus())){
+            throw new BusinessException("Cannot add items after checkout");
+        }
 
         if (product == null) {
             throw new BusinessException("Product cannot be null");
