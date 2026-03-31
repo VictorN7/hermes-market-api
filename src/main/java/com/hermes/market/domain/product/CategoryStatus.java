@@ -1,5 +1,7 @@
 package com.hermes.market.domain.product;
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum CategoryStatus {
 	
 	ACTIVE(1),
@@ -22,6 +24,6 @@ public enum CategoryStatus {
 				return categoryStatus;
 			}
 		}
-		throw new IllegalArgumentException("Invalid CategoryStatus code " + code);
+		throw new BusinessException("Invalid CategoryStatus code " + code);
 	}
 }

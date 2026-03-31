@@ -1,5 +1,7 @@
 package com.hermes.market.domain.product;
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum PromotionStatus {
 
     ACTIVE(1),
@@ -22,6 +24,6 @@ public enum PromotionStatus {
                 return status;
             }
         }
-        throw new IllegalArgumentException("Invalid PromotionStatus code "+code);
+        throw new BusinessException("Invalid PromotionStatus code "+code);
     }
 }

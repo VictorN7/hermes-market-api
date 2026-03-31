@@ -1,5 +1,7 @@
 package com.hermes.market.domain.user;
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum Role {
 
 	ADMIN(1),
@@ -22,6 +24,6 @@ public enum Role {
 				return role;
 			}
 		}
-		throw new IllegalArgumentException("Invalid Role code " + code);
+		throw new BusinessException("Invalid Role code " + code);
 	}
 }

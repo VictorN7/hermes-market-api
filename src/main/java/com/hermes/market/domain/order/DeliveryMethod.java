@@ -1,5 +1,7 @@
 package com.hermes.market.domain.order;
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum DeliveryMethod {
 
 	PICKUP(1),
@@ -22,6 +24,6 @@ public enum DeliveryMethod {
 				return deliveryMethod;
 			}
 		}
-		throw new IllegalArgumentException("Invalid DeliveryMethod code "+ code);
+		throw new BusinessException("Invalid DeliveryMethod code "+ code);
 	}
 }

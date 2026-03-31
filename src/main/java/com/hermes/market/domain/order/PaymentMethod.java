@@ -1,6 +1,8 @@
 package com.hermes.market.domain.order;
 
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum PaymentMethod {
 	
 	CASH(1), 
@@ -26,6 +28,6 @@ public enum PaymentMethod {
 				return paymentMethod;
 			}
 		}
-		throw new IllegalArgumentException("Invalid PaymentMethod code " + code);
+		throw new BusinessException("Invalid PaymentMethod code " + code);
 	}
 }

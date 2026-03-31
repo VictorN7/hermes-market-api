@@ -1,5 +1,7 @@
 package com.hermes.market.domain.order;
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum OrderStatus {
 
 	CREATED(1),
@@ -25,6 +27,6 @@ public enum OrderStatus {
 				return orderStatus;
 			}
 		}
-		throw new IllegalArgumentException("Invalid OrderStatus code " + code);
+		throw new BusinessException("Invalid OrderStatus code " + code);
 	}
 }

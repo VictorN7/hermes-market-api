@@ -1,6 +1,8 @@
 package com.hermes.market.domain.user;
 
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum UserStatus {
 
 	ACTIVE(1),
@@ -24,6 +26,6 @@ public enum UserStatus {
 				return status;
 			}
 		}
-		throw new IllegalArgumentException("Invalid UserStatus code "+ code);
+		throw new BusinessException("Invalid UserStatus code "+ code);
 	}
 }

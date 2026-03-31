@@ -1,5 +1,7 @@
 package com.hermes.market.domain.product;
 
+import com.hermes.market.application.exception.BusinessException;
+
 public enum PromotionType {
 
     DIRECT_PRICE(1),
@@ -24,6 +26,6 @@ public enum PromotionType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Invalid PromotionType code " + code);
+        throw new BusinessException("Invalid PromotionType code " + code);
     }
 }
