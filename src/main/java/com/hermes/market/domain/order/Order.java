@@ -157,6 +157,14 @@
             setTotalPrice(calculateTotalPrice());
     
         }
+
+        public void cancel(){
+
+            if (!OrderStatus.CREATED.equals(getStatus())){
+                throw new BusinessException("Only orders with status CREATED can be canceled");
+            }
+            setStatus(OrderStatus.CANCELED);
+        }
     
         public void addItem(Product product, Integer quantity) {
     

@@ -42,7 +42,7 @@ public class OrderService {
 	}
 	
 	public OrderResponse findById(Long id) {
-		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found!")));
+		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
 	}
 
 	public List<OrderSummaryResponse> findOrdersByUser(Long id){
@@ -65,8 +65,8 @@ public class OrderService {
 
 	public OrderItemResponse createOrderItem(Long orderId, OrderItemRequest orderItemRequest){
 
-		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found!"));
-		Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+		Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
 		order.addItem(product, orderItemRequest.getQuantity());
 		orderRepository.save(order);
@@ -79,6 +79,13 @@ public class OrderService {
 		Order order =  orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 		order.updateItemQuantity(itemId, request.getQuantity());
 
+		return OrderMapper.toResponse(orderRepository.save(order));
+	}
+
+	public OrderResponse cancelOrder(Long orderId){
+
+		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+		order.cancel();
 		return OrderMapper.toResponse(orderRepository.save(order));
 	}
 
