@@ -66,6 +66,24 @@ public class Product {
 		assignBrand(brand);
 	}
 
+	public void decreaseStock(Integer quantity){
+
+		if (quantity == null){
+			throw new BusinessException("Quantity cannot be null");
+		}
+
+		if (quantity <= 0){
+			throw new BusinessException(name +" : Quantity must be greater than 0");
+		}
+
+		if (quantityInStock < quantity){
+			throw new BusinessException("Insuficient stock for " + name + " : has only "+quantityInStock+" items" );
+		}
+
+		setQuantityInStock(getQuantityInStock() - quantity);
+
+	}
+
 	public void adjustStock(Integer quantityInStock){
 
 		if (quantityInStock == null) {

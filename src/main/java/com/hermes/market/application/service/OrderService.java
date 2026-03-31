@@ -14,6 +14,7 @@ import com.hermes.market.application.mapper.OrderItemMapper;
 import com.hermes.market.application.mapper.OrderMapper;
 import com.hermes.market.domain.order.DeliveryMethod;
 import com.hermes.market.domain.order.Order;
+import com.hermes.market.domain.order.OrderItem;
 import com.hermes.market.domain.order.PaymentMethod;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.Address;
@@ -86,6 +87,17 @@ public class OrderService {
 
 		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 		order.cancel();
+		return OrderMapper.toResponse(orderRepository.save(order));
+	}
+
+	public OrderResponse payOrder(Long orderId){
+
+		Order order =  orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+		order.pay();
+
+		for (OrderItem item : order.getOrderItems()) {
+			productRepository.save(item.getProduct());
+		}
 		return OrderMapper.toResponse(orderRepository.save(order));
 	}
 

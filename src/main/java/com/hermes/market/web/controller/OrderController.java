@@ -56,4 +56,9 @@ public class OrderController {
 		return ResponseEntity.ok().body(orderService.cancelOrder(id));
 	}
 
+	@PatchMapping("/{id}/pay")
+	public ResponseEntity<OrderResponse> payOrder(@PathVariable Long id){
+		return ResponseEntity.ok().body(orderService.payOrder(id));
+	}
+
 }
