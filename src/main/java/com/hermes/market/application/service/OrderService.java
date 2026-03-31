@@ -76,7 +76,7 @@ public class OrderService {
 
 	public OrderResponse updateOrderItemQuantity(Long orderId, Long itemId, OrderItemUpdateQuantityRequest request){
 
-		Order order =  orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not foundgit "));
+		Order order =  orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 		order.updateItemQuantity(itemId, request.getQuantity());
 
 		return OrderMapper.toResponse(orderRepository.save(order));
