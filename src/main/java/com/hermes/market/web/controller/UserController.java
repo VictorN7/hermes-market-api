@@ -110,4 +110,11 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@DeleteMapping("/{id}/addresses/{addressId}")
+	public ResponseEntity<Void> deleteOrDeactivateAddress(@PathVariable Long id, @PathVariable Long addressId){
+
+		addressService.deleteAddress(id, addressId);
+		return ResponseEntity.noContent().build();
+	}
+
 }

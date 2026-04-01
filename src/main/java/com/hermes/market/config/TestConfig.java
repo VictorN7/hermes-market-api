@@ -49,16 +49,16 @@ public class TestConfig implements CommandLineRunner {
 		// USERS
 		// =========================
 
-		User user1 = new User("Victor Santos", "victor@email.com", "123456", LocalDate.of(2000, 8, 7), "12345678901");
+		User user1 = new User("Victor Santos", "victor@email.com", "12345678", LocalDate.of(2000, 8, 7), "12345678901");
 		User user2 = new User("Admin Hermes", "admin@hermes.com", "admin123", LocalDate.of(2001, 9, 25), "98765432100");
-		User user3 = new User("Mariana Lima", "mariana@email.com", "123456", LocalDate.of(1998, 3, 15), "11122233344");
-		User user4 = new User("Carlos Souza", "carlos@email.com", "123456", LocalDate.of(1995, 12, 2), "55566677788");
-		User user5 = new User("Ana Oliveira", "ana@email.com", "123456", LocalDate.of(2002, 6, 18), "99988877766");
-		User user6 = new User("Felipe Rocha", "felipe@email.com", "123456", LocalDate.of(1993, 4, 10), "33344455566");
-		User user7 = new User("Juliana Costa", "juliana@email.com", "123456", LocalDate.of(1997, 7, 22), "77788899900");
-		User user8 = new User("Roberto Alves", "roberto@email.com", "123456", LocalDate.of(1990, 11, 5), "44455566677");
-		User user9 = new User("Camila Ferreira", "camila@email.com", "123456", LocalDate.of(2001, 2, 14), "22233344455");
-		User user10 = new User("Lucas Mendes", "lucas@email.com", "123456", LocalDate.of(1999, 9, 30), "66677788899");
+		User user3 = new User("Mariana Lima", "mariana@email.com", "12345678", LocalDate.of(1998, 3, 15), "11122233344");
+		User user4 = new User("Carlos Souza", "carlos@email.com", "12345678", LocalDate.of(1995, 12, 2), "55566677788");
+		User user5 = new User("Ana Oliveira", "ana@email.com", "12345678", LocalDate.of(2002, 6, 18), "99988877766");
+		User user6 = new User("Felipe Rocha", "felipe@email.com", "12345678", LocalDate.of(1993, 4, 10), "33344455566");
+		User user7 = new User("Juliana Costa", "juliana@email.com", "12345678", LocalDate.of(1997, 7, 22), "77788899900");
+		User user8 = new User("Roberto Alves", "roberto@email.com", "12345678", LocalDate.of(1990, 11, 5), "44455566677");
+		User user9 = new User("Camila Ferreira", "camila@email.com", "12345678", LocalDate.of(2001, 2, 14), "22233344455");
+		User user10 = new User("Lucas Mendes", "lucas@email.com", "12345678", LocalDate.of(1999, 9, 30), "66677788899");
 
 		userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5, user6, user7, user8, user9, user10));
 
@@ -578,8 +578,8 @@ public class TestConfig implements CommandLineRunner {
 		// Produtos: cocaCola (9.99), sprite (8.99), energetico (9.49) — todos acima do promotionalPrice (6.99)
 		Promotion promoBebidas = new Promotion(
 				"Promoção Bebidas da Semana",
-				Instant.parse("2026-03-21T00:00:00Z"),
-				Instant.parse("2026-03-25T00:00:00Z"),
+				Instant.parse("2026-04-21T00:00:00Z"),
+				Instant.parse("2026-04-25T00:00:00Z"),
 				PromotionType.DIRECT_PRICE,
 				new BigDecimal("5"),
 				null
@@ -592,8 +592,8 @@ public class TestConfig implements CommandLineRunner {
 		// Produtos: frango (14.99), coxinha (16.99) — ambos acima do promotionalPrice (11.99)
 		Promotion promoCarnes = new Promotion(
 				"Oferta de Carnes",
-				Instant.parse("2026-03-23T00:00:00Z"),
-				Instant.parse("2026-03-25T00:00:00Z"),
+				Instant.parse("2026-04-23T00:00:00Z"),
+				Instant.parse("2026-04-25T00:00:00Z"),
 				PromotionType.DIRECT_PRICE,
 				new BigDecimal("10"),
 				null
