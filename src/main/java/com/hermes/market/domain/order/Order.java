@@ -155,25 +155,18 @@ public class Order {
 
         orderItem.updateQuantity(quantity);
         setTotalPrice(calculateTotalPrice());
-
     }
 
     public void pay() {
 
-        //Status precisa ser CREATED
         if (!OrderStatus.CREATED.equals(getStatus())) {
             throw new BusinessException("Only orders with status CREATED can be paid");
         }
 
-        // Validar se possui itens no pedido
         if (orderItems.isEmpty()) {
             throw new BusinessException("No order items found");
         }
-
-        // Validar se possui estoque para cada item
         processStock();
-
-        // Mudar status para PAID
         setStatus(OrderStatus.PAID);
     }
 
@@ -182,6 +175,15 @@ public class Order {
         for (int x = 0; x < orderItems.size(); x++) {
             orderItems.get(x).getProduct().decreaseStock(orderItems.get(x).getQuantity());
         }
+    }
+
+    public void ship(){
+
+        if (!OrderStatus.PAID.equals(getStatus())){
+            throw new BusinessException("Only orders with status PAID can be shipped");
+        }
+
+        setStatus(OrderStatus.SHIPPED);
     }
 
     public void cancel() {

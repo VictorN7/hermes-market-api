@@ -101,4 +101,12 @@ public class OrderService {
 		return OrderMapper.toResponse(orderRepository.save(order));
 	}
 
+	public OrderResponse shipOrder(Long orderId){
+
+		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+		order.ship();
+
+		return OrderMapper.toResponse(orderRepository.save(order));
+	}
+
 }
