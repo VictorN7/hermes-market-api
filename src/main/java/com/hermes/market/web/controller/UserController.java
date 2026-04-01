@@ -103,4 +103,11 @@ public class UserController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteOrDeactivateUser(@PathVariable Long id){
+
+		userService.deleteOrDeactivateUser(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }
