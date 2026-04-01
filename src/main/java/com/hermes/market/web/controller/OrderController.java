@@ -66,4 +66,9 @@ public class OrderController {
 		return ResponseEntity.ok().body(orderService.shipOrder(id));
 	}
 
+	@PatchMapping("/{id}/deliver")
+	public ResponseEntity<OrderResponse> deliverOrder(@PathVariable Long id){
+		return ResponseEntity.ok().body(orderService.deliverOrder(id));
+	}
+
 }

@@ -186,6 +186,14 @@ public class Order {
         setStatus(OrderStatus.SHIPPED);
     }
 
+    public void deliver(){
+        if (!OrderStatus.SHIPPED.equals(getStatus())){
+            throw new BusinessException("Only orders with status SHIPPED can be delivered");
+        }
+
+        setStatus(OrderStatus.DELIVERED);
+    }
+
     public void cancel() {
 
         if (!OrderStatus.CREATED.equals(getStatus())) {
