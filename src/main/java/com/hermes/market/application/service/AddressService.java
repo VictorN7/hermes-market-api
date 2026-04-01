@@ -27,11 +27,11 @@ public class AddressService {
         this.orderRepository = orderRepository;
     }
 
-    public List<AddressResponse> findAddressByUser(Long id){
+    public List<AddressResponse> findAddressByUser(Long id) {
         return addressRepository.findByUserId(id).stream().map(AddressMapper::toResponse).toList();
     }
 
-    public AddressResponse insertAddress(Long userId, AddressRequest addressRequest){
+    public AddressResponse insertAddress(Long userId, AddressRequest addressRequest) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Address address = AddressMapper.toCreate(addressRequest, user);
         user.addAddress(address);
@@ -39,19 +39,20 @@ public class AddressService {
         return AddressMapper.toResponse(address);
     }
 
-    public void deleteAddress(Long userId, Long addressId){
-
-        if (!userRepository.existsById(userId)){
-            throw new ResourceNotFoundException("User not found");
-        }
+    public void deleteOrDeactivateAddress(Long userId, Long addressId) {
 
         Address address = addressRepository.findById(addressId).orElseThrow(() -> new ResourceNotFoundException("Address not found"));
 
-        if (orderRepository.existsByAddressId(addressId)){
-            throw new BusinessException("Address cannot be deleted because it is associated with existing orders");
+        if (!userRepository.existsById(userId)) {
+            throw new ResourceNotFoundException("User not found");
         }
 
-        addressRepository.delete(address);
+        if (orderRepository.existsByAddressId(addressId)) {
+            address.deactivate();
+            addressRepository.save(address);
+        } else {
+            addressRepository.delete(address);
+        }
     }
 
 }

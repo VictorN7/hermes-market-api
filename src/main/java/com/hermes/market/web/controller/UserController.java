@@ -113,7 +113,7 @@ public class UserController {
 	@DeleteMapping("/{id}/addresses/{addressId}")
 	public ResponseEntity<Void> deleteOrDeactivateAddress(@PathVariable Long id, @PathVariable Long addressId){
 
-		addressService.deleteAddress(id, addressId);
+		addressService.deleteOrDeactivateAddress(id, addressId);
 		return ResponseEntity.noContent().build();
 	}
 
