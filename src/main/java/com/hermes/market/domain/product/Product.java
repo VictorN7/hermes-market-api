@@ -77,7 +77,7 @@ public class Product {
 		}
 
 		if (quantityInStock < quantity){
-			throw new BusinessException("Insuficient stock for " + name + " : has only "+quantityInStock+" items" );
+			throw new BusinessException("Insufficient stock for " + name + " : has only "+ quantityInStock +" items" );
 		}
 
 		setQuantityInStock(getQuantityInStock() - quantity);
