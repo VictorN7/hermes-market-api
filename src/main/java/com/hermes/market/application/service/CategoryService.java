@@ -8,6 +8,8 @@ import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.CategoryMapper;
 import com.hermes.market.domain.product.Category;
+import com.hermes.market.domain.product.Product;
+import com.hermes.market.infrastructure.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
 
@@ -15,9 +17,11 @@ import com.hermes.market.infrastructure.repository.CategoryRepository;
 public class CategoryService {
 	
 	private final CategoryRepository categoryRepository;
+	private final ProductRepository productRepository;
 	
-	public CategoryService(CategoryRepository categoryRepository) {
+	public CategoryService(CategoryRepository categoryRepository, ProductRepository productRepository) {
 		this.categoryRepository = categoryRepository;
+		this.productRepository = productRepository;
 	}
 	
 	public List<CategoryResponse> findAll(){
@@ -61,6 +65,18 @@ public class CategoryService {
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		category.activate();
 		categoryRepository.save(category);
+	}
+
+	public void deleteOrDeactivateCategory(Long categoryId){
+
+		Category category =  categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
+		if (productRepository.existsByCategoryId(categoryId)){
+			category.deactivate();
+			categoryRepository.save(category);
+		} else {
+			categoryRepository.delete(category);
+		}
 	}
 
 }

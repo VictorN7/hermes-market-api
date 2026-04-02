@@ -55,4 +55,10 @@ public class CategoryController {
 		return ResponseEntity.noContent().build();
 	}
 
+	@DeleteMapping("/{id}")
+	 public ResponseEntity<Void> deleteOrDeactivateCategory(@PathVariable Long id){
+		categoryService.deleteOrDeactivateCategory(id);
+		return ResponseEntity.noContent().build();
+	}
+
 }
