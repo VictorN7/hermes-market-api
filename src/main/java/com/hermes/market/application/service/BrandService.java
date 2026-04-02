@@ -7,7 +7,9 @@ import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.BrandMapper;
 import com.hermes.market.domain.product.Brand;
+import com.hermes.market.domain.product.Category;
 import com.hermes.market.infrastructure.repository.BrandRepository;
+import com.hermes.market.infrastructure.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +18,11 @@ import java.util.List;
 public class BrandService {
 
     private final BrandRepository brandRepository;
+    private final ProductRepository productRepository;
 
-    public BrandService(BrandRepository brandRepository){
+    public BrandService(BrandRepository brandRepository, ProductRepository productRepository){
         this.brandRepository = brandRepository;
+        this.productRepository = productRepository;
     }
 
     public List<BrandMenuResponse> findAll(){
@@ -58,6 +62,18 @@ public class BrandService {
 
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
         brand.deactivate();
+    }
+
+    public void deleteOrDeactivateBrand(Long brandId){
+
+        Brand brand =  brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+
+        if (productRepository.existsByBrandId(brandId)){
+            brand.deactivate();
+            brandRepository.save(brand);
+        } else {
+            brandRepository.delete(brand);
+        }
     }
 
 }
