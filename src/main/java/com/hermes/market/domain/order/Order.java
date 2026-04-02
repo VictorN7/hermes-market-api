@@ -36,7 +36,7 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
     private final List<OrderItem> orderItems = new ArrayList<>();
 
     @Column(nullable = false)
@@ -155,6 +155,25 @@ public class Order {
 
         orderItem.updateQuantity(quantity);
         setTotalPrice(calculateTotalPrice());
+    }
+
+    public void deleteOrderItem(Long itemId) {
+
+        if(itemId == null) {
+            throw new BusinessException("Item cannot be null");
+        }
+
+        if (!OrderStatus.CREATED.equals(getStatus())) {
+            throw new BusinessException("Cannot remove items after checkout");
+        }
+
+        boolean removed = orderItems.removeIf( x -> x.getId().equals(itemId));
+        if(!removed){
+            throw new BusinessException("Item not found");
+        }
+
+        setTotalPrice(calculateTotalPrice());
+        this.updatedAt = Instant.now();
     }
 
     public void pay() {

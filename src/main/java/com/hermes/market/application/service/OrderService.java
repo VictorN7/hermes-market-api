@@ -25,96 +25,112 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderService {
 
-	private final OrderRepository orderRepository;
-	private final UserRepository userRepository;
-	private final AddressRepository addressRepository;
-	private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
+    private final ProductRepository productRepository;
 
-	public OrderService(OrderRepository orderRepository, UserRepository userRepository,
-						AddressRepository addressRepository, ProductRepository productRepository) {
-		this.orderRepository = orderRepository;
-		this.userRepository = userRepository;
-		this.addressRepository = addressRepository;
-		this.productRepository = productRepository;
-	}
+    public OrderService(OrderRepository orderRepository, UserRepository userRepository,
+                        AddressRepository addressRepository, ProductRepository productRepository) {
+        this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
+        this.addressRepository = addressRepository;
+        this.productRepository = productRepository;
+    }
 
-	public List<OrderResponse> findAll(){
-		return orderRepository.findAll().stream().map(OrderMapper::toResponse).toList();
-	}
-	
-	public OrderResponse findById(Long id) {
-		return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
-	}
+    public List<OrderResponse> findAll() {
+        return orderRepository.findAll().stream().map(OrderMapper::toResponse).toList();
+    }
 
-	public List<OrderSummaryResponse> findOrdersByUser(Long id){
-		return orderRepository.findByUserId(id).stream().map(OrderMapper::toSummary).toList();
-	}
+    public OrderResponse findById(Long id) {
+        return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
+    }
 
-	public OrderResponse createOrder(OrderRequest orderRequest){
+    public List<OrderSummaryResponse> findOrdersByUser(Long id) {
+        return orderRepository.findByUserId(id).stream().map(OrderMapper::toSummary).toList();
+    }
 
-		Address address = addressRepository.findById(orderRequest.getAddressId()).orElseThrow(() -> new ResourceNotFoundException("Address not found!"));
-		User user= userRepository.findById(orderRequest.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public OrderResponse createOrder(OrderRequest orderRequest) {
 
-		if (!address.getUser().getId().equals(user.getId())) throw new BusinessException("Address does not belong to this user");
+        Address address = addressRepository.findById(orderRequest.getAddressId()).orElseThrow(() -> new ResourceNotFoundException("Address not found!"));
+        User user = userRepository.findById(orderRequest.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-		return OrderMapper.toResponse(orderRepository.save(OrderMapper.toCreate(
-				PaymentMethod.valueOf(orderRequest.getPayment()),
-				DeliveryMethod.valueOf(orderRequest.getDelivery()),
-				user,
-				address)));
-	}
+        if (!address.getUser().getId().equals(user.getId()))
+            throw new BusinessException("Address does not belong to this user");
 
-	public OrderItemResponse createOrderItem(Long orderId, OrderItemRequest orderItemRequest){
+        return OrderMapper.toResponse(orderRepository.save(OrderMapper.toCreate(
+                PaymentMethod.valueOf(orderRequest.getPayment()),
+                DeliveryMethod.valueOf(orderRequest.getDelivery()),
+                user,
+                address)));
+    }
 
-		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-		Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+    public OrderItemResponse createOrderItem(Long orderId, OrderItemRequest orderItemRequest) {
 
-		order.addItem(product, orderItemRequest.getQuantity());
-		orderRepository.save(order);
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-		return OrderItemMapper.toResponse(order.getOrderItems().get(order.getOrderItems().size()-1));
-	}
+        order.addItem(product, orderItemRequest.getQuantity());
+        orderRepository.save(order);
 
-	public OrderResponse updateOrderItemQuantity(Long orderId, Long itemId, OrderItemUpdateQuantityRequest request){
+        return OrderItemMapper.toResponse(order.getOrderItems().get(order.getOrderItems().size() - 1));
+    }
 
-		Order order =  orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-		order.updateItemQuantity(itemId, request.getQuantity());
+    public OrderResponse updateOrderItemQuantity(Long orderId, Long itemId, OrderItemUpdateQuantityRequest request) {
 
-		return OrderMapper.toResponse(orderRepository.save(order));
-	}
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        order.updateItemQuantity(itemId, request.getQuantity());
 
-	public OrderResponse cancelOrder(Long orderId){
+        return OrderMapper.toResponse(orderRepository.save(order));
+    }
 
-		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-		order.cancel();
-		return OrderMapper.toResponse(orderRepository.save(order));
-	}
+    public OrderResponse cancelOrder(Long orderId) {
 
-	public OrderResponse payOrder(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        order.cancel();
+        return OrderMapper.toResponse(orderRepository.save(order));
+    }
 
-		Order order =  orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-		order.pay();
+    public OrderResponse payOrder(Long orderId) {
 
-		for (OrderItem item : order.getOrderItems()) {
-			productRepository.save(item.getProduct());
-		}
-		return OrderMapper.toResponse(orderRepository.save(order));
-	}
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        order.pay();
 
-	public OrderResponse shipOrder(Long orderId){
+        for (OrderItem item : order.getOrderItems()) {
+            productRepository.save(item.getProduct());
+        }
+        return OrderMapper.toResponse(orderRepository.save(order));
+    }
 
-		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-		order.ship();
+    public OrderResponse shipOrder(Long orderId) {
 
-		return OrderMapper.toResponse(orderRepository.save(order));
-	}
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        order.ship();
 
-	public OrderResponse deliverOrder(Long orderId){
+        return OrderMapper.toResponse(orderRepository.save(order));
+    }
 
-		Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-		order.deliver();
+    public OrderResponse deliverOrder(Long orderId) {
 
-		return OrderMapper.toResponse(orderRepository.save(order));
-	}
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        order.deliver();
+
+        return OrderMapper.toResponse(orderRepository.save(order));
+    }
+
+    public OrderResponse deleteOrderItem(Long orderId, Long itemId) {
+
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        boolean itemsBelongToOrder = order.getOrderItems().stream().anyMatch(x -> x.getId().equals(itemId));
+
+        if (!itemsBelongToOrder) {
+			throw new ResourceNotFoundException("Order item not found in this order");
+        }
+
+        order.deleteOrderItem(itemId);
+
+        return OrderMapper.toResponse(orderRepository.save(order));
+    }
 
 }
