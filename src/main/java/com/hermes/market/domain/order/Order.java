@@ -168,6 +168,7 @@ public class Order {
         }
 
         boolean removed = orderItems.removeIf( x -> x.getId().equals(itemId));
+
         if(!removed){
             throw new BusinessException("Item not found");
         }

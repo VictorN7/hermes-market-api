@@ -120,13 +120,8 @@ public class OrderService {
 
     public OrderResponse deleteOrderItem(Long orderId, Long itemId) {
 
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-
-        boolean itemsBelongToOrder = order.getOrderItems().stream().anyMatch(x -> x.getId().equals(itemId));
-
-        if (!itemsBelongToOrder) {
-			throw new ResourceNotFoundException("Order item not found in this order");
-        }
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         order.deleteOrderItem(itemId);
 

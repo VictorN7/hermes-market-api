@@ -39,8 +39,8 @@ public class PromotionService {
 
     public PromotionResponse insertProduct(Long productId, Long promotionId){
 
-        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found!"));
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         promotion.addProduct(product);
         promotionRepository.save(promotion);
@@ -50,16 +50,26 @@ public class PromotionService {
 
     public void deactivatePromotion(Long promotionId){
 
-        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found!"));
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
         promotion.deactivate();
         promotionRepository.save(promotion);
     }
 
     public void activatePromotion(Long promotionId){
 
-        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found!"));
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
         promotion.activate();
         promotionRepository.save(promotion);
+    }
+
+    public PromotionResponse deleteProduct(Long promotionId, Long productId){
+
+        Promotion promotion = promotionRepository.findById(promotionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+
+        promotion.deleteProduct(productId);
+
+        return PromotionMapper.toResponse(promotionRepository.save(promotion));
     }
 
 }

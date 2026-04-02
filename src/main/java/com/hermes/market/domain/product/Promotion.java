@@ -44,7 +44,7 @@ public class Promotion {
             joinColumns = @JoinColumn(name = "promotion_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<Product> products = new ArrayList<>();
+    private final List<Product> products = new ArrayList<>();
 
     protected Promotion(){
     }
@@ -58,6 +58,20 @@ public class Promotion {
         setDiscountPercentage(discountPercentage);
         setMinQuantity(minQuantity);
         validateTypePromotion();
+    }
+
+    public void deleteProduct(Long productId){
+
+        if (productId == null){
+            throw new BusinessException("Product id cannot be null");
+        }
+
+        boolean removed = products.removeIf(x -> x.getId().equals(productId));
+
+        if (!removed){
+            throw new BusinessException("Product not found");
+        }
+
     }
 
     public void deactivate(){
@@ -175,7 +189,7 @@ public class Promotion {
     }
 
     public List<Product> getProducts() {
-        return products;
+        return List.copyOf(products);
     }
 
     public String getName() {

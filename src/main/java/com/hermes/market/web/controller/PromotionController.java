@@ -52,5 +52,10 @@ public class PromotionController {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{promotionId}/products/{productId}")
+    public ResponseEntity<PromotionResponse> deleteProduct(@PathVariable Long promotionId, @PathVariable Long productId){
+        return ResponseEntity.ok().body(promotionService.deleteProduct(promotionId, productId));
+    }
+
 }
 
