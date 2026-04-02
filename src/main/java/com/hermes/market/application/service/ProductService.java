@@ -13,14 +13,10 @@ import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Brand;
 import com.hermes.market.domain.product.Category;
 import com.hermes.market.domain.product.Product;
-import com.hermes.market.infrastructure.repository.BrandRepository;
-import com.hermes.market.infrastructure.repository.CategoryRepository;
-import com.hermes.market.infrastructure.repository.OrderRepository;
+import com.hermes.market.infrastructure.repository.*;
 import com.hermes.market.infrastructure.repository.specification.ProductSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import com.hermes.market.infrastructure.repository.ProductRepository;
 
 @Service
 public class ProductService {
@@ -28,14 +24,12 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
-    private final OrderRepository orderRepository;
 
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
-                          BrandRepository brandRepository, OrderRepository orderRepository) {
+                          BrandRepository brandRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.brandRepository = brandRepository;
-        this.orderRepository = orderRepository;
     }
 
     public List<ProductSummaryResponse> findAll(ProductFilter productFilter) {
@@ -106,7 +100,7 @@ public class ProductService {
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        if (orderRepository.existsByProductId(productId)){
+        if (productRepository.existsById(productId)){
             product.deactivate();
             productRepository.save(product);
         } else {

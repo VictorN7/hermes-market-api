@@ -10,12 +10,10 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>{
 
-    List<Order> findByUserId (Long userId);
+    List<Order> findByUserId (Long id);
 
-    boolean existsByUserId(Long userId);
+    boolean existsByUserId(Long id);
 
-    boolean existsByAddressId(Long addressId);
-
-    boolean existsByProductId(Long productId);
+    boolean existsByAddressId(Long id);
 
 }
