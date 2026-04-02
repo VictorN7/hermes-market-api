@@ -15,6 +15,7 @@ import com.hermes.market.domain.product.Category;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
+import com.hermes.market.infrastructure.repository.OrderRepository;
 import com.hermes.market.infrastructure.repository.specification.ProductSpecification;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,14 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
+    private final OrderRepository orderRepository;
 
-    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository, BrandRepository brandRepository) {
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
+                          BrandRepository brandRepository, OrderRepository orderRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.brandRepository = brandRepository;
+        this.orderRepository = orderRepository;
     }
 
     public List<ProductSummaryResponse> findAll(ProductFilter productFilter) {
@@ -47,25 +51,25 @@ public class ProductService {
 
     public ProductResponse findById(Long id) {
         return ProductMapper.toResponse(productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found!")));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found")));
     }
 
     public ProductResponse createProduct(ProductRequest productRequest) {
         return ProductMapper.toResponse(productRepository.save(ProductMapper.toCreate(productRequest,
-                categoryRepository.findById(productRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found!")),
-                brandRepository.findById(productRequest.getBrandId()).orElseThrow(() -> new ResourceNotFoundException("Brand not found!")))));
+                categoryRepository.findById(productRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found")),
+                brandRepository.findById(productRequest.getBrandId()).orElseThrow(() -> new ResourceNotFoundException("Brand not found")))));
     }
 
     public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         Category category = categoryRepository.findById(productUpdateRequest.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
         Brand brand = brandRepository.findById(productUpdateRequest.getBrandId())
-                .orElseThrow(() -> new ResourceNotFoundException("Brand not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
         product.updateProduct(productUpdateRequest.getName(), productUpdateRequest.getDescription(),
                 productUpdateRequest.getPrice(), productUpdateRequest.getImgUrl(), category, brand);
@@ -86,16 +90,28 @@ public class ProductService {
 
     public void deactivateProduct(Long productId){
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.deactivate();
         productRepository.save(product);
     }
 
     public void activateProduct(Long productId){
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.activate();
         productRepository.save(product);
+    }
+
+    public void deleteOrDeactivateProduct(Long productId){
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        if (orderRepository.existsByProductId(productId)){
+            product.deactivate();
+            productRepository.save(product);
+        } else {
+            productRepository.delete(product);
+        }
     }
 
 }
