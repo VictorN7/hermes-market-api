@@ -10,6 +10,7 @@ import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.UserMapper;
 import com.hermes.market.domain.order.Order;
 import com.hermes.market.domain.user.User;
+import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -92,6 +93,10 @@ public class UserService {
 			user.deactivate();
 			userRepository.save(user);
 		}
+	}
+
+	public List<UserResponse> findAllUsersDeactivated(){
+		return userRepository.findByStatus(UserStatus.INACTIVE).stream().map(UserMapper::toResponse).toList();
 	}
 
 }
