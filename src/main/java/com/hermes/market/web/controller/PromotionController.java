@@ -25,6 +25,11 @@ public class PromotionController {
         return ResponseEntity.ok().body(promotionService.findAll());
     }
 
+    @GetMapping("/inactive")
+    public ResponseEntity<List<PromotionResponse>> findInactivePromotions(){
+        return ResponseEntity.ok().body(promotionService.findAllPromotionsDeactivated());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PromotionResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok().body(promotionService.findById(id));

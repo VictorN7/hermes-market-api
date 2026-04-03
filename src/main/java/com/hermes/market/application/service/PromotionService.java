@@ -6,6 +6,7 @@ import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.PromotionMapper;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.product.Promotion;
+import com.hermes.market.domain.product.PromotionStatus;
 import com.hermes.market.domain.product.PromotionType;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 import com.hermes.market.infrastructure.repository.PromotionRepository;
@@ -70,6 +71,10 @@ public class PromotionService {
         promotion.deleteProduct(productId);
 
         return PromotionMapper.toResponse(promotionRepository.save(promotion));
+    }
+
+    public List<PromotionResponse> findAllPromotionsDeactivated(){
+        return promotionRepository.findByStatus(PromotionStatus.INACTIVE).stream().map(PromotionMapper::toResponse).toList();
     }
 
 }
