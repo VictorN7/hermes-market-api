@@ -8,6 +8,7 @@ import com.hermes.market.application.dto.request.ProductStockUpdateRequest;
 import com.hermes.market.application.dto.request.ProductUpdateRequest;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Brand;
@@ -117,6 +118,17 @@ public class ProductService {
                 .stream()
                 .map(ProductMapper::toResponse)
                 .toList();
+    }
+
+    public ProductResponse findProductDeactivatedById(Long productId){
+
+        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        if (!ProductStatus.INACTIVE.equals(product.getStatus())){
+            throw new ResourceNotFoundException("Inactive product not found");
+        }
+
+        return ProductMapper.toResponse(product);
     }
 
 }

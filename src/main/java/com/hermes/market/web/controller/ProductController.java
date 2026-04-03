@@ -35,6 +35,11 @@ public class ProductController {
 		return ResponseEntity.ok().body(productService.findAllProductsDeactivated());
 	}
 
+	@GetMapping("/inactive/{id}")
+	public ResponseEntity<ProductResponse> findInactiveProductById(@PathVariable Long id){
+		return ResponseEntity.ok().body(productService.findProductDeactivatedById(id));
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<ProductResponse> findProductById(@PathVariable Long id){
 			return ResponseEntity.ok().body(productService.findById(id));
