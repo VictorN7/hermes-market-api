@@ -8,6 +8,7 @@ import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.CategoryMapper;
 import com.hermes.market.domain.product.Category;
+import com.hermes.market.domain.product.CategoryStatus;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -77,6 +78,10 @@ public class CategoryService {
 		} else {
 			categoryRepository.delete(category);
 		}
+	}
+
+	public List<CategoryResponse> findAllCategoriesDeactivated(){
+		return categoryRepository.findByStatus(CategoryStatus.INACTIVE).stream().map(CategoryMapper::toResponse).toList();
 	}
 
 }
