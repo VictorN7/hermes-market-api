@@ -13,6 +13,7 @@ import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Brand;
 import com.hermes.market.domain.product.Category;
 import com.hermes.market.domain.product.Product;
+import com.hermes.market.domain.product.ProductStatus;
 import com.hermes.market.infrastructure.repository.*;
 import com.hermes.market.infrastructure.repository.specification.ProductSpecification;
 import org.springframework.data.jpa.domain.Specification;
@@ -24,12 +25,14 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
+    private final OrderItemRepository orderItemRepository;
 
     public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository,
-                          BrandRepository brandRepository) {
+                          BrandRepository brandRepository, OrderItemRepository orderItemRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.brandRepository = brandRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     public List<ProductSummaryResponse> findAll(ProductFilter productFilter) {
@@ -100,12 +103,20 @@ public class ProductService {
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        if (productRepository.existsById(productId)){
+        if (orderItemRepository.existsByProductId(productId)){
             product.deactivate();
             productRepository.save(product);
         } else {
             productRepository.delete(product);
         }
+    }
+
+    public List<ProductResponse> findAllProductsDeactivated(){
+
+        return productRepository.findByStatus(ProductStatus.INACTIVE)
+                .stream()
+                .map(ProductMapper::toResponse)
+                .toList();
     }
 
 }
