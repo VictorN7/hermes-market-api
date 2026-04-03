@@ -7,6 +7,7 @@ import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.BrandMapper;
 import com.hermes.market.domain.product.Brand;
+import com.hermes.market.domain.product.BrandStatus;
 import com.hermes.market.domain.product.Category;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.ProductRepository;
@@ -74,6 +75,10 @@ public class BrandService {
         } else {
             brandRepository.delete(brand);
         }
+    }
+
+    public List<BrandDetailResponse> findAllBrandsDeactivated(){
+        return brandRepository.findByStatus(BrandStatus.INACTIVE).stream().map(BrandMapper::toResponse).toList();
     }
 
 }
