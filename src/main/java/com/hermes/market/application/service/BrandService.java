@@ -21,26 +21,26 @@ public class BrandService {
     private final BrandRepository brandRepository;
     private final ProductRepository productRepository;
 
-    public BrandService(BrandRepository brandRepository, ProductRepository productRepository){
+    public BrandService(BrandRepository brandRepository, ProductRepository productRepository) {
         this.brandRepository = brandRepository;
         this.productRepository = productRepository;
     }
 
-    public List<BrandMenuResponse> findAll(){
+    public List<BrandMenuResponse> findAll() {
         return brandRepository.findAll().stream().map(BrandMapper::toMenu).toList();
     }
 
-    public BrandDetailResponse findById(Long id){
+    public BrandDetailResponse findById(Long id) {
         return BrandMapper.toResponse(brandRepository
                 .findById(id)
-                .orElseThrow( () -> new ResourceNotFoundException("Brand not found")));
+                .orElseThrow(() -> new ResourceNotFoundException("Brand not found")));
     }
 
-    public BrandDetailResponse createBrand(BrandRequest brandRequest){
+    public BrandDetailResponse createBrand(BrandRequest brandRequest) {
         return BrandMapper.toResponse(brandRepository.save(BrandMapper.toCreate(brandRequest)));
     }
 
-    public BrandDetailResponse updateBrand(Long brandId, BrandRequest brandRequest){
+    public BrandDetailResponse updateBrand(Long brandId, BrandRequest brandRequest) {
 
         String newName = brandRequest.getName();
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
@@ -53,23 +53,23 @@ public class BrandService {
         return BrandMapper.toResponse(brand);
     }
 
-    public void activateBrand(Long brandId){
+    public void activateBrand(Long brandId) {
 
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
         brand.activate();
     }
 
-    public void deactivateBrand(Long brandId){
+    public void deactivateBrand(Long brandId) {
 
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
         brand.deactivate();
     }
 
-    public void deleteOrDeactivateBrand(Long brandId){
+    public void deleteOrDeactivateBrand(Long brandId) {
 
-        Brand brand =  brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
-        if (productRepository.existsByBrandId(brandId)){
+        if (productRepository.existsByBrandId(brandId)) {
             brand.deactivate();
             brandRepository.save(brand);
         } else {
@@ -77,8 +77,18 @@ public class BrandService {
         }
     }
 
-    public List<BrandDetailResponse> findAllBrandsDeactivated(){
+    public List<BrandDetailResponse> findAllBrandsDeactivated() {
         return brandRepository.findByStatus(BrandStatus.INACTIVE).stream().map(BrandMapper::toResponse).toList();
+    }
+
+    public BrandDetailResponse findBrandDeactivatedById(Long brandId) {
+
+        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+
+        if (!BrandStatus.INACTIVE.equals(brand.getStatus())) {
+            throw new BusinessException("Inactive brand not found");
+        }
+        return BrandMapper.toResponse(brand);
     }
 
 }
