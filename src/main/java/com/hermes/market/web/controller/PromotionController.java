@@ -30,6 +30,11 @@ public class PromotionController {
         return ResponseEntity.ok().body(promotionService.findInactivePromotions());
     }
 
+    @GetMapping("/inactive/{id}")
+    public ResponseEntity<PromotionResponse> findInactivePromotionById(@PathVariable Long id){
+        return ResponseEntity.ok().body(promotionService.findInactivePromotionById(id));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PromotionResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok().body(promotionService.findById(id));

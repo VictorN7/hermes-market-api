@@ -77,4 +77,15 @@ public class PromotionService {
         return promotionRepository.findByStatus(PromotionStatus.INACTIVE).stream().map(PromotionMapper::toResponse).toList();
     }
 
+    public PromotionResponse findInactivePromotionById(Long promotionId){
+
+        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+
+        if(!PromotionStatus.INACTIVE.equals(promotion.getStatus())){
+            throw new ResourceNotFoundException("Inactive promotion not found");
+        }
+
+        return PromotionMapper.toResponse(promotion);
+    }
+
 }
