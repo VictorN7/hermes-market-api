@@ -84,4 +84,15 @@ public class CategoryService {
 		return categoryRepository.findByStatus(CategoryStatus.INACTIVE).stream().map(CategoryMapper::toResponse).toList();
 	}
 
+	public CategoryResponse findInactiveCategoryById(Long id){
+
+		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
+		if(!CategoryStatus.INACTIVE.equals(category.getStatus())){
+			throw new ResourceNotFoundException("Inactive category not found");
+		}
+
+		return CategoryMapper.toResponse(category);
+	}
+
 }

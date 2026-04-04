@@ -33,6 +33,11 @@ public class CategoryController {
 		return ResponseEntity.ok().body(categoryService.findAllCategoriesDeactivated());
 	}
 
+	@GetMapping("/inactive/{id}")
+	public ResponseEntity<CategoryResponse> findInactiveCategoryById(@PathVariable Long id){
+		return ResponseEntity.ok().body(categoryService.findInactiveCategoryById(id));
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
 		return ResponseEntity.ok().body(categoryService.findById(id));
