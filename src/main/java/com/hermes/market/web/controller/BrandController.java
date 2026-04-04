@@ -32,8 +32,8 @@ public class BrandController {
     }
 
     @GetMapping("/inactive/{id}")
-    public ResponseEntity<BrandDetailResponse> findInactiveBrandById(@PathVariable Long brandId){
-        return ResponseEntity.ok().body(brandService.findInactiveBrandById(brandId));
+    public ResponseEntity<BrandDetailResponse> findInactiveBrandById(@PathVariable Long id){
+        return ResponseEntity.ok().body(brandService.findInactiveBrandById(id));
     }
 
     @GetMapping("/{id}")

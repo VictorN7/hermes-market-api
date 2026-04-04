@@ -8,7 +8,6 @@ import com.hermes.market.application.dto.request.UserUpdateRequest;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.UserMapper;
-import com.hermes.market.domain.order.Order;
 import com.hermes.market.domain.user.User;
 import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.OrderRepository;
