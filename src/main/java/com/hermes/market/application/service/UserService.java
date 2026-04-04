@@ -99,4 +99,15 @@ public class UserService {
 		return userRepository.findByStatus(UserStatus.INACTIVE).stream().map(UserMapper::toResponse).toList();
 	}
 
+	public UserResponse findInactiveUserById(Long userId){
+
+		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+		if (!UserStatus.INACTIVE.equals(user.getStatus())){
+			throw new ResourceNotFoundException("Inactive user not found");
+		}
+
+		return UserMapper.toResponse(user);
+	}
+
 }

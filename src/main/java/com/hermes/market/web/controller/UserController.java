@@ -48,6 +48,11 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.findInactiveUsers());
 	}
 
+	@GetMapping("/inactive/{id}")
+	public ResponseEntity<UserResponse> findInactiveUserById(@PathVariable Long id){
+		return ResponseEntity.ok().body(userService.findInactiveUserById(id));
+	}
+
 	@GetMapping("/{id}/orders")
 	public ResponseEntity<List<OrderSummaryResponse>> findOrdersByUser(@PathVariable Long id){
 		return ResponseEntity.ok().body(orderService.findOrdersByUser(id));
