@@ -27,7 +27,7 @@ public class PromotionController {
 
     @GetMapping("/inactive")
     public ResponseEntity<List<PromotionResponse>> findInactivePromotions(){
-        return ResponseEntity.ok().body(promotionService.findAllPromotionsDeactivated());
+        return ResponseEntity.ok().body(promotionService.findInactivePromotions());
     }
 
     @GetMapping("/{id}")

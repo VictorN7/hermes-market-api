@@ -30,7 +30,7 @@ public class CategoryController {
 
 	@GetMapping("/inactive")
 	public ResponseEntity<List<CategoryResponse>> findInactiveCategories(){
-		return ResponseEntity.ok().body(categoryService.findAllCategoriesDeactivated());
+		return ResponseEntity.ok().body(categoryService.findInactiveCategories());
 	}
 
 	@GetMapping("/inactive/{id}")

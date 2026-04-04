@@ -80,7 +80,7 @@ public class CategoryService {
 		}
 	}
 
-	public List<CategoryResponse> findAllCategoriesDeactivated(){
+	public List<CategoryResponse> findInactiveCategories(){
 		return categoryRepository.findByStatus(CategoryStatus.INACTIVE).stream().map(CategoryMapper::toResponse).toList();
 	}
 

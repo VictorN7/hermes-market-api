@@ -95,7 +95,7 @@ public class UserService {
 		}
 	}
 
-	public List<UserResponse> findAllUsersDeactivated(){
+	public List<UserResponse> findInactiveUsers(){
 		return userRepository.findByStatus(UserStatus.INACTIVE).stream().map(UserMapper::toResponse).toList();
 	}
 

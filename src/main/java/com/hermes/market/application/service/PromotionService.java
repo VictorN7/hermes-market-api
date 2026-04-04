@@ -73,7 +73,7 @@ public class PromotionService {
         return PromotionMapper.toResponse(promotionRepository.save(promotion));
     }
 
-    public List<PromotionResponse> findAllPromotionsDeactivated(){
+    public List<PromotionResponse> findInactivePromotions(){
         return promotionRepository.findByStatus(PromotionStatus.INACTIVE).stream().map(PromotionMapper::toResponse).toList();
     }
 

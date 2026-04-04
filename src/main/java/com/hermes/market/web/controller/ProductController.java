@@ -32,12 +32,12 @@ public class ProductController {
 
 	@GetMapping("/inactive")
 	public ResponseEntity<List<ProductResponse>> findInactiveProducts(){
-		return ResponseEntity.ok().body(productService.findAllProductsDeactivated());
+		return ResponseEntity.ok().body(productService.findInactiveProducts());
 	}
 
 	@GetMapping("/inactive/{id}")
 	public ResponseEntity<ProductResponse> findInactiveProductById(@PathVariable Long id){
-		return ResponseEntity.ok().body(productService.findProductDeactivatedById(id));
+		return ResponseEntity.ok().body(productService.findInactiveProductById(id));
 	}
 
 	@GetMapping("/{id}")

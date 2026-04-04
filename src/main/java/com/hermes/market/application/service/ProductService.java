@@ -112,7 +112,7 @@ public class ProductService {
         }
     }
 
-    public List<ProductResponse> findAllProductsDeactivated(){
+    public List<ProductResponse> findInactiveProducts(){
 
         return productRepository.findByStatus(ProductStatus.INACTIVE)
                 .stream()
@@ -120,7 +120,7 @@ public class ProductService {
                 .toList();
     }
 
-    public ProductResponse findProductDeactivatedById(Long productId){
+    public ProductResponse findInactiveProductById(Long productId){
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 

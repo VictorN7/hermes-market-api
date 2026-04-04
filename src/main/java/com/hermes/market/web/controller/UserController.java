@@ -45,7 +45,7 @@ public class UserController {
 
 	@GetMapping("/inactive")
 	public ResponseEntity<List<UserResponse>> findInactiveUsers(){
-		return ResponseEntity.ok().body(userService.findAllUsersDeactivated());
+		return ResponseEntity.ok().body(userService.findInactiveUsers());
 	}
 
 	@GetMapping("/{id}/orders")

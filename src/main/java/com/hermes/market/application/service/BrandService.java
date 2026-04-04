@@ -77,11 +77,11 @@ public class BrandService {
         }
     }
 
-    public List<BrandDetailResponse> findAllBrandsDeactivated() {
+    public List<BrandDetailResponse> findInactiveBrands() {
         return brandRepository.findByStatus(BrandStatus.INACTIVE).stream().map(BrandMapper::toResponse).toList();
     }
 
-    public BrandDetailResponse findBrandDeactivatedById(Long brandId) {
+    public BrandDetailResponse findInactiveBrandById(Long brandId) {
 
         Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
