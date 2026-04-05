@@ -1,17 +1,14 @@
 package com.hermes.market.web.controller;
 
-import java.util.List;
-
 import com.hermes.market.application.dto.request.CategoryRequest;
 import com.hermes.market.application.dto.response.CategoryResponse;
-import com.hermes.market.application.dto.response.ProductResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.hermes.market.application.service.CategoryService;
-
 
 @RestController
 @RequestMapping("/api/v1/categories")
@@ -24,13 +21,13 @@ public class CategoryController {
 	}
 	
 	@GetMapping()
-	public ResponseEntity<List<CategoryResponse>> findAll() {
-		return ResponseEntity.ok().body(categoryService.findAll());
+	public ResponseEntity<Page<CategoryResponse>> findAll(Pageable pageable) {
+		return ResponseEntity.ok().body(categoryService.findAll(pageable));
 	}
 
 	@GetMapping("/inactive")
-	public ResponseEntity<List<CategoryResponse>> findInactiveCategories(){
-		return ResponseEntity.ok().body(categoryService.findInactiveCategories());
+	public ResponseEntity<Page<CategoryResponse>> findInactiveCategories(Pageable pageable) {
+		return ResponseEntity.ok().body(categoryService.findInactiveCategories(pageable));
 	}
 
 	@GetMapping("/inactive/{id}")

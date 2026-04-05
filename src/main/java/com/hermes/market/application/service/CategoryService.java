@@ -1,7 +1,5 @@
 package com.hermes.market.application.service;
 
-import java.util.List;
-
 import com.hermes.market.application.dto.request.CategoryRequest;
 import com.hermes.market.application.dto.response.CategoryResponse;
 import com.hermes.market.application.exception.BusinessException;
@@ -9,8 +7,9 @@ import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.CategoryMapper;
 import com.hermes.market.domain.product.Category;
 import com.hermes.market.domain.product.CategoryStatus;
-import com.hermes.market.domain.product.Product;
 import com.hermes.market.infrastructure.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
 
@@ -25,11 +24,9 @@ public class CategoryService {
 		this.productRepository = productRepository;
 	}
 	
-	public List<CategoryResponse> findAll(){
-		return categoryRepository.findAll()
-				.stream()
-				.map(CategoryMapper::toResponse)
-				.toList();
+	public Page<CategoryResponse> findAll(Pageable pageable) {
+		Page<Category> categories = categoryRepository.findAll(pageable);
+		return categories.map(CategoryMapper::toResponse);
 	}
 	
 	public CategoryResponse findById(Long id) {
@@ -80,8 +77,9 @@ public class CategoryService {
 		}
 	}
 
-	public List<CategoryResponse> findInactiveCategories(){
-		return categoryRepository.findByStatus(CategoryStatus.INACTIVE).stream().map(CategoryMapper::toResponse).toList();
+	public Page<CategoryResponse> findInactiveCategories(Pageable pageable){
+		 Page<Category> categories = categoryRepository.findByStatus(CategoryStatus.INACTIVE, pageable);
+		 return categories.map(CategoryMapper::toResponse);
 	}
 
 	public CategoryResponse findInactiveCategoryById(Long id){
