@@ -1,7 +1,5 @@
 package com.hermes.market.application.service;
 
-import java.util.List;
-
 import com.hermes.market.application.dto.request.OrderItemRequest;
 import com.hermes.market.application.dto.request.OrderItemUpdateQuantityRequest;
 import com.hermes.market.application.dto.request.OrderRequest;
@@ -20,6 +18,8 @@ import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.Address;
 import com.hermes.market.domain.user.User;
 import com.hermes.market.infrastructure.repository.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -38,16 +38,18 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public List<OrderResponse> findAll() {
-        return orderRepository.findAll().stream().map(OrderMapper::toResponse).toList();
+    public Page<OrderResponse> findAll(Pageable pageable) {
+        Page<Order> orders = orderRepository.findAll(pageable);
+        return orders.map(OrderMapper::toResponse);
     }
 
     public OrderResponse findById(Long id) {
         return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
     }
 
-    public List<OrderSummaryResponse> findOrdersByUser(Long id) {
-        return orderRepository.findByUserId(id).stream().map(OrderMapper::toSummary).toList();
+    public Page<OrderSummaryResponse> findOrdersByUser(Long id, Pageable pageable) {
+        Page<Order> orders = orderRepository.findByUserId(id, pageable);
+        return orders.map(OrderMapper::toSummary);
     }
 
     public OrderResponse createOrder(OrderRequest orderRequest) {

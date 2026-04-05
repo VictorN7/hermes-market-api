@@ -1,13 +1,13 @@
 package com.hermes.market.web.controller;
 
-import java.util.List;
-
 import com.hermes.market.application.dto.request.OrderItemRequest;
 import com.hermes.market.application.dto.request.OrderItemUpdateQuantityRequest;
 import com.hermes.market.application.dto.request.OrderRequest;
 import com.hermes.market.application.dto.response.OrderItemResponse;
 import com.hermes.market.application.dto.response.OrderResponse;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +25,8 @@ public class OrderController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<OrderResponse>> findAll(){
-		return ResponseEntity.ok().body(orderService.findAll());
+	public ResponseEntity<Page<OrderResponse>> findAll(Pageable pageable){
+		return ResponseEntity.ok().body(orderService.findAll(pageable));
 	}
 
 	@GetMapping("/{id}")
