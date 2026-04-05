@@ -10,6 +10,8 @@ import com.hermes.market.domain.user.User;
 import com.hermes.market.infrastructure.repository.AddressRepository;
 import com.hermes.market.infrastructure.repository.OrderRepository;
 import com.hermes.market.infrastructure.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +29,9 @@ public class AddressService {
         this.orderRepository = orderRepository;
     }
 
-    public List<AddressResponse> findAddressByUser(Long id) {
-        return addressRepository.findByUserId(id).stream().map(AddressMapper::toResponse).toList();
+    public Page<AddressResponse> findAddressByUser(Long id, Pageable pageable) {
+        Page<Address> addresses = addressRepository.findByUserId(id, pageable);
+        return addresses.map(AddressMapper::toResponse);
     }
 
     public AddressResponse insertAddress(Long userId, AddressRequest addressRequest) {
