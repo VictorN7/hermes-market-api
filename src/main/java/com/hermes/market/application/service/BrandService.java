@@ -11,6 +11,8 @@ import com.hermes.market.domain.product.BrandStatus;
 import com.hermes.market.domain.product.Category;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,9 @@ public class BrandService {
         this.productRepository = productRepository;
     }
 
-    public List<BrandMenuResponse> findAll() {
-        return brandRepository.findAll().stream().map(BrandMapper::toMenu).toList();
+    public Page<BrandMenuResponse> findAll(Pageable pageable) {
+        Page<Brand> brands = brandRepository.findAll(pageable);
+        return brands.map(BrandMapper::toMenu);
     }
 
     public BrandDetailResponse findById(Long id) {
@@ -77,8 +80,9 @@ public class BrandService {
         }
     }
 
-    public List<BrandDetailResponse> findInactiveBrands() {
-        return brandRepository.findByStatus(BrandStatus.INACTIVE).stream().map(BrandMapper::toResponse).toList();
+    public Page<BrandDetailResponse> findInactiveBrands(Pageable pageable) {
+        Page<Brand> brands = brandRepository.findByStatus(BrandStatus.INACTIVE, pageable);
+        return brands.map(BrandMapper::toResponse);
     }
 
     public BrandDetailResponse findInactiveBrandById(Long brandId) {
