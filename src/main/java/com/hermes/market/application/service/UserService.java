@@ -1,7 +1,5 @@
 package com.hermes.market.application.service;
 
-import java.util.List;
-
 import com.hermes.market.application.dto.request.UserPasswordRequest;
 import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.request.UserUpdateRequest;
@@ -11,6 +9,8 @@ import com.hermes.market.application.mapper.UserMapper;
 import com.hermes.market.domain.user.User;
 import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.OrderRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hermes.market.infrastructure.repository.UserRepository;
@@ -18,95 +18,97 @@ import com.hermes.market.infrastructure.repository.UserRepository;
 @Service
 public class UserService {
 
-	private final UserRepository userRepository;
-	private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
-	public UserService(UserRepository userRepository, OrderRepository orderRepository) {
-		this.userRepository = userRepository;
-		this.orderRepository = orderRepository;
-	}
-	
-	public List<UserResponse> findAll(){
-		return userRepository.findAll().stream().map(UserMapper::toResponse).toList();
-	}
-	
-	public UserResponse findById(Long id) {
-		return UserMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found")));
-	}
+    public UserService(UserRepository userRepository, OrderRepository orderRepository) {
+        this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
+    }
 
-	public UserResponse createUser(UserRequest userRequest){
-		return UserMapper.toResponse(userRepository.save(UserMapper.toCreate(userRequest)));
-	}
+    public Page<UserResponse> findAll(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(UserMapper::toResponse);
+    }
 
-	public UserResponse updateUser(Long userId, UserUpdateRequest userUpdateRequest){
+    public UserResponse findById(Long id) {
+        return UserMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found")));
+    }
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-		user.updateUser(userUpdateRequest.getName(), userUpdateRequest.getEmail(), userUpdateRequest.getBirthDate());
-		userRepository.save(user);
+    public UserResponse createUser(UserRequest userRequest) {
+        return UserMapper.toResponse(userRepository.save(UserMapper.toCreate(userRequest)));
+    }
 
-		return UserMapper.toResponse(user);
-	}
+    public UserResponse updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
 
-	public void updatePassword(Long userId, UserPasswordRequest userPasswordRequest){
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.updateUser(userUpdateRequest.getName(), userUpdateRequest.getEmail(), userUpdateRequest.getBirthDate());
+        userRepository.save(user);
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-		user.updatePassword(userPasswordRequest.getNewPassword(), userPasswordRequest.getConfirmPassword(), userPasswordRequest.getCurrentPassword());
-		userRepository.save(user);
-	}
+        return UserMapper.toResponse(user);
+    }
 
-	public void deactivateUser(Long userId){
+    public void updatePassword(Long userId, UserPasswordRequest userPasswordRequest) {
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-		user.deactivate();
-		userRepository.save(user);
-	}
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.updatePassword(userPasswordRequest.getNewPassword(), userPasswordRequest.getConfirmPassword(), userPasswordRequest.getCurrentPassword());
+        userRepository.save(user);
+    }
 
-	public void activateUser(Long userId){
+    public void deactivateUser(Long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-		user.activate();
-		userRepository.save(user);
-	}
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.deactivate();
+        userRepository.save(user);
+    }
 
-	public void blockUser(Long userId){
+    public void activateUser(Long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-		user.block();
-		userRepository.save(user);
-	}
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.activate();
+        userRepository.save(user);
+    }
 
-	public void unlockUser(Long userId){
+    public void blockUser(Long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-		user.unlock();
-		userRepository.save(user);
-	}
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.block();
+        userRepository.save(user);
+    }
 
-	public void deleteOrDeactivateUser(Long userId){
+    public void unlockUser(Long userId) {
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.unlock();
+        userRepository.save(user);
+    }
 
-		if (!orderRepository.existsByUserId(userId)){
-			userRepository.delete(user);
-		}else{
-			user.deactivate();
-			userRepository.save(user);
-		}
-	}
+    public void deleteOrDeactivateUser(Long userId) {
 
-	public List<UserResponse> findInactiveUsers(){
-		return userRepository.findByStatus(UserStatus.INACTIVE).stream().map(UserMapper::toResponse).toList();
-	}
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-	public UserResponse findInactiveUserById(Long userId){
+        if (!orderRepository.existsByUserId(userId)) {
+            userRepository.delete(user);
+        } else {
+            user.deactivate();
+            userRepository.save(user);
+        }
+    }
 
-		User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public Page<UserResponse> findInactiveUsers(Pageable pageable) {
+        Page<User> users = userRepository.findByStatus(UserStatus.INACTIVE, pageable);
+        return users.map(UserMapper::toResponse);
+    }
 
-		if (!UserStatus.INACTIVE.equals(user.getStatus())){
-			throw new ResourceNotFoundException("Inactive user not found");
-		}
+    public UserResponse findInactiveUserById(Long userId) {
 
-		return UserMapper.toResponse(user);
-	}
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if (!UserStatus.INACTIVE.equals(user.getStatus())) {
+            throw new ResourceNotFoundException("Inactive user not found");
+        }
+
+        return UserMapper.toResponse(user);
+    }
 
 }

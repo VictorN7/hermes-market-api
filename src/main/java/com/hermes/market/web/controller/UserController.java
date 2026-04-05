@@ -1,7 +1,5 @@
 package com.hermes.market.web.controller;
 
-import java.util.List;
-
 import com.hermes.market.application.dto.request.AddressRequest;
 import com.hermes.market.application.dto.request.UserPasswordRequest;
 import com.hermes.market.application.dto.request.UserRequest;
@@ -12,6 +10,8 @@ import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.service.AddressService;
 import com.hermes.market.application.service.OrderService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -34,8 +34,8 @@ public class UserController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<UserResponse>> findAll(){
-		return ResponseEntity.ok().body(userService.findAll());
+	public ResponseEntity<Page<UserResponse>> findAll(Pageable pageable) {
+		return ResponseEntity.ok().body(userService.findAll(pageable));
 	}
 	
 	@GetMapping("/{id}")
@@ -44,8 +44,8 @@ public class UserController {
 	}
 
 	@GetMapping("/inactive")
-	public ResponseEntity<List<UserResponse>> findInactiveUsers(){
-		return ResponseEntity.ok().body(userService.findInactiveUsers());
+	public ResponseEntity<Page<UserResponse>> findInactiveUsers(Pageable pageable){
+		return ResponseEntity.ok().body(userService.findInactiveUsers(pageable));
 	}
 
 	@GetMapping("/inactive/{id}")
@@ -54,13 +54,13 @@ public class UserController {
 	}
 
 	@GetMapping("/{id}/orders")
-	public ResponseEntity<List<OrderSummaryResponse>> findOrdersByUser(@PathVariable Long id){
-		return ResponseEntity.ok().body(orderService.findOrdersByUser(id));
+	public ResponseEntity<Page<OrderSummaryResponse>> findOrdersByUser(@PathVariable Long id, Pageable pageable){
+		return ResponseEntity.ok().body(orderService.findOrdersByUser(id, pageable));
 	}
 
 	@GetMapping("/{id}/addresses")
-	public ResponseEntity<List<AddressResponse>> findAllAddress(@PathVariable Long id){
-		return ResponseEntity.ok().body(addressService.findAddressByUser(id));
+	public ResponseEntity<Page<AddressResponse>> findAllAddress(@PathVariable Long id, Pageable pageable){
+		return ResponseEntity.ok().body(addressService.findAddressByUser(id, pageable));
 	}
 
 	@PostMapping
