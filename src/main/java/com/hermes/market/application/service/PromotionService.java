@@ -10,8 +10,9 @@ import com.hermes.market.domain.product.PromotionStatus;
 import com.hermes.market.domain.product.PromotionType;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 import com.hermes.market.infrastructure.repository.PromotionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class PromotionService {
@@ -24,8 +25,9 @@ public class PromotionService {
         this.productRepository = productRepository;
     }
 
-    public List<PromotionResponse> findAll(){
-        return promotionRepository.findAll().stream().map(PromotionMapper::toResponse).toList();
+    public Page<PromotionResponse> findAll(Pageable pageable) {
+        Page<Promotion> promotions = promotionRepository.findAll(pageable);
+        return promotions.map(PromotionMapper::toResponse);
     }
 
     public PromotionResponse findById(Long id){
@@ -73,8 +75,9 @@ public class PromotionService {
         return PromotionMapper.toResponse(promotionRepository.save(promotion));
     }
 
-    public List<PromotionResponse> findInactivePromotions(){
-        return promotionRepository.findByStatus(PromotionStatus.INACTIVE).stream().map(PromotionMapper::toResponse).toList();
+    public Page<PromotionResponse> findInactivePromotions(Pageable pageable){
+        Page<Promotion> promotions = promotionRepository.findByStatus(PromotionStatus.INACTIVE, pageable);
+        return promotions.map(PromotionMapper::toResponse);
     }
 
     public PromotionResponse findInactivePromotionById(Long promotionId){

@@ -4,11 +4,11 @@ import com.hermes.market.application.dto.request.PromotionRequest;
 import com.hermes.market.application.dto.response.PromotionResponse;
 import com.hermes.market.application.service.PromotionService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/promotions")
@@ -21,13 +21,13 @@ public class PromotionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PromotionResponse>> findAll(){
-        return ResponseEntity.ok().body(promotionService.findAll());
+    public ResponseEntity<Page<PromotionResponse>> findAll(Pageable pageable){
+        return ResponseEntity.ok().body(promotionService.findAll(pageable));
     }
 
     @GetMapping("/inactive")
-    public ResponseEntity<List<PromotionResponse>> findInactivePromotions(){
-        return ResponseEntity.ok().body(promotionService.findInactivePromotions());
+    public ResponseEntity<Page<PromotionResponse>> findInactivePromotions(Pageable pageable){
+        return ResponseEntity.ok().body(promotionService.findInactivePromotions(pageable));
     }
 
     @GetMapping("/inactive/{id}")
