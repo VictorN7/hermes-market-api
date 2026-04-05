@@ -1,8 +1,8 @@
 package com.hermes.market.infrastructure.repository;
 
-import java.util.List;
-
 import com.hermes.market.domain.product.ProductStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.hermes.market.domain.product.Product;
@@ -17,6 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     boolean existsByBrandId(Long id);
 
-    List<Product> findByStatus(ProductStatus status);
+    Page<Product> findByStatus(ProductStatus status, Pageable pageable);
 
 }

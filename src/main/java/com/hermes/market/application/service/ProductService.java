@@ -1,6 +1,5 @@
 package com.hermes.market.application.service;
 
-import java.util.List;
 
 import com.hermes.market.application.dto.filter.ProductFilter;
 import com.hermes.market.application.dto.request.ProductRequest;
@@ -8,7 +7,6 @@ import com.hermes.market.application.dto.request.ProductStockUpdateRequest;
 import com.hermes.market.application.dto.request.ProductUpdateRequest;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
-import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Brand;
@@ -17,6 +15,8 @@ import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.product.ProductStatus;
 import com.hermes.market.infrastructure.repository.*;
 import com.hermes.market.infrastructure.repository.specification.ProductSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +36,7 @@ public class ProductService {
         this.orderItemRepository = orderItemRepository;
     }
 
-    public List<ProductSummaryResponse> findAll(ProductFilter productFilter) {
+    public Page<ProductSummaryResponse> findAll(ProductFilter productFilter, Pageable pageable) {
 
         Specification<Product> spec = Specification.
                 where(ProductSpecification.categoryEqual(productFilter.getCategoryId()))
@@ -44,7 +44,9 @@ public class ProductService {
                 .and(ProductSpecification.nameProductLike(productFilter.getName()))
                 .and(ProductSpecification.containsPromotion(productFilter.getOnSale()));
 
-        return productRepository.findAll(spec).stream().map(ProductMapper::toSummary).toList();
+        Page<Product> products =  productRepository.findAll(spec, pageable);
+
+        return products.map(ProductMapper::toSummary);
     }
 
     public ProductResponse findById(Long id) {
@@ -112,12 +114,11 @@ public class ProductService {
         }
     }
 
-    public List<ProductResponse> findInactiveProducts(){
+    public Page<ProductResponse> findInactiveProducts(Pageable pageable) {
 
-        return productRepository.findByStatus(ProductStatus.INACTIVE)
-                .stream()
-                .map(ProductMapper::toResponse)
-                .toList();
+        Page<Product> products =  productRepository.findByStatus(ProductStatus.INACTIVE, pageable);
+
+        return products.map(ProductMapper::toResponse);
     }
 
     public ProductResponse findInactiveProductById(Long productId){

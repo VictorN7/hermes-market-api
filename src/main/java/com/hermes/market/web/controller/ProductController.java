@@ -1,7 +1,5 @@
 package com.hermes.market.web.controller;
 
-import java.util.List;
-
 import com.hermes.market.application.dto.filter.ProductFilter;
 import com.hermes.market.application.dto.request.ProductRequest;
 import com.hermes.market.application.dto.request.ProductStockUpdateRequest;
@@ -10,6 +8,8 @@ import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
 import com.hermes.market.application.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,14 +25,14 @@ public class ProductController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<ProductSummaryResponse>> findAll(ProductFilter productFilter){
+	public ResponseEntity<Page<ProductSummaryResponse>> findAll(ProductFilter productFilter, Pageable pageable) {
 
-		return ResponseEntity.ok().body(productService.findAll(productFilter));
+		return ResponseEntity.ok().body(productService.findAll(productFilter, pageable));
 	}
 
 	@GetMapping("/inactive")
-	public ResponseEntity<List<ProductResponse>> findInactiveProducts(){
-		return ResponseEntity.ok().body(productService.findInactiveProducts());
+	public ResponseEntity<Page<ProductResponse>> findInactiveProducts(Pageable pageable) {
+		return ResponseEntity.ok().body(productService.findInactiveProducts(pageable));
 	}
 
 	@GetMapping("/inactive/{id}")
