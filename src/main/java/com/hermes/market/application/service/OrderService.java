@@ -21,6 +21,7 @@ import com.hermes.market.infrastructure.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderService {
@@ -38,20 +39,24 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
+    @Transactional(readOnly = true)
     public Page<OrderResponse> findAll(Pageable pageable) {
         Page<Order> orders = orderRepository.findAll(pageable);
         return orders.map(OrderMapper::toResponse);
     }
 
+    @Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
         return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
     }
 
+    @Transactional(readOnly = true)
     public Page<OrderSummaryResponse> findOrdersByUser(Long id, Pageable pageable) {
         Page<Order> orders = orderRepository.findByUserId(id, pageable);
         return orders.map(OrderMapper::toSummary);
     }
 
+    @Transactional
     public OrderResponse createOrder(OrderRequest orderRequest) {
 
         Address address = addressRepository.findById(orderRequest.getAddressId()).orElseThrow(() -> new ResourceNotFoundException("Address not found!"));
@@ -67,6 +72,7 @@ public class OrderService {
                 address)));
     }
 
+    @Transactional
     public OrderItemResponse createOrderItem(Long orderId, OrderItemRequest orderItemRequest) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -78,6 +84,7 @@ public class OrderService {
         return OrderItemMapper.toResponse(order.getOrderItems().get(order.getOrderItems().size() - 1));
     }
 
+    @Transactional
     public OrderResponse updateOrderItemQuantity(Long orderId, Long itemId, OrderItemUpdateQuantityRequest request) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -86,6 +93,7 @@ public class OrderService {
         return OrderMapper.toResponse(orderRepository.save(order));
     }
 
+    @Transactional
     public OrderResponse cancelOrder(Long orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -93,6 +101,7 @@ public class OrderService {
         return OrderMapper.toResponse(orderRepository.save(order));
     }
 
+    @Transactional
     public OrderResponse payOrder(Long orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -104,6 +113,7 @@ public class OrderService {
         return OrderMapper.toResponse(orderRepository.save(order));
     }
 
+    @Transactional
     public OrderResponse shipOrder(Long orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -112,6 +122,7 @@ public class OrderService {
         return OrderMapper.toResponse(orderRepository.save(order));
     }
 
+    @Transactional
     public OrderResponse deliverOrder(Long orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
@@ -120,6 +131,7 @@ public class OrderService {
         return OrderMapper.toResponse(orderRepository.save(order));
     }
 
+    @Transactional
     public OrderResponse deleteOrderItem(Long orderId, Long itemId) {
 
         Order order = orderRepository.findById(orderId)
