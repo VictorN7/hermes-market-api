@@ -224,6 +224,10 @@ public class Order {
 
     public void addItem(Product product, Integer quantity) {
 
+        if (OrderStatus.CANCELED.equals(getStatus())) {
+            throw new BusinessException("Cannot add items with a CANCELED status");
+        }
+
         if (!OrderStatus.CREATED.equals(getStatus())) {
             throw new BusinessException("Cannot add items after checkout");
         }
