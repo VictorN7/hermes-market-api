@@ -119,7 +119,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserResponse> findInactiveUsers(Pageable pageable) {
-        Page<User> users = userRepository.findByStatus(UserStatus.INACTIVE, pageable);
+        Page<User> users = userRepository.findByStatus(UserStatus.INACTIVE.getCode(), pageable);
         return users.map(UserMapper::toResponse);
     }
 
@@ -128,7 +128,7 @@ public class UserService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (!UserStatus.INACTIVE.equals(user.getStatus())) {
+        if (!user.getStatus().equals(UserStatus.INACTIVE)) {
             throw new ResourceNotFoundException("Inactive user not found");
         }
 

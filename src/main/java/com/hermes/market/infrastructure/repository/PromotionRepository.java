@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface PromotionRepository extends JpaRepository<Promotion, Long> {
 
-    Page<Promotion> findByStatus(PromotionStatus status, Pageable pageable);
+    Page<Promotion> findByStatus(Integer status, Pageable pageable);
 
 }

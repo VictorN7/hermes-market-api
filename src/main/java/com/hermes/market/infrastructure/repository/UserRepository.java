@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 
-    Page<User> findByStatus(UserStatus status, Pageable pageable);
+    Page<User> findByStatus(Integer status, Pageable pageable);
 
     boolean existsByCpf(String cpf);
 

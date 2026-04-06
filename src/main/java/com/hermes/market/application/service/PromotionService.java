@@ -85,7 +85,7 @@ public class PromotionService {
 
     @Transactional(readOnly = true)
     public Page<PromotionResponse> findInactivePromotions(Pageable pageable){
-        Page<Promotion> promotions = promotionRepository.findByStatus(PromotionStatus.INACTIVE, pageable);
+        Page<Promotion> promotions = promotionRepository.findByStatus(PromotionStatus.INACTIVE.getCode(), pageable);
         return promotions.map(PromotionMapper::toResponse);
     }
 

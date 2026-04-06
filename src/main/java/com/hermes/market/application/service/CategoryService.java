@@ -91,7 +91,7 @@ public class CategoryService {
 
 	@Transactional(readOnly = true)
 	public Page<CategoryResponse> findInactiveCategories(Pageable pageable){
-		 Page<Category> categories = categoryRepository.findByStatus(CategoryStatus.INACTIVE, pageable);
+		 Page<Category> categories = categoryRepository.findByStatus(CategoryStatus.INACTIVE.getCode(), pageable);
 		 return categories.map(CategoryMapper::toResponse);
 	}
 

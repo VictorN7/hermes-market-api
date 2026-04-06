@@ -137,7 +137,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<ProductResponse> findInactiveProducts(Pageable pageable) {
 
-        Page<Product> products =  productRepository.findByStatus(ProductStatus.INACTIVE, pageable);
+        Page<Product> products =  productRepository.findByStatus(ProductStatus.INACTIVE.getCode(), pageable);
 
         return products.map(ProductMapper::toResponse);
     }

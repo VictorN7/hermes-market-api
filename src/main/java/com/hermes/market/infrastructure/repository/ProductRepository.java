@@ -17,7 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     boolean existsByBrandId(Long id);
 
-    Page<Product> findByStatus(ProductStatus status, Pageable pageable);
+    Page<Product> findByStatus(Integer status, Pageable pageable);
 
     boolean existsByNameIgnoreCase(String name);
 

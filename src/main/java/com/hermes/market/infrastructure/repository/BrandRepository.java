@@ -12,6 +12,6 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     boolean existsByNameIgnoreCase(String name);
 
-    Page<Brand> findByStatus(BrandStatus status, Pageable pageable);
+    Page<Brand> findByStatus(Integer status, Pageable pageable);
 
 }
