@@ -59,7 +59,7 @@ public class Address {
         setState(state);
         setZipcode(zipcode);
         createdAt = Instant.now();
-        setUser(user);
+        assignToUser(user);
         setStatus(AddressStatus.ACTIVE);
     }
 
@@ -96,7 +96,7 @@ public class Address {
         this.street = street;
     }
 
-    private void setUser(User user) {
+    public void assignToUser(User user){
         if (user == null) {
             throw new BusinessException("User cannot be null");
         }

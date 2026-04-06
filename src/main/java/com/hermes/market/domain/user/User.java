@@ -43,10 +43,10 @@ public class User {
 	private Instant createdAt;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<Order> orders = new ArrayList<>();
+	private final List<Order> orders = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	private List<Address> addresses = new ArrayList<>();
+	private final List<Address> addresses = new ArrayList<>();
 	
 	protected User() {
 
@@ -157,6 +157,7 @@ public class User {
 		}
 		if (addresses.contains(address)) return;
 
+		address.assignToUser(this);
 		addresses.add(address);
 	}
 

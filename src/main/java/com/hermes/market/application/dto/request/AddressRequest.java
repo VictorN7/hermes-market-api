@@ -1,5 +1,6 @@
 package com.hermes.market.application.dto.request;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,7 +14,7 @@ import lombok.*;
 public class AddressRequest {
 
     @NotNull
-    @Size(max = 10)
+    @Max(value = 1000)
     private Integer number;
 
     @NotBlank(message = "Street is required")
