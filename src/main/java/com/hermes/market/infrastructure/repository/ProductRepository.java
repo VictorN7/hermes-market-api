@@ -19,4 +19,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Page<Product> findByStatus(ProductStatus status, Pageable pageable);
 
+    boolean existsByNameIgnoreCase(String name);
+
 }

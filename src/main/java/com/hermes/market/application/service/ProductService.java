@@ -7,6 +7,7 @@ import com.hermes.market.application.dto.request.ProductStockUpdateRequest;
 import com.hermes.market.application.dto.request.ProductUpdateRequest;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.ProductSummaryResponse;
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Brand;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
@@ -36,6 +38,7 @@ public class ProductService {
         this.orderItemRepository = orderItemRepository;
     }
 
+    @Transactional(readOnly = true)
     public Page<ProductSummaryResponse> findAll(ProductFilter productFilter, Pageable pageable) {
 
         Specification<Product> spec = Specification.
@@ -49,17 +52,25 @@ public class ProductService {
         return products.map(ProductMapper::toSummary);
     }
 
+    @Transactional(readOnly = true)
     public ProductResponse findById(Long id) {
         return ProductMapper.toResponse(productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found")));
     }
 
+    @Transactional
     public ProductResponse createProduct(ProductRequest productRequest) {
+
+        if (productRepository.existsByNameIgnoreCase(productRequest.getName())) {
+            throw new BusinessException("Product name already exists");
+        }
+
         return ProductMapper.toResponse(productRepository.save(ProductMapper.toCreate(productRequest,
                 categoryRepository.findById(productRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found")),
                 brandRepository.findById(productRequest.getBrandId()).orElseThrow(() -> new ResourceNotFoundException("Brand not found")))));
     }
 
+    @Transactional
     public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
 
         Product product = productRepository.findById(id)
@@ -71,6 +82,11 @@ public class ProductService {
         Brand brand = brandRepository.findById(productUpdateRequest.getBrandId())
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
+        if (!product.getName().equalsIgnoreCase(productUpdateRequest.getName())
+                && productRepository.existsByNameIgnoreCase(productUpdateRequest.getName())) {
+            throw new BusinessException("Product name already exists");
+        }
+
         product.updateProduct(productUpdateRequest.getName(), productUpdateRequest.getDescription(),
                 productUpdateRequest.getPrice(), productUpdateRequest.getImgUrl(), category, brand);
 
@@ -79,6 +95,7 @@ public class ProductService {
 		return ProductMapper.toResponse(product);
     }
 
+    @Transactional
     public ProductResponse adjustStock(Long productId, ProductStockUpdateRequest request){
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
@@ -88,6 +105,7 @@ public class ProductService {
         return ProductMapper.toResponse(product);
     }
 
+    @Transactional
     public void deactivateProduct(Long productId){
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
@@ -95,6 +113,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    @Transactional
     public void activateProduct(Long productId){
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
@@ -102,6 +121,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    @Transactional
     public void deleteOrDeactivateProduct(Long productId){
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
@@ -114,6 +134,7 @@ public class ProductService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<ProductResponse> findInactiveProducts(Pageable pageable) {
 
         Page<Product> products =  productRepository.findByStatus(ProductStatus.INACTIVE, pageable);
@@ -121,6 +142,7 @@ public class ProductService {
         return products.map(ProductMapper::toResponse);
     }
 
+    @Transactional(readOnly = true)
     public ProductResponse findInactiveProductById(Long productId){
 
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
