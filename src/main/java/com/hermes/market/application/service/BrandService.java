@@ -8,14 +8,11 @@ import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.BrandMapper;
 import com.hermes.market.domain.product.Brand;
 import com.hermes.market.domain.product.BrandStatus;
-import com.hermes.market.domain.product.Category;
 import com.hermes.market.infrastructure.repository.BrandRepository;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class BrandService {
