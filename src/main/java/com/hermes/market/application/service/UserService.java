@@ -4,6 +4,7 @@ import com.hermes.market.application.dto.request.UserPasswordRequest;
 import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.request.UserUpdateRequest;
 import com.hermes.market.application.dto.response.UserResponse;
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.UserMapper;
 import com.hermes.market.domain.user.User;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.hermes.market.infrastructure.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -26,28 +28,43 @@ public class UserService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional(readOnly = true)
     public Page<UserResponse> findAll(Pageable pageable) {
         Page<User> users = userRepository.findAll(pageable);
         return users.map(UserMapper::toResponse);
     }
 
+    @Transactional(readOnly = true)
     public UserResponse findById(Long id) {
         return UserMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found")));
     }
 
+    @Transactional
     public UserResponse createUser(UserRequest userRequest) {
+
+        if (userRepository.existsByCpf(userRequest.getCpf()) ||  userRepository.existsByEmail(userRequest.getEmail())) {
+            throw new BusinessException("User is already exists");
+        }
+
         return UserMapper.toResponse(userRepository.save(UserMapper.toCreate(userRequest)));
     }
 
+    @Transactional
     public UserResponse updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if(!user.getEmail().equalsIgnoreCase(userUpdateRequest.getEmail()) && userRepository.existsByEmail(userUpdateRequest.getEmail())) {
+            throw new BusinessException("Email is already exists");
+        }
+
         user.updateUser(userUpdateRequest.getName(), userUpdateRequest.getEmail(), userUpdateRequest.getBirthDate());
         userRepository.save(user);
 
         return UserMapper.toResponse(user);
     }
 
+    @Transactional
     public void updatePassword(Long userId, UserPasswordRequest userPasswordRequest) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -55,6 +72,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void deactivateUser(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -62,6 +80,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void activateUser(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -69,6 +88,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void blockUser(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -76,6 +96,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void unlockUser(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -83,6 +104,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteOrDeactivateUser(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -95,11 +117,13 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<UserResponse> findInactiveUsers(Pageable pageable) {
         Page<User> users = userRepository.findByStatus(UserStatus.INACTIVE, pageable);
         return users.map(UserMapper::toResponse);
     }
 
+    @Transactional(readOnly = true)
     public UserResponse findInactiveUserById(Long userId) {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
