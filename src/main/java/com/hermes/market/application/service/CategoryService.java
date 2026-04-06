@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.hermes.market.infrastructure.repository.CategoryRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CategoryService {
@@ -23,21 +24,29 @@ public class CategoryService {
 		this.categoryRepository = categoryRepository;
 		this.productRepository = productRepository;
 	}
-	
+
+	@Transactional(readOnly = true)
 	public Page<CategoryResponse> findAll(Pageable pageable) {
 		Page<Category> categories = categoryRepository.findAll(pageable);
 		return categories.map(CategoryMapper::toResponse);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public CategoryResponse findById(Long id) {
 		return CategoryMapper.toResponse(categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Category not found")));
 	}
 
+	@Transactional
 	public CategoryResponse createCategory(CategoryRequest categoryRequest){
+
+		if (categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())) {
+			throw new BusinessException("Category name already exists");
+		}
 		return CategoryMapper.toResponse(categoryRepository.save(CategoryMapper.toCreate(categoryRequest)));
 	}
 
+	@Transactional
 	public CategoryResponse updateCategoryName(Long categoryId, CategoryRequest categoryRequest){
 
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
@@ -51,6 +60,7 @@ public class CategoryService {
 		return CategoryMapper.toResponse(categoryRepository.save(category));
 	}
 
+	@Transactional
 	public void deactivateCategory(Long categoryId){
 
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
@@ -58,6 +68,7 @@ public class CategoryService {
 		categoryRepository.save(category);
 	}
 
+	@Transactional
 	public void activateCategory(Long categoryId){
 
 		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
@@ -65,6 +76,7 @@ public class CategoryService {
 		categoryRepository.save(category);
 	}
 
+	@Transactional
 	public void deleteOrDeactivateCategory(Long categoryId){
 
 		Category category =  categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
@@ -77,11 +89,13 @@ public class CategoryService {
 		}
 	}
 
+	@Transactional(readOnly = true)
 	public Page<CategoryResponse> findInactiveCategories(Pageable pageable){
 		 Page<Category> categories = categoryRepository.findByStatus(CategoryStatus.INACTIVE, pageable);
 		 return categories.map(CategoryMapper::toResponse);
 	}
 
+	@Transactional(readOnly = true)
 	public CategoryResponse findInactiveCategoryById(Long id){
 
 		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
