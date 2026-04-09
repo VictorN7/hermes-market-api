@@ -159,6 +159,16 @@ Global exception handling via `@ControllerAdvice` with a standardized `StandardE
 
 ---
 
+## 🔐 Authentication
+
+The project now includes a basic authentication endpoint:
+
+```text
+POST /api/v1/auth/login
+```
+
+---
+
 ## 🔍 Dynamic Filtering
 
 Products support optional and combinable query parameters:
@@ -182,28 +192,65 @@ Implemented via **Spring Data JPA Specification with Join** — no manual querie
 
 ## 🌐 Available Endpoints
 
+### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/auth/login` | Authenticate user by email and password |
+
 ### Users
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/v1/users` | List all users |
-| GET | `/api/v1/users/{id}` | Get user by id |
+| GET | `/api/v1/users` | List all active users |
+| GET | `/api/v1/users/{id}` | Get active user by id |
 | GET | `/api/v1/users/{id}/orders` | List orders by user |
 | GET | `/api/v1/users/{id}/addresses` | List addresses by user |
+| GET | `/api/v1/users/inactive` | List inactive users |
+| GET | `/api/v1/users/inactive/{id}` | Get inactive user by id |
+| POST | `/api/v1/users` | Create a new user |
+| PUT | `/api/v1/users/{id}` | Update user basic information |
+| PATCH | `/api/v1/users/{id}/password` | Change user password |
+| PATCH | `/api/v1/users/{id}/activate` | Activate user |
+| PATCH | `/api/v1/users/{id}/deactivate` | Deactivate user |
+| PATCH | `/api/v1/users/{id}/block` | Block user |
+| PATCH | `/api/v1/users/{id}/unlock` | Unlock user |
+| DELETE | `/api/v1/users/{id}` | Delete user if never purchased, otherwise deactivate |
+
+### Addresses
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/v1/users/{id}/addresses` | Add a new address to the user |
+| DELETE | `/api/v1/users/{id}/addresses/{addressId}` | Delete address only if it was never used in an order |
 
 ### Categories
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/v1/categories` | List all categories |
-| GET | `/api/v1/categories/{id}` | Get category by id |
+| GET | `/api/v1/categories` | List all active categories |
+| GET | `/api/v1/categories/{id}` | Get active category by id |
+| GET | `/api/v1/categories/inactive` | List inactive categories |
+| GET | `/api/v1/categories/inactive/{id}` | Get inactive category by id |
+| POST | `/api/v1/categories` | Create a new category |
+| PATCH | `/api/v1/categories/{id}/name` | Update category name |
+| PATCH | `/api/v1/categories/{id}/activate` | Activate category |
+| PATCH | `/api/v1/categories/{id}/deactivate` | Deactivate category |
+| DELETE | `/api/v1/categories/{id}` | Delete category if it has no products, otherwise deactivate |
 
 ### Brands
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/v1/brands` | List all brands |
-| GET | `/api/v1/brands/{id}` | Get brand by id |
+| GET | `/api/v1/brands` | List all active brands |
+| GET | `/api/v1/brands/{id}` | Get active brand by id |
+| GET | `/api/v1/brands/inactive` | List inactive brands |
+| GET | `/api/v1/brands/inactive/{id}` | Get inactive brand by id |
+| POST | `/api/v1/brands` | Create a new brand |
+| PATCH | `/api/v1/brands/{id}/name` | Update brand name |
+| PATCH | `/api/v1/brands/{id}/activate` | Activate brand |
+| PATCH | `/api/v1/brands/{id}/deactivate` | Deactivate brand |
+| DELETE | `/api/v1/brands/{id}` | Delete brand if it has no products, otherwise deactivate |
 
 ### Products
 
@@ -211,6 +258,14 @@ Implemented via **Spring Data JPA Specification with Join** — no manual querie
 |--------|----------|-------------|
 | GET | `/api/v1/products` | List products with optional filters |
 | GET | `/api/v1/products/{id}` | Get product by id |
+| GET | `/api/v1/products/inactive` | List inactive products |
+| GET | `/api/v1/products/inactive/{id}` | Get inactive product by id |
+| POST | `/api/v1/products` | Create a new product |
+| PUT | `/api/v1/products/{id}` | Fully update product information |
+| PATCH | `/api/v1/products/{id}/stock` | Update product stock quantity |
+| PATCH | `/api/v1/products/{id}/activate` | Activate product |
+| PATCH | `/api/v1/products/{id}/deactivate` | Deactivate product |
+| DELETE | `/api/v1/products/{id}` | Delete product if never sold, otherwise deactivate |
 
 ### Orders
 
@@ -218,13 +273,28 @@ Implemented via **Spring Data JPA Specification with Join** — no manual querie
 |--------|----------|-------------|
 | GET | `/api/v1/orders` | List all orders |
 | GET | `/api/v1/orders/{id}` | Get order by id |
+| POST | `/api/v1/orders` | Create a new order |
+| POST | `/api/v1/orders/{id}/items` | Add item to order |
+| PATCH | `/api/v1/orders/{orderId}/items/{itemId}/quantity` | Update order item quantity |
+| PATCH | `/api/v1/orders/{id}/pay` | Mark order as paid |
+| PATCH | `/api/v1/orders/{id}/ship` | Mark order as shipped |
+| PATCH | `/api/v1/orders/{id}/deliver` | Mark order as delivered |
+| PATCH | `/api/v1/orders/{id}/cancel` | Cancel order when status is CREATED |
+| DELETE | `/api/v1/orders/{id}/items/{itemId}` | Remove item from order when status is CREATED |
 
 ### Promotions
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/v1/promotions` | List all promotions |
-| GET | `/api/v1/promotions/{id}` | Get promotion by id |
+| GET | `/api/v1/promotions` | List all active promotions |
+| GET | `/api/v1/promotions/{id}` | Get active promotion by id |
+| GET | `/api/v1/promotions/inactive` | List inactive promotions |
+| GET | `/api/v1/promotions/inactive/{id}` | Get inactive promotion by id |
+| POST | `/api/v1/promotions` | Create a new promotion |
+| POST | `/api/v1/promotions/{promotionId}/products/{productId}` | Add product to promotion |
+| PATCH | `/api/v1/promotions/{id}/activate` | Activate promotion |
+| PATCH | `/api/v1/promotions/{id}/deactivate` | Deactivate promotion |
+| DELETE | `/api/v1/promotions/{promotionId}/products/{productId}` | Remove product from promotion |
 
 ---
 
@@ -257,23 +327,25 @@ Initial seed data is configured via `TestConfig` for easy endpoint testing.
 ## 🚧 Current Status
 
 **Completed:**
-- Full read layer (GET endpoints for all entities)
-- Domain-rich entities with business rule enforcement
-- Dynamic filtering with JPA Specification
-- Promotion system with `DIRECT_PRICE` and `QUANTITY_DISCOUNT` types
-- Address management linked to users and orders
+
+- 64 endpoints implemented across all modules
+- Full read and write layer (GET, POST, PUT, PATCH and DELETE)
+- Authentication endpoint with email/password validation
+- Soft delete strategy with dedicated inactive endpoints
+- Pagination and sorting support on listing endpoints
+- Bean Validation on request DTOs
+- Dynamic filtering with JPA Specification + Join
+- Promotion system with `DIRECT_PRICE` and `QUANTITY_DISCOUNT`
 - Global exception handling with custom exceptions
-- DTO-based responses with active promotion filtering
+- Swagger / OpenAPI documentation
 
 **Planned next steps:**
-- Write endpoints (POST, PUT, PATCH, DELETE)
-- Bean Validation on request DTOs
+
+- Spring Security + JWT + BCrypt
 - Migration to PostgreSQL
-- Pagination and sorting
-- Spring Security + JWT authentication
-- Swagger / OpenAPI documentation
 - Database versioning with Flyway
-- Automated testing
+- Automated tests
+- Performance and documentation improvements
 
 ---
 
