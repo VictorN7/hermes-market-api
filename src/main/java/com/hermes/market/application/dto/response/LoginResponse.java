@@ -7,7 +7,7 @@ public class LoginResponse {
     private String email;
     private String role;
 
-    public LoginResponse(){
+    private LoginResponse(){
     }
 
     public LoginResponse(Long id, String name, String email, String role) {
