@@ -38,6 +38,11 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse findById(Long id) {
+
+        if(id <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
         return UserMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found")));
     }
 
