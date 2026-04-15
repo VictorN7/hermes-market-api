@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -93,6 +94,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(new StandardError(Instant.now(), status.value(),error, message, request.getRequestURI()));
     }
 
+    @ExceptionHandler(MissingPathVariableException.class)
+    public ResponseEntity<StandardError> handleMissingPathVariable(MissingPathVariableException exception, HttpServletRequest request) {
+
+        String error = "Missing path parameter";
+        String message = String.format(
+                "Required path variable '%s' is missing",
+                exception.getVariableName()
+        );
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        log.warn("Missing path variable: {} at {}", exception.getVariableName() , request.getRequestURI());
+
+        return ResponseEntity.status(status.value()).body(new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI()));
+
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<StandardError> genericException(Exception exception, HttpServletRequest request) {
