@@ -29,6 +29,15 @@ public class AddressService {
 
     @Transactional(readOnly = true)
     public Page<AddressResponse> findAddressByUser(Long id, Pageable pageable) {
+
+        if (id <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
+        if (!userRepository.existsById(id)){
+            throw new ResourceNotFoundException("User not found");
+        }
+
         Page<Address> addresses = addressRepository.findByUserId(id, pageable);
         return addresses.map(AddressMapper::toResponse);
     }
