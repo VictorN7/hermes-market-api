@@ -2,6 +2,7 @@ package com.hermes.market.application.service;
 
 import com.hermes.market.application.dto.request.AddressRequest;
 import com.hermes.market.application.dto.response.AddressResponse;
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.AddressMapper;
 import com.hermes.market.domain.user.Address;
@@ -45,6 +46,13 @@ public class AddressService {
     @Transactional
     public AddressResponse insertAddress(Long userId, AddressRequest addressRequest) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        boolean existsAddress = addressRepository.existsByUserAndStreetIgnoreCaseAndNumber(user, addressRequest.getStreet(), addressRequest.getNumber());
+
+        if (existsAddress){
+            throw new BusinessException("Address already exists for this user");
+        }
+
         Address address = AddressMapper.toCreate(addressRequest, user);
         addressRepository.saveAndFlush(address);
 
