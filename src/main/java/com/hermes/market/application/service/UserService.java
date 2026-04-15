@@ -148,6 +148,10 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse findInactiveUserById(Long userId) {
 
+        if (userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!user.getStatus().equals(UserStatus.INACTIVE)) {
