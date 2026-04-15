@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -108,6 +109,18 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status.value()).body(new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI()));
 
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<StandardError> handleHttpMessageNotReadable(HttpMessageNotReadableException exception, HttpServletRequest request) {
+
+        String error = "Malformed request body";
+        String message = "Invalid request body. Check JSON format and field types";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        log.warn("Malformed JSON at {}: {}", request.getRequestURI(), exception.getMessage());
+
+        return ResponseEntity.status(status).body(new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI()));
     }
 
     @ExceptionHandler(Exception.class)
