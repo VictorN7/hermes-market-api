@@ -1,5 +1,6 @@
 package com.hermes.market.infrastructure.repository;
 
+import com.hermes.market.domain.user.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,5 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
     boolean existsByEmail(String email);
 
     Optional<User> findByEmailIgnoreCase (String email);
+
+    Optional<User> findByIdAndStatus(Long id, Integer status);
 
 }

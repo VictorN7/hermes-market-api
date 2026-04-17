@@ -32,7 +32,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserResponse> findAll(Pageable pageable) {
-        Page<User> users = userRepository.findAll(pageable);
+
+        Page<User> users = userRepository.findByStatus(UserStatus.ACTIVE.getCode(), pageable);
         return users.map(UserMapper::toResponse);
     }
 
@@ -42,8 +43,8 @@ public class UserService {
         if(id <= 0){
             throw new IllegalArgumentException("User ID must be positive");
         }
+        return UserMapper.toResponse(userRepository.findByIdAndStatus(id, UserStatus.ACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("User not found")));
 
-        return UserMapper.toResponse(userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found")));
     }
 
     @Transactional
