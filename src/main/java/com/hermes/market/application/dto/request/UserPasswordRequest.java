@@ -17,11 +17,11 @@ public class UserPasswordRequest {
     private String currentPassword;
 
     @NotBlank(message = "New password is required")
-    @Size(max = 15)
+    @Size(min = 8, max = 15)
     private String newPassword;
 
     @NotBlank(message = "Confirm password is required")
-    @Size(max = 15)
+    @Size(min = 8, max = 15)
     private String confirmPassword;
 
 }
