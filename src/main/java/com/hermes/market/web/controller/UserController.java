@@ -48,6 +48,11 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.findInactiveUsers(pageable));
 	}
 
+	@GetMapping("/blocked")
+	public ResponseEntity<Page<UserResponse>> findBlockedUsers(Pageable pageable){
+		return ResponseEntity.ok().body(userService.findBlockedUsers(pageable));
+	}
+
 	@GetMapping("/inactive/{id}")
 	public ResponseEntity<UserResponse> findInactiveUserById(@PathVariable Long id){
 		return ResponseEntity.ok().body(userService.findInactiveUserById(id));

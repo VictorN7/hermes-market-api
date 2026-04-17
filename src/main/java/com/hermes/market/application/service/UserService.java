@@ -174,6 +174,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public Page<UserResponse> findBlockedUsers(Pageable pageable) {
+        Page<User> users = userRepository.findByStatus(UserStatus.BLOCKED.getCode(), pageable);
+        return users.map(UserMapper::toResponse);
+    }
+
+    @Transactional(readOnly = true)
     public UserResponse findInactiveUserById(Long userId) {
 
         if (userId <= 0){
