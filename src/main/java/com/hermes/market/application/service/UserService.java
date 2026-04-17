@@ -75,6 +75,10 @@ public class UserService {
     @Transactional
     public UserResponse updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
 
+        if(userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if(!user.getEmail().equalsIgnoreCase(userUpdateRequest.getEmail()) && userRepository.existsByEmail(userUpdateRequest.getEmail())) {
@@ -90,6 +94,10 @@ public class UserService {
     @Transactional
     public void updatePassword(Long userId, UserPasswordRequest userPasswordRequest) {
 
+        if(userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.updatePassword(userPasswordRequest.getNewPassword(), userPasswordRequest.getConfirmPassword(), userPasswordRequest.getCurrentPassword());
         userRepository.save(user);
@@ -97,6 +105,10 @@ public class UserService {
 
     @Transactional
     public void deactivateUser(Long userId) {
+
+        if(userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.deactivate();
@@ -106,6 +118,10 @@ public class UserService {
     @Transactional
     public void activateUser(Long userId) {
 
+        if(userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.activate();
         userRepository.save(user);
@@ -113,6 +129,10 @@ public class UserService {
 
     @Transactional
     public void blockUser(Long userId) {
+
+        if(userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.block();
@@ -122,6 +142,10 @@ public class UserService {
     @Transactional
     public void unlockUser(Long userId) {
 
+        if(userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.unlock();
         userRepository.save(user);
@@ -130,6 +154,9 @@ public class UserService {
     @Transactional
     public void deleteOrDeactivateUser(Long userId) {
 
+        if(userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!orderRepository.existsByUserId(userId)) {
