@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -109,6 +110,16 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(status.value()).body(new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI()));
 
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<StandardError> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException exception, HttpServletRequest request) {
+
+        String error = "HTTP method not supported";
+        String message = String.format("Method '%s' is not supported", exception.getMethod());
+        HttpStatus status = HttpStatus.METHOD_NOT_ALLOWED;
+
+        return ResponseEntity.status(status).body(new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI()));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
