@@ -1,15 +1,11 @@
 package com.hermes.market.application.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
 @Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -24,7 +20,18 @@ public class UserUpdateRequest {
     @Email(message = "Invalid email format")
     private String email;
 
-    @NotNull()
+    @NotNull(message = "Birth date is required")
     private LocalDate birthDate;
 
+    public String getName() {
+        return name != null ? name.trim(): null;
+    }
+
+    public String getEmail() {
+        return email != null ? email.trim(): null;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
 }
