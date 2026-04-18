@@ -54,6 +54,11 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductResponse findById(Long id) {
+
+        if (id <= 0){
+            throw new IllegalArgumentException("Product ID must be positive");
+        }
+
         return ProductMapper.toResponse(productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found")));
     }
@@ -72,6 +77,10 @@ public class ProductService {
 
     @Transactional
     public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
+
+        if (id <= 0){
+            throw new IllegalArgumentException("Product ID must be positive");
+        }
 
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
@@ -96,9 +105,13 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse adjustStock(Long productId, ProductStockUpdateRequest request){
+    public ProductResponse adjustStock(Long id, ProductStockUpdateRequest request){
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        if (id <= 0){
+            throw new IllegalArgumentException("Product ID must be positive");
+        }
+
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.adjustStock(request.getQuantity());
         productRepository.save(product);
 
@@ -106,27 +119,39 @@ public class ProductService {
     }
 
     @Transactional
-    public void deactivateProduct(Long productId){
+    public void deactivateProduct(Long id){
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        if (id <= 0){
+            throw new IllegalArgumentException("Product ID must be positive");
+        }
+
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.deactivate();
         productRepository.save(product);
     }
 
     @Transactional
-    public void activateProduct(Long productId){
+    public void activateProduct(Long id){
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        if (id <= 0){
+            throw new IllegalArgumentException("Product ID must be positive");
+        }
+
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.activate();
         productRepository.save(product);
     }
 
     @Transactional
-    public void deleteOrDeactivateProduct(Long productId){
+    public void deleteOrDeactivateProduct(Long id){
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        if (id <= 0){
+            throw new IllegalArgumentException("Product ID must be positive");
+        }
 
-        if (orderItemRepository.existsByProductId(productId)){
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        if (orderItemRepository.existsByProductId(id)){
             product.deactivate();
             productRepository.save(product);
         } else {
@@ -138,14 +163,17 @@ public class ProductService {
     public Page<ProductResponse> findInactiveProducts(Pageable pageable) {
 
         Page<Product> products =  productRepository.findByStatus(ProductStatus.INACTIVE.getCode(), pageable);
-
         return products.map(ProductMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
-    public ProductResponse findInactiveProductById(Long productId){
+    public ProductResponse findInactiveProductById(Long id){
 
-        Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        if (id <= 0){
+            throw new IllegalArgumentException("Product ID must be positive");
+        }
+
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         if (!ProductStatus.INACTIVE.equals(product.getStatus())){
             throw new ResourceNotFoundException("Inactive product not found");
