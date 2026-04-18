@@ -6,6 +6,7 @@ import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.AddressMapper;
 import com.hermes.market.domain.user.Address;
+import com.hermes.market.domain.user.AddressStatus;
 import com.hermes.market.domain.user.User;
 import com.hermes.market.infrastructure.repository.AddressRepository;
 import com.hermes.market.infrastructure.repository.OrderRepository;
@@ -39,7 +40,7 @@ public class AddressService {
             throw new ResourceNotFoundException("User not found");
         }
 
-        Page<Address> addresses = addressRepository.findByUserId(id, pageable);
+        Page<Address> addresses = addressRepository.findByUserIdAndStatus(id, AddressStatus.ACTIVE.getCode(), pageable);
         return addresses.map(AddressMapper::toResponse);
     }
 
@@ -61,6 +62,14 @@ public class AddressService {
 
     @Transactional
     public void deleteOrDeactivateAddress(Long userId, Long addressId) {
+
+        if (userId <= 0){
+            throw new IllegalArgumentException("User ID must be positive");
+        }
+
+        if (addressId <= 0){
+            throw new IllegalArgumentException("Address ID must be positive");
+        }
 
         Address address = addressRepository.findById(addressId).orElseThrow(() -> new ResourceNotFoundException("Address not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
