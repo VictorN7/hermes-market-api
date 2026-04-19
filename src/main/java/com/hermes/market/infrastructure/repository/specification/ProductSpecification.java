@@ -1,6 +1,7 @@
 package com.hermes.market.infrastructure.repository.specification;
 
 import com.hermes.market.domain.product.Product;
+import com.hermes.market.domain.product.ProductStatus;
 import com.hermes.market.domain.product.PromotionStatus;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -22,6 +23,12 @@ public class ProductSpecification {
         return (root, query, cb) ->
                 (name == null || name.isBlank()) ? null :
                         cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");
+    }
+
+    public static Specification<Product> statusEqual(Integer status) {
+        return (root, query, cb) ->
+                status == null ? null:
+                    cb.equal(root.get("status"), status);
     }
 
     public static Specification<Product> containsPromotion(Boolean bol) {
