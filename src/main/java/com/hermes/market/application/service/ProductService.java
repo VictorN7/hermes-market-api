@@ -42,7 +42,8 @@ public class ProductService {
     public Page<ProductSummaryResponse> findAll(ProductFilter productFilter, Pageable pageable) {
 
         Specification<Product> spec = Specification.
-                where(ProductSpecification.categoryEqual(productFilter.getCategoryId()))
+                where(ProductSpecification.statusEqual(ProductStatus.ACTIVE.getCode()))
+                .and(ProductSpecification.categoryEqual(productFilter.getCategoryId()))
                 .and(ProductSpecification.brandEqual(productFilter.getBrandId()))
                 .and(ProductSpecification.nameProductLike(productFilter.getName()))
                 .and(ProductSpecification.containsPromotion(productFilter.getOnSale()));
