@@ -1,9 +1,6 @@
 package com.hermes.market.application.dto.request;
 
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -25,6 +22,7 @@ public class ProductRequest {
 
     @NotNull(message = "Price is required")
     @DecimalMin(value = "0.01", message = "Price must have greater than zero")
+    @DecimalMax(value="1000")
     private BigDecimal price;
 
     @NotNull(message = "QuantityInStock is required")
