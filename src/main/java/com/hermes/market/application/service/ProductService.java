@@ -67,12 +67,9 @@ public class ProductService {
     @Transactional
     public ProductResponse createProduct(ProductRequest productRequest) {
 
-        if (productRepository.existsByNameIgnoreCase(productRequest.getName())) {
+        if (productRepository.existsByNameIgnoreCase(productRequest.getName().trim())) {
             throw new BusinessException("Product name already exists");
         }
-
-
-
 
         return ProductMapper.toResponse(productRepository.save(ProductMapper.toCreate(productRequest,
                 categoryRepository.findById(productRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found")),

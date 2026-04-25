@@ -32,8 +32,8 @@ public class ProductMapper {
 
     public static Product toCreate(ProductRequest productRequest, Category category, Brand brand) {
 
-        return new Product(productRequest.getName(), productRequest.getDescription(), productRequest.getPrice(), productRequest.getQuantityInStock(),
-                productRequest.getImgUrl(), category, brand);
+        return new Product(productRequest.getName().trim(), productRequest.getDescription().trim(), productRequest.getPrice(), productRequest.getQuantityInStock(),
+                productRequest.getImgUrl().trim(), category, brand);
 
     }
 
