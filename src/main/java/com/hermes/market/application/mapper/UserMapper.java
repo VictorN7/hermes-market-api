@@ -17,11 +17,12 @@ public class UserMapper {
     }
 
     public static User toCreate(UserRequest userRequest){
-        return new User(userRequest.getName(), userRequest.getEmail(), userRequest.getPassword(), userRequest.getBirthDate(), userRequest.getCpf());
+        return new User(userRequest.getName().trim(), userRequest.getEmail().trim()
+                , userRequest.getPassword().trim(), userRequest.getBirthDate(), userRequest.getCpf().trim());
     }
 
     public static LoginResponse toLogin(User user){
-        return new LoginResponse(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
+        return new LoginResponse(user.getId(), user.getName().trim(), user.getEmail().trim(), user.getRole().name().trim());
     }
 
 }

@@ -71,6 +71,9 @@ public class ProductService {
             throw new BusinessException("Product name already exists");
         }
 
+
+
+
         return ProductMapper.toResponse(productRepository.save(ProductMapper.toCreate(productRequest,
                 categoryRepository.findById(productRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found")),
                 brandRepository.findById(productRequest.getBrandId()).orElseThrow(() -> new ResourceNotFoundException("Brand not found")))));
