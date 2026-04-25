@@ -92,13 +92,13 @@ public class ProductService {
         Brand brand = brandRepository.findById(productUpdateRequest.getBrandId())
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
-        if (!product.getName().equalsIgnoreCase(productUpdateRequest.getName())
-                && productRepository.existsByNameIgnoreCase(productUpdateRequest.getName())) {
+        if (!product.getName().equalsIgnoreCase(productUpdateRequest.getName().trim())
+                && productRepository.existsByNameIgnoreCase(productUpdateRequest.getName().trim())) {
             throw new BusinessException("Product name already exists");
         }
 
-        product.updateProduct(productUpdateRequest.getName(), productUpdateRequest.getDescription(),
-                productUpdateRequest.getPrice(), productUpdateRequest.getImgUrl(), category, brand);
+        product.updateProduct(productUpdateRequest.getName().trim(), productUpdateRequest.getDescription().trim(),
+                productUpdateRequest.getPrice(), productUpdateRequest.getImgUrl().trim(), category, brand);
 
         productRepository.save(product);
 
