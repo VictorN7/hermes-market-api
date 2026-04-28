@@ -34,6 +34,11 @@ public class BrandService {
 
     @Transactional(readOnly = true)
     public BrandDetailResponse findById(Long id) {
+
+        if(id <= 0 ){
+            throw new IllegalArgumentException("Brand ID must be positive");
+        }
+
         return BrandMapper.toResponse(brandRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found")));
