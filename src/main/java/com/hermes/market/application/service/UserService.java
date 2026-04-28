@@ -50,7 +50,8 @@ public class UserService {
     @Transactional
     public UserResponse createUser(UserRequest userRequest) {
 
-        if (userRepository.existsByCpf(userRequest.getCpf()) ||  userRepository.existsByEmail(userRequest.getEmail())) {
+        if (userRepository.existsByCpf(userRequest.getCpf().trim().replaceAll("\\s+", " ")) ||
+                userRepository.existsByEmail(userRequest.getEmail().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("User is already exists");
         }
 
@@ -60,12 +61,12 @@ public class UserService {
     @Transactional(readOnly = true)
     public LoginResponse toLogin(LoginRequest loginRequest) {
 
-        User user = userRepository.findByEmailIgnoreCase(loginRequest.getEmail()).orElseThrow(() -> new BusinessException("Invalid email or password"));
+        User user = userRepository.findByEmailIgnoreCase(loginRequest.getEmail().trim().replaceAll("\\s+", " ")).orElseThrow(() -> new BusinessException("Invalid email or password"));
 
         if (!user.getStatus().equals(UserStatus.ACTIVE)) {
             throw new BusinessException("User is inactive or blocked");
         }
-        if (!user.getPassword().equals(loginRequest.getPassword())) {
+        if (!user.getPassword().equals(loginRequest.getPassword().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Invalid email or password");
         }
 
@@ -81,11 +82,14 @@ public class UserService {
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if(!user.getEmail().equalsIgnoreCase(userUpdateRequest.getEmail()) && userRepository.existsByEmail(userUpdateRequest.getEmail())) {
+        if(!user.getEmail().equalsIgnoreCase(userUpdateRequest.getEmail().trim().replaceAll("\\s+", " ")) &&
+                userRepository.existsByEmail(userUpdateRequest.getEmail().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Email is already exists");
         }
 
-        user.updateUser(userUpdateRequest.getName(), userUpdateRequest.getEmail(), userUpdateRequest.getBirthDate());
+        user.updateUser(userUpdateRequest.getName().trim().replaceAll("\\s+", " "),
+                userUpdateRequest.getEmail().trim().replaceAll("\\s+", " "),
+                userUpdateRequest.getBirthDate());
         userRepository.save(user);
 
         return UserMapper.toResponse(user);
@@ -99,7 +103,10 @@ public class UserService {
         }
 
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        user.updatePassword(userPasswordRequest.getNewPassword(), userPasswordRequest.getConfirmPassword(), userPasswordRequest.getCurrentPassword());
+        user.updatePassword(userPasswordRequest.getNewPassword().trim().replaceAll("\\s+", " "),
+                userPasswordRequest.getConfirmPassword().trim().replaceAll("\\s+", " "),
+                userPasswordRequest.getCurrentPassword().trim().replaceAll("\\s+", " "));
+
         userRepository.save(user);
     }
 
