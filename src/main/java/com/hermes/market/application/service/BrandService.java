@@ -28,7 +28,7 @@ public class BrandService {
 
     @Transactional(readOnly = true)
     public Page<BrandMenuResponse> findAll(Pageable pageable) {
-        Page<Brand> brands = brandRepository.findAll(pageable);
+        Page<Brand> brands = brandRepository.findAllByStatus(BrandStatus.ACTIVE.getCode(), pageable);
         return brands.map(BrandMapper::toMenu);
     }
 
@@ -40,7 +40,7 @@ public class BrandService {
         }
 
         return BrandMapper.toResponse(brandRepository
-                .findById(id)
+                .findByIdAndStatus(id, BrandStatus.ACTIVE.getCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found")));
     }
 
@@ -128,12 +128,8 @@ public class BrandService {
             throw new IllegalArgumentException("Brand ID must be positive");
         }
 
-        Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
-
-        if (!BrandStatus.INACTIVE.equals(brand.getStatus())) {
-            throw new ResourceNotFoundException("Inactive brand not found");
-        }
-        return BrandMapper.toResponse(brand);
+        return BrandMapper.toResponse(brandRepository.findByIdAndStatus(id, BrandStatus.INACTIVE.getCode()).orElseThrow(() ->
+                new ResourceNotFoundException("Brand not found")));
     }
 
 }

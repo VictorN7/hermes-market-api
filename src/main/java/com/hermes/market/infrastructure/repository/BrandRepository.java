@@ -7,11 +7,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface BrandRepository extends JpaRepository<Brand, Long> {
 
     boolean existsByNameIgnoreCase(String name);
 
     Page<Brand> findByStatus(Integer status, Pageable pageable);
+
+    Page<Brand> findAllByStatus(Integer status, Pageable pageable);
+
+    Optional<Brand> findByIdAndStatus(Long id, Integer status);
 
 }
