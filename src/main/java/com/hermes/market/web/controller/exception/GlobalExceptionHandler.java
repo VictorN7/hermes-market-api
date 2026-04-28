@@ -3,14 +3,13 @@ package com.hermes.market.web.controller.exception;
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.xml.bind.ValidationException;
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
@@ -94,6 +93,22 @@ public class GlobalExceptionHandler {
         log.warn("Invalid ID format on request {}", request.getRequestURI());
 
         return ResponseEntity.status(status).body(new StandardError(Instant.now(), status.value(),error, message, request.getRequestURI()));
+    }
+
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<StandardError> httpMediaTypeNotSupported(HttpMediaTypeNotSupportedException exception, HttpServletRequest request){
+
+        String error = "Unsupported Media Type";
+        String contentType = exception.getContentType() != null
+                ? exception.getContentType().toString()
+                : "unknown";
+        String message = "Content-Type " + contentType +
+                " is not supported. Supported: " + exception.getSupportedMediaTypes();
+        HttpStatus status = HttpStatus.UNSUPPORTED_MEDIA_TYPE;
+
+        log.warn("Unsupported Media Type: {} on {}", contentType, request.getRequestURI());
+
+        return ResponseEntity.status(status).body(new StandardError(Instant.now(), status.value(), error, message, request.getRequestURI()));
     }
 
     @ExceptionHandler(MissingPathVariableException.class)
