@@ -47,7 +47,7 @@ public class BrandService {
     @Transactional
     public BrandDetailResponse createBrand(BrandRequest brandRequest) {
 
-        if (brandRepository.existsByNameIgnoreCase(brandRequest.getName())) {
+        if (brandRepository.existsByNameIgnoreCase(brandRequest.getName().trim())) {
             throw new BusinessException("Brand name already exists");
         }
 
