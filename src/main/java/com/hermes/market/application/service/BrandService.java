@@ -106,9 +106,13 @@ public class BrandService {
     }
 
     @Transactional(readOnly = true)
-    public BrandDetailResponse findInactiveBrandById(Long brandId) {
+    public BrandDetailResponse findInactiveBrandById(Long id) {
 
-        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+        if(id <= 0 ){
+            throw new IllegalArgumentException("Brand ID must be positive");
+        }
+
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
         if (!BrandStatus.INACTIVE.equals(brand.getStatus())) {
             throw new ResourceNotFoundException("Inactive brand not found");
