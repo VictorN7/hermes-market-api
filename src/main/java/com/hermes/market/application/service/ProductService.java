@@ -67,7 +67,7 @@ public class ProductService {
     @Transactional
     public ProductResponse createProduct(ProductRequest productRequest) {
 
-        if (productRepository.existsByNameIgnoreCase(productRequest.getName().trim())) {
+        if (productRepository.existsByNameIgnoreCase(productRequest.getName().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Product name already exists");
         }
 
@@ -92,13 +92,13 @@ public class ProductService {
         Brand brand = brandRepository.findById(productUpdateRequest.getBrandId())
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
-        if (!product.getName().equalsIgnoreCase(productUpdateRequest.getName().trim())
-                && productRepository.existsByNameIgnoreCase(productUpdateRequest.getName().trim())) {
+        if (!product.getName().equalsIgnoreCase(productUpdateRequest.getName().trim().replaceAll("\\s+", " "))
+                && productRepository.existsByNameIgnoreCase(productUpdateRequest.getName().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Product name already exists");
         }
 
-        product.updateProduct(productUpdateRequest.getName().trim(), productUpdateRequest.getDescription().trim(),
-                productUpdateRequest.getPrice(), productUpdateRequest.getImgUrl().trim(), category, brand);
+        product.updateProduct(productUpdateRequest.getName().trim().replaceAll("\\s+", " "), productUpdateRequest.getDescription().trim().replaceAll("\\s+", " "),
+                productUpdateRequest.getPrice(), productUpdateRequest.getImgUrl().trim().replaceAll("\\s+", " "), category, brand);
 
         productRepository.save(product);
 
