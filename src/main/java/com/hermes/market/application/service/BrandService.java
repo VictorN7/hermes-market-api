@@ -47,7 +47,7 @@ public class BrandService {
     @Transactional
     public BrandDetailResponse createBrand(BrandRequest brandRequest) {
 
-        if (brandRepository.existsByNameIgnoreCase(brandRequest.getName().trim())) {
+        if (brandRepository.existsByNameIgnoreCase(brandRequest.getName().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Brand name already exists");
         }
 
@@ -61,7 +61,7 @@ public class BrandService {
             throw new IllegalArgumentException("Brand ID must be positive");
         }
 
-        String newName = brandRequest.getName();
+        String newName = brandRequest.getName().trim().replaceAll("\\s+", " ");
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
         if (!brand.getName().equalsIgnoreCase(newName) && brandRepository.existsByNameIgnoreCase(newName)) {

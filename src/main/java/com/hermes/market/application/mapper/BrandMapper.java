@@ -22,6 +22,6 @@ public class BrandMapper {
     }
 
     public static Brand toCreate(BrandRequest brandRequest){
-        return new Brand(brandRequest.getName().trim());
+        return new Brand(brandRequest.getName().trim().replaceAll("\\s+", " "));
     }
 }
