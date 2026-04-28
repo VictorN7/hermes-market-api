@@ -79,9 +79,13 @@ public class BrandService {
     }
 
     @Transactional
-    public void deactivateBrand(Long brandId) {
+    public void deactivateBrand(Long id) {
 
-        Brand brand = brandRepository.findById(brandId).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
+        if(id <= 0 ){
+            throw new IllegalArgumentException("Brand ID must be positive");
+        }
+
+        Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
         brand.deactivate();
         brandRepository.save(brand);
     }
