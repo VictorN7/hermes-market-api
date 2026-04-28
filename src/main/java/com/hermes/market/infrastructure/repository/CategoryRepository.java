@@ -1,6 +1,7 @@
 package com.hermes.market.infrastructure.repository;
 
 
+import com.hermes.market.domain.product.Brand;
 import com.hermes.market.domain.product.CategoryStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,11 +10,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.hermes.market.domain.product.Category;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>{
 
     boolean existsByNameIgnoreCase(String name);
 
-    Page<Category> findByStatus(Integer status, Pageable pageable);
+    Page<Category> findAllByStatus(Integer status, Pageable pageable);
+
+    Optional<Category> findByIdAndStatus(Long id, Integer status);
 
 }
