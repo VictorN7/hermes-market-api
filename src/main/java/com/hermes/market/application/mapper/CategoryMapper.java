@@ -19,6 +19,6 @@ public class CategoryMapper {
     }
 
     public static Category toCreate(CategoryRequest categoryRequest){
-        return new Category(categoryRequest.getName());
+        return new Category(categoryRequest.getName().trim().replaceAll("\\s+", " "));
     }
 }
