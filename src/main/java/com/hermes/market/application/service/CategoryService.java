@@ -45,7 +45,7 @@ public class CategoryService {
 	@Transactional
 	public CategoryResponse createCategory(CategoryRequest categoryRequest){
 
-		if (categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())) {
+		if (categoryRepository.existsByNameIgnoreCase(categoryRequest.getName().trim().replaceAll("\\s+", " "))) {
 			throw new BusinessException("Category name already exists");
 		}
 		return CategoryMapper.toResponse(categoryRepository.save(CategoryMapper.toCreate(categoryRequest)));
@@ -60,11 +60,12 @@ public class CategoryService {
 
 		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
-		if (!category.getName().equalsIgnoreCase(categoryRequest.getName()) && categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())){
+		if (!category.getName().equalsIgnoreCase(categoryRequest.getName().trim().replaceAll("\\s+", " "))
+				&& categoryRepository.existsByNameIgnoreCase(categoryRequest.getName().trim().replaceAll("\\s+", " "))){
 			throw new BusinessException("Category name already exists");
 		}
 
-		category.updateName(categoryRequest.getName());
+		category.updateName(categoryRequest.getName().trim().replaceAll("\\s+", " "));
 
 		return CategoryMapper.toResponse(categoryRepository.save(category));
 	}
