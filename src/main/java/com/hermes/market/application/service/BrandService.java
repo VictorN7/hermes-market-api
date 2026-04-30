@@ -117,7 +117,7 @@ public class BrandService {
 
     @Transactional(readOnly = true)
     public Page<BrandDetailResponse> findInactiveBrands(Pageable pageable) {
-        Page<Brand> brands = brandRepository.findByStatus(BrandStatus.INACTIVE.getCode(), pageable);
+        Page<Brand> brands = brandRepository.findAllByStatus(BrandStatus.INACTIVE.getCode(), pageable);
         return brands.map(BrandMapper::toResponse);
     }
 
