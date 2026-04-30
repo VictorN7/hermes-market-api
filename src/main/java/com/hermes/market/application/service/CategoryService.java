@@ -33,6 +33,11 @@ public class CategoryService {
 
 	@Transactional(readOnly = true)
 	public CategoryResponse findById(Long id) {
+
+		if(id <= 0){
+			throw new IllegalArgumentException("Category ID must be positive");
+		}
+
 		return CategoryMapper.toResponse(categoryRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Category not found")));
 	}
@@ -47,9 +52,13 @@ public class CategoryService {
 	}
 
 	@Transactional
-	public CategoryResponse updateCategoryName(Long categoryId, CategoryRequest categoryRequest){
+	public CategoryResponse updateCategoryName(Long id, CategoryRequest categoryRequest){
 
-		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		if(id <= 0){
+			throw new IllegalArgumentException("Category ID must be positive");
+		}
+
+		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
 		if (!category.getName().equalsIgnoreCase(categoryRequest.getName()) && categoryRepository.existsByNameIgnoreCase(categoryRequest.getName())){
 			throw new BusinessException("Category name already exists");
@@ -61,27 +70,39 @@ public class CategoryService {
 	}
 
 	@Transactional
-	public void deactivateCategory(Long categoryId){
+	public void deactivateCategory(Long id){
 
-		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		if(id <= 0){
+			throw new IllegalArgumentException("Category ID must be positive");
+		}
+
+		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		category.deactivate();
 		categoryRepository.save(category);
 	}
 
 	@Transactional
-	public void activateCategory(Long categoryId){
+	public void activateCategory(Long id){
 
-		Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		if(id <= 0){
+			throw new IllegalArgumentException("Category ID must be positive");
+		}
+
+		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		category.activate();
 		categoryRepository.save(category);
 	}
 
 	@Transactional
-	public void deleteOrDeactivateCategory(Long categoryId){
+	public void deleteOrDeactivateCategory(Long id){
 
-		Category category =  categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+		if(id <= 0){
+			throw new IllegalArgumentException("Category ID must be positive");
+		}
 
-		if (productRepository.existsByCategoryId(categoryId)){
+		Category category =  categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+
+		if (productRepository.existsByCategoryId(id)){
 			category.deactivate();
 			categoryRepository.save(category);
 		} else {
@@ -97,6 +118,10 @@ public class CategoryService {
 
 	@Transactional(readOnly = true)
 	public CategoryResponse findInactiveCategoryById(Long id){
+
+		if(id <= 0){
+			throw new IllegalArgumentException("Category ID must be positive");
+		}
 
 		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
