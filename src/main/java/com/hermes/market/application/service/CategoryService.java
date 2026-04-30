@@ -124,11 +124,8 @@ public class CategoryService {
 			throw new IllegalArgumentException("Category ID must be positive");
 		}
 
-		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
-
-		if(!CategoryStatus.INACTIVE.equals(category.getStatus())){
-			throw new ResourceNotFoundException("Inactive category not found");
-		}
+		Category category = categoryRepository.findByIdAndStatus(id,
+				CategoryStatus.INACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
 		return CategoryMapper.toResponse(category);
 	}
