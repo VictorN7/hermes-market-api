@@ -27,7 +27,7 @@ public class CategoryService {
 
 	@Transactional(readOnly = true)
 	public Page<CategoryResponse> findAll(Pageable pageable) {
-		Page<Category> categories = categoryRepository.findAll(pageable);
+		Page<Category> categories = categoryRepository.findAllByStatus(CategoryStatus.ACTIVE.getCode(), pageable);
 		return categories.map(CategoryMapper::toResponse);
 	}
 
