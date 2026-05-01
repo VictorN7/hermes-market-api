@@ -12,7 +12,7 @@ import lombok.*;
 public class CategoryRequest {
 
     @NotBlank(message = "Name is required")
-    @Size(max = 25)
+    @Size(min = 3, max = 25)
     private String name;
 
 }
