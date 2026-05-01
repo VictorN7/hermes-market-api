@@ -38,7 +38,7 @@ public class CategoryService {
 			throw new IllegalArgumentException("Category ID must be positive");
 		}
 
-		return CategoryMapper.toResponse(categoryRepository.findById(id)
+		return CategoryMapper.toResponse(categoryRepository.findByIdAndStatus(id, CategoryStatus.ACTIVE.getCode())
 				.orElseThrow(() -> new ResourceNotFoundException("Category not found")));
 	}
 
