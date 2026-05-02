@@ -30,9 +30,9 @@ public class AddressRequest {
     @Size(min = 3, max = 60)
     private String city;
 
-    @NotBlank(message = "State is required")
+    @NotNull(message = "State is required")
     @Min(1)
-    @Max(2)
+    @Max(27)
     private Integer state;
 
     @NotBlank(message = "CEP is required")
