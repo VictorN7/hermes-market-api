@@ -18,4 +18,6 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
     Optional<Address> findByIdAndStatus(Long id, Integer status);
 
+    Optional<Address> findByIdAndUserId(Long id, Long userId);
+
 }

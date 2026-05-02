@@ -41,6 +41,15 @@ public class AddressService {
         return addresses.map(AddressMapper::toResponse);
     }
 
+    @Transactional(readOnly = true)
+    public AddressResponse findAddressById(Long userId, Long addressId){
+
+        Address address = addressRepository.findByIdAndUserId(addressId, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found for this user"));
+
+        return AddressMapper.toResponse(address);
+    }
+
     @Transactional
     public AddressResponse insertAddress(Long userId, AddressRequest addressRequest) {
 
@@ -58,6 +67,7 @@ public class AddressService {
         return AddressMapper.toResponse(address);
     }
 
+    @Transactional
     public AddressResponse updateAddress(Long userId, Long addressId, AddressRequest addressRequest) {
 
         Address address = addressRepository.findByIdAndStatus(addressId, AddressStatus.ACTIVE.getCode())
