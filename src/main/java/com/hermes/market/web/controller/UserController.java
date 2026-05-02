@@ -63,6 +63,11 @@ public class UserController {
 		return ResponseEntity.ok().body(orderService.findOrdersByUser(id, pageable));
 	}
 
+	@GetMapping("/{id}/addresses/{addressId}")
+	public ResponseEntity<AddressResponse> findAddressById(@PathVariable Long id, @PathVariable Long addressId){
+		return ResponseEntity.ok().body(addressService.findAddressById(id, addressId));
+	}
+
 	@GetMapping("/{id}/addresses")
 	public ResponseEntity<Page<AddressResponse>> findAllAddress(@PathVariable Long id, Pageable pageable){
 		return ResponseEntity.ok().body(addressService.findAddressByUser(id, pageable));
