@@ -20,4 +20,5 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 
     Optional<Address> findByIdAndUserId(Long id, Long userId);
 
+    boolean existsByUserIdAndStreetAndNumberAndCityAndStateAndZipcode(Long userId, String street, Integer number, String city, Integer state, String zipcode);
 }
