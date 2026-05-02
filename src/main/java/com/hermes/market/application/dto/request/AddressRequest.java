@@ -31,8 +31,9 @@ public class AddressRequest {
     private String city;
 
     @NotBlank(message = "State is required")
-    @Size(min = 2, max = 2)
-    private String state;
+    @Min(1)
+    @Max(2)
+    private Integer state;
 
     @NotBlank(message = "CEP is required")
     @Pattern(regexp = "\\d{8}", message = "CEP must have 8 digits")

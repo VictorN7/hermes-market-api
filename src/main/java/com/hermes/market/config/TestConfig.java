@@ -383,19 +383,19 @@ public class TestConfig implements CommandLineRunner {
 		// ADDRESSES
 		// =========================
 
-		Address addr1 = new Address("Rua das Flores", 123, "Apto 45", "Jardim Primavera", "São Paulo", "SP", "01310100", user1);
-		Address addr2 = new Address("Av. Paulista",456 , null, "Bela Vista", "São Paulo", "SP", "01311000", user2);
-		Address addr3 = new Address("Rua das Acácias", 78, "Casa 2", "Vila Madalena", "São Paulo", "SP", "05435000", user3);
-		Address addr4 = new Address("Rua do Comércio", 200, null, "Centro", "Campinas", "SP", "13010050", user4);
-		Address addr5 = new Address( "Rua das Palmeiras", 55, "Bloco B", "Moema", "São Paulo", "SP", "04077000", user5);
-		Address addr6 = new Address("Av. Brasil", 310, null, "Centro", "Rio de Janeiro", "RJ", "20040020", user6);
-		Address addr7 = new Address("Rua das Orquídeas",88, "Sala 3", "Lourdes", "Belo Horizonte", "MG", "30170000", user7);
-		Address addr8 = new Address("Rua das Margaridas", 15, null, "Boa Viagem", "Recife", "PE", "51020010", user8);
-		Address addr9 = new Address("Rua das Violetas",402, "Apto 12", "Moinhos de Vento", "Porto Alegre", "RS", "90570020", user9);
-		Address addr10 = new Address("Av. Goiás", 67, null, "Setor Central", "Goiânia", "GO", "74015010", user10);
-		Address addr11 = new Address("Rua das Acácias", 456, "Apto 12", "Vila Nova", "São Paulo", "SP", "04567890", user1);
-		Address addr12 = new Address("Av. Paulista", 1000, null, "Bela Vista", "São Paulo", "SP", "01310100", user4);
-		Address addr13 = new Address("Rua Augusta", 789, "Casa 3", "Consolação", "São Paulo", "SP", "01305000", user3);
+		Address addr1 = new Address("Rua das Flores", 123, "Apto 45", "Jardim Primavera", "São Paulo", 25, "01310100", user1);
+		Address addr2 = new Address("Av. Paulista", 456, null, "Bela Vista", "São Paulo", 25, "01311000", user2);
+		Address addr3 = new Address("Rua das Acácias", 78, "Casa 2", "Vila Madalena", "São Paulo", 25, "05435000", user3);
+		Address addr4 = new Address("Rua do Comércio", 200, null, "Centro", "Campinas", 25, "13010050", user4);
+		Address addr5 = new Address("Rua das Palmeiras", 55, "Bloco B", "Moema", "São Paulo", 25, "04077000", user5);
+		Address addr6 = new Address("Av. Brasil", 310, null, "Centro", "Rio de Janeiro", 19, "20040020", user6);
+		Address addr7 = new Address("Rua das Orquídeas", 88, "Sala 3", "Lourdes", "Belo Horizonte", 13, "30170000", user7);
+		Address addr8 = new Address("Rua das Margaridas", 15, null, "Boa Viagem", "Recife", 17, "51020010", user8);
+		Address addr9 = new Address("Rua das Violetas", 402, "Apto 12", "Moinhos de Vento", "Porto Alegre", 21, "90570020", user9);
+		Address addr10 = new Address("Av. Goiás", 67, null, "Setor Central", "Goiânia", 9, "74015010", user10);
+		Address addr11 = new Address("Rua das Acácias", 456, "Apto 12", "Vila Nova", "São Paulo", 25, "04567890", user1);
+		Address addr12 = new Address("Av. Paulista", 1000, null, "Bela Vista", "São Paulo", 25, "01310100", user4);
+		Address addr13 = new Address("Rua Augusta", 789, "Casa 3", "Consolação", "São Paulo", 25, "01305000", user3);
 
 		addressRepository.saveAll(Arrays.asList(addr1, addr2, addr3, addr4, addr5, addr6, addr7, addr8, addr9, addr10,addr11, addr12, addr13 ));
 

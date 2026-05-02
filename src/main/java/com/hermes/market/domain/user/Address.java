@@ -30,7 +30,7 @@ public class Address {
     private String city;
 
     @Column(nullable = false, length = 20)
-    private String state;
+    private Integer state;
 
     @Column(nullable = false, length = 8)
     private String zipcode;
@@ -49,7 +49,7 @@ public class Address {
     }
 
     public Address(String street, Integer number, String complement, String neighborhood, String city,
-                   String state, String zipcode, User user) {
+                   Integer state, String zipcode, User user) {
 
         setStreet(street);
         setNumber(number);
@@ -113,8 +113,8 @@ public class Address {
         this.zipcode = zipcode;
     }
 
-    private void setState(String state) {
-        if (state == null || state.isBlank()) {
+    private void setState(Integer state) {
+        if (state == null) {
             throw new BusinessException("State cannot be null or empty");
         }
         this.state = state;
@@ -168,8 +168,8 @@ public class Address {
         return city;
     }
 
-    public String getState() {
-        return state;
+    public State getState() {
+        return State.valueOf(state);
     }
 
     public String getZipcode() {

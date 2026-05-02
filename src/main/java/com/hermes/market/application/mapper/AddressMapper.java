@@ -12,7 +12,7 @@ public class AddressMapper {
 
     public static AddressResponse toResponse(Address address){
         return new AddressResponse(address.getId(), address.getNumber(), address.getStreet(), address.getComplement(),
-                address.getNeighborhood(), address.getCity(), address.getState(), address.getZipcode());
+                address.getNeighborhood(), address.getCity(), address.getState().name(), address.getZipcode());
     }
 
     public static Address toCreate(AddressRequest addressRequest, User user){
