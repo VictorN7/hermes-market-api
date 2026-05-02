@@ -1,9 +1,6 @@
 package com.hermes.market.application.dto.request;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -13,31 +10,32 @@ import lombok.*;
 @ToString
 public class AddressRequest {
 
-    @NotNull
-    @Max(value = 1000)
+    @NotNull(message = "Number is required")
+    @Min(1)
+    @Max(100000)
     private Integer number;
 
     @NotBlank(message = "Street is required")
-    @Size(max = 50)
+    @Size(min = 3, max = 100)
     private String street;
 
-    @Size(max = 50)
+    @Size(max = 60)
     private String complement;
 
     @NotBlank(message = "Neighborhood is required")
-    @Size(max = 20)
+    @Size(min = 2, max = 60)
     private String neighborhood;
 
     @NotBlank(message = "City is required")
-    @Size(max = 20)
+    @Size(min = 3, max = 60)
     private String city;
 
     @NotBlank(message = "State is required")
-    @Size(max = 20)
+    @Size(min = 2, max = 2)
     private String state;
 
     @NotBlank(message = "CEP is required")
-    @Size(max = 8)
+    @Pattern(regexp = "\\d{8}", message = "CEP must have 8 digits")
     private String zipcode;
 
 }
