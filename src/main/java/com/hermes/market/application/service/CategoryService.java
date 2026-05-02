@@ -34,10 +34,6 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public CategoryResponse findById(Long id) {
 
-		if(id <= 0){
-			throw new IllegalArgumentException("Category ID must be positive");
-		}
-
 		return CategoryMapper.toResponse(categoryRepository.findByIdAndStatus(id, CategoryStatus.ACTIVE.getCode())
 				.orElseThrow(() -> new ResourceNotFoundException("Category not found")));
 	}
@@ -54,10 +50,6 @@ public class CategoryService {
 	@Transactional
 	public CategoryResponse updateCategoryName(Long id, CategoryRequest categoryRequest){
 
-		if(id <= 0){
-			throw new IllegalArgumentException("Category ID must be positive");
-		}
-
 		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
 		if (!category.getName().equalsIgnoreCase(categoryRequest.getName().trim().replaceAll("\\s+", " "))
@@ -73,10 +65,6 @@ public class CategoryService {
 	@Transactional
 	public void deactivateCategory(Long id){
 
-		if(id <= 0){
-			throw new IllegalArgumentException("Category ID must be positive");
-		}
-
 		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		category.deactivate();
 		categoryRepository.save(category);
@@ -85,10 +73,6 @@ public class CategoryService {
 	@Transactional
 	public void activateCategory(Long id){
 
-		if(id <= 0){
-			throw new IllegalArgumentException("Category ID must be positive");
-		}
-
 		Category category = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 		category.activate();
 		categoryRepository.save(category);
@@ -96,10 +80,6 @@ public class CategoryService {
 
 	@Transactional
 	public void deleteOrDeactivateCategory(Long id){
-
-		if(id <= 0){
-			throw new IllegalArgumentException("Category ID must be positive");
-		}
 
 		Category category =  categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
@@ -120,14 +100,9 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public CategoryResponse findInactiveCategoryById(Long id){
 
-		if(id <= 0){
-			throw new IllegalArgumentException("Category ID must be positive");
-		}
-
 		Category category = categoryRepository.findByIdAndStatus(id,
 				CategoryStatus.INACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Category not found"));
 
 		return CategoryMapper.toResponse(category);
 	}
-
 }

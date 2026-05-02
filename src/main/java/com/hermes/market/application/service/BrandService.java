@@ -35,10 +35,6 @@ public class BrandService {
     @Transactional(readOnly = true)
     public BrandDetailResponse findById(Long id) {
 
-        if(id <= 0 ){
-            throw new IllegalArgumentException("Brand ID must be positive");
-        }
-
         return BrandMapper.toResponse(brandRepository
                 .findByIdAndStatus(id, BrandStatus.ACTIVE.getCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Brand not found")));
@@ -57,10 +53,6 @@ public class BrandService {
     @Transactional
     public BrandDetailResponse updateBrand(Long id, BrandRequest brandRequest) {
 
-        if(id <= 0 ){
-            throw new IllegalArgumentException("Brand ID must be positive");
-        }
-
         String newName = brandRequest.getName().trim().replaceAll("\\s+", " ");
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
@@ -77,10 +69,6 @@ public class BrandService {
     @Transactional
     public void activateBrand(Long id) {
 
-        if(id <= 0 ){
-            throw new IllegalArgumentException("Brand ID must be positive");
-        }
-
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
         brand.activate();
         brandRepository.save(brand);
@@ -89,10 +77,6 @@ public class BrandService {
     @Transactional
     public void deactivateBrand(Long id) {
 
-        if(id <= 0 ){
-            throw new IllegalArgumentException("Brand ID must be positive");
-        }
-
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
         brand.deactivate();
         brandRepository.save(brand);
@@ -100,10 +84,6 @@ public class BrandService {
 
     @Transactional
     public void deleteOrDeactivateBrand(Long id) {
-
-        if(id <= 0 ){
-            throw new IllegalArgumentException("Brand ID must be positive");
-        }
 
         Brand brand = brandRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Brand not found"));
 
@@ -123,10 +103,6 @@ public class BrandService {
 
     @Transactional(readOnly = true)
     public BrandDetailResponse findInactiveBrandById(Long id) {
-
-        if(id <= 0 ){
-            throw new IllegalArgumentException("Brand ID must be positive");
-        }
 
         return BrandMapper.toResponse(brandRepository.findByIdAndStatus(id, BrandStatus.INACTIVE.getCode()).orElseThrow(() ->
                 new ResourceNotFoundException("Brand not found")));

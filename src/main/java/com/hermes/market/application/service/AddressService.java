@@ -33,10 +33,6 @@ public class AddressService {
     @Transactional(readOnly = true)
     public Page<AddressResponse> findAddressByUser(Long id, Pageable pageable) {
 
-        if (id <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         if (!userRepository.existsById(id)){
             throw new ResourceNotFoundException("User not found");
         }
@@ -47,6 +43,7 @@ public class AddressService {
 
     @Transactional
     public AddressResponse insertAddress(Long userId, AddressRequest addressRequest) {
+
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         boolean existsAddress = addressRepository.existsByUserAndStreetIgnoreCaseAndNumber(user, addressRequest.getStreet(), addressRequest.getNumber());
@@ -86,14 +83,6 @@ public class AddressService {
 
     @Transactional
     public void deleteOrDeactivateAddress(Long userId, Long addressId) {
-
-        if (userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
-        if (addressId <= 0){
-            throw new IllegalArgumentException("Address ID must be positive");
-        }
 
         Address address = addressRepository.findById(addressId).orElseThrow(() -> new ResourceNotFoundException("Address not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));

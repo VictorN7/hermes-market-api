@@ -56,21 +56,15 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductResponse findById(Long id) {
 
-        if (id <= 0){
-            throw new IllegalArgumentException("Product ID must be positive");
-        }
-
         return ProductMapper.toResponse(productRepository.findByIdAndStatus(id, ProductStatus.ACTIVE.getCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found")));
     }
 
     @Transactional
     public ProductResponse createProduct(ProductRequest productRequest) {
-
         if (productRepository.existsByNameIgnoreCase(productRequest.getName().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Product name already exists");
         }
-
         return ProductMapper.toResponse(productRepository.save(ProductMapper.toCreate(productRequest,
                 categoryRepository.findById(productRequest.getCategoryId()).orElseThrow(() -> new ResourceNotFoundException("Category not found")),
                 brandRepository.findById(productRequest.getBrandId()).orElseThrow(() -> new ResourceNotFoundException("Brand not found")))));
@@ -78,10 +72,6 @@ public class ProductService {
 
     @Transactional
     public ProductResponse updateProduct(Long id, ProductUpdateRequest productUpdateRequest) {
-
-        if (id <= 0){
-            throw new IllegalArgumentException("Product ID must be positive");
-        }
 
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
@@ -108,10 +98,6 @@ public class ProductService {
     @Transactional
     public ProductResponse adjustStock(Long id, ProductStockUpdateRequest request){
 
-        if (id <= 0){
-            throw new IllegalArgumentException("Product ID must be positive");
-        }
-
         Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.adjustStock(request.getQuantity());
         productRepository.save(product);
@@ -122,10 +108,6 @@ public class ProductService {
     @Transactional
     public void deactivateProduct(Long id){
 
-        if (id <= 0){
-            throw new IllegalArgumentException("Product ID must be positive");
-        }
-
         Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.deactivate();
         productRepository.save(product);
@@ -134,10 +116,6 @@ public class ProductService {
     @Transactional
     public void activateProduct(Long id){
 
-        if (id <= 0){
-            throw new IllegalArgumentException("Product ID must be positive");
-        }
-
         Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.activate();
         productRepository.save(product);
@@ -145,10 +123,6 @@ public class ProductService {
 
     @Transactional
     public void deleteOrDeactivateProduct(Long id){
-
-        if (id <= 0){
-            throw new IllegalArgumentException("Product ID must be positive");
-        }
 
         Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
@@ -169,10 +143,6 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductResponse findInactiveProductById(Long id){
-
-        if (id <= 0){
-            throw new IllegalArgumentException("Product ID must be positive");
-        }
 
         Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 

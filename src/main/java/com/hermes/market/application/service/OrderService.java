@@ -53,10 +53,6 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Page<OrderSummaryResponse> findOrdersByUser(Long id, Pageable pageable) {
 
-        if(id <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         if(!userRepository.existsById(id)){
             throw new ResourceNotFoundException("User not found");
         }

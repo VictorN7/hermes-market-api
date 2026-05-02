@@ -39,26 +39,21 @@ public class PromotionService {
 
     @Transactional
     public PromotionResponse createPromotion(PromotionRequest promotionRequest){
-
         return PromotionMapper.toResponse(promotionRepository.save(PromotionMapper.toCreate(promotionRequest,
                 PromotionType.valueOf(promotionRequest.getType()))));
     }
 
     @Transactional
     public PromotionResponse insertProduct(Long productId, Long promotionId){
-
         Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
-
         promotion.addProduct(product);
         promotionRepository.save(promotion);
-
         return PromotionMapper.toResponse(promotion);
     }
 
     @Transactional
     public void deactivatePromotion(Long promotionId){
-
         Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
         promotion.deactivate();
         promotionRepository.save(promotion);
@@ -66,7 +61,6 @@ public class PromotionService {
 
     @Transactional
     public void activatePromotion(Long promotionId){
-
         Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
         promotion.activate();
         promotionRepository.save(promotion);
@@ -74,7 +68,6 @@ public class PromotionService {
 
     @Transactional
     public PromotionResponse deleteProduct(Long promotionId, Long productId){
-
         Promotion promotion = promotionRepository.findById(promotionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
 
@@ -91,13 +84,10 @@ public class PromotionService {
 
     @Transactional(readOnly = true)
     public PromotionResponse findInactivePromotionById(Long promotionId){
-
         Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
-
         if(!PromotionStatus.INACTIVE.equals(promotion.getStatus())){
             throw new ResourceNotFoundException("Inactive promotion not found");
         }
-
         return PromotionMapper.toResponse(promotion);
     }
 

@@ -32,91 +32,61 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserResponse> findAll(Pageable pageable) {
-
         Page<User> users = userRepository.findByStatus(UserStatus.ACTIVE.getCode(), pageable);
         return users.map(UserMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     public UserResponse findById(Long id) {
-
-        if(id <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
         return UserMapper.toResponse(userRepository.findByIdAndStatus(id, UserStatus.ACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("User not found")));
-
     }
 
     @Transactional
     public UserResponse createUser(UserRequest userRequest) {
-
         if (userRepository.existsByCpf(userRequest.getCpf().trim().replaceAll("\\s+", " ")) ||
                 userRepository.existsByEmail(userRequest.getEmail().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("User is already exists");
         }
-
         return UserMapper.toResponse(userRepository.save(UserMapper.toCreate(userRequest)));
     }
 
     @Transactional(readOnly = true)
     public LoginResponse toLogin(LoginRequest loginRequest) {
-
         User user = userRepository.findByEmailIgnoreCase(loginRequest.getEmail().trim().replaceAll("\\s+", " ")).orElseThrow(() -> new BusinessException("Invalid email or password"));
-
         if (!user.getStatus().equals(UserStatus.ACTIVE)) {
             throw new BusinessException("User is inactive or blocked");
         }
         if (!user.getPassword().equals(loginRequest.getPassword().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Invalid email or password");
         }
-
         return UserMapper.toLogin(user);
     }
 
     @Transactional
     public UserResponse updateUser(Long userId, UserUpdateRequest userUpdateRequest) {
-
-        if(userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
         if(!user.getEmail().equalsIgnoreCase(userUpdateRequest.getEmail().trim().replaceAll("\\s+", " ")) &&
                 userRepository.existsByEmail(userUpdateRequest.getEmail().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Email is already exists");
         }
-
         user.updateUser(userUpdateRequest.getName().trim().replaceAll("\\s+", " "),
                 userUpdateRequest.getEmail().trim().replaceAll("\\s+", " "),
                 userUpdateRequest.getBirthDate());
         userRepository.save(user);
-
         return UserMapper.toResponse(user);
     }
 
     @Transactional
     public void updatePassword(Long userId, UserPasswordRequest userPasswordRequest) {
-
-        if(userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.updatePassword(userPasswordRequest.getNewPassword().trim().replaceAll("\\s+", " "),
                 userPasswordRequest.getConfirmPassword().trim().replaceAll("\\s+", " "),
                 userPasswordRequest.getCurrentPassword().trim().replaceAll("\\s+", " "));
-
         userRepository.save(user);
     }
 
     @Transactional
     public void deactivateUser(Long userId) {
-
-        if(userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.deactivate();
         userRepository.save(user);
@@ -124,11 +94,6 @@ public class UserService {
 
     @Transactional
     public void activateUser(Long userId) {
-
-        if(userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.activate();
         userRepository.save(user);
@@ -136,11 +101,6 @@ public class UserService {
 
     @Transactional
     public void blockUser(Long userId) {
-
-        if(userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.block();
         userRepository.save(user);
@@ -148,11 +108,6 @@ public class UserService {
 
     @Transactional
     public void unlockUser(Long userId) {
-
-        if(userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.unlock();
         userRepository.save(user);
@@ -160,12 +115,7 @@ public class UserService {
 
     @Transactional
     public void deleteOrDeactivateUser(Long userId) {
-
-        if(userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
         if (!orderRepository.existsByUserId(userId)) {
             userRepository.delete(user);
         } else {
@@ -188,17 +138,10 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse findInactiveUserById(Long userId) {
-
-        if (userId <= 0){
-            throw new IllegalArgumentException("User ID must be positive");
-        }
-
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
         if (!user.getStatus().equals(UserStatus.INACTIVE)) {
             throw new ResourceNotFoundException("Inactive user not found");
         }
-
         return UserMapper.toResponse(user);
     }
 
