@@ -5,10 +5,7 @@ import com.hermes.market.application.dto.response.AddressResponse;
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.AddressMapper;
-import com.hermes.market.domain.user.Address;
-import com.hermes.market.domain.user.AddressStatus;
-import com.hermes.market.domain.user.User;
-import com.hermes.market.domain.user.UserStatus;
+import com.hermes.market.domain.user.*;
 import com.hermes.market.infrastructure.repository.AddressRepository;
 import com.hermes.market.infrastructure.repository.OrderRepository;
 import com.hermes.market.infrastructure.repository.UserRepository;
@@ -73,11 +70,19 @@ public class AddressService {
         Address address = addressRepository.findByIdAndStatus(addressId, AddressStatus.ACTIVE.getCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
 
-        User user = userRepository.findByIdAndStatus(userId, UserStatus.ACTIVE.getCode())
-                .orElseThrow(() -> (new ResourceNotFoundException("User not found")));
-
-        if(!address.getUser().getId().equals(user.getId())){
+        if(!address.getUser().getId().equals(userId)){
             throw new BusinessException("Address does not belong to this user");
+        }
+
+        if (addressRepository.existsByUserIdAndStreetAndNumberAndCityAndStateAndZipcodeAndIdNot(
+                userId,
+                addressRequest.getStreet(),
+                addressRequest.getNumber(),
+                addressRequest.getCity(),
+                addressRequest.getState(),
+                addressRequest.getZipcode(),
+                addressId)){
+            throw new BusinessException("Address already exists for this user");
         }
 
         address.updateAddress(addressRequest.getStreet(),
