@@ -63,6 +63,21 @@ public class Address {
         setStatus(AddressStatus.ACTIVE);
     }
 
+    public void updateAddress(Address address){
+
+        setStreet(address.getStreet());
+        setNumber(address.getNumber());
+        setComplement(address.getComplement());
+        setNeighborhood(address.getNeighborhood());
+        setCity(address.getCity());
+        setZipcode(address.getZipcode());
+
+        if (address.getState() != null) {
+            setState(address.getState().getCode());
+        }
+
+    }
+
     public void deactivate() {
 
         if (!AddressStatus.ACTIVE.equals(getStatus())) {
