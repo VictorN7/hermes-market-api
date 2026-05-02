@@ -14,22 +14,22 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100000)
     private Integer number;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 100)
     private String street;
 
-    @Column(length = 50)
+    @Column(length = 60)
     private String complement;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 60)
     private String neighborhood;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 60)
     private String city;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 2)
     private Integer state;
 
     @Column(nullable = false, length = 8)
