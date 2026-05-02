@@ -83,6 +83,12 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.updateUser(id, userUpdateRequest));
 	}
 
+	@PutMapping("/{id}/addresses/{addressId}")
+	public ResponseEntity<AddressResponse> updateAddress(@PathVariable Long id, @PathVariable Long addressId, @RequestBody @Valid AddressRequest addressRequest){
+		return ResponseEntity.ok().body(addressService.updateAddress(id, addressId, addressRequest));
+	}
+
+
 	@PatchMapping("/{id}/password")
 	public ResponseEntity<Void> updatePassword(@PathVariable Long id, @RequestBody @Valid UserPasswordRequest userPasswordRequest){
 
