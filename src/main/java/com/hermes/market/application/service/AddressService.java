@@ -8,6 +8,7 @@ import com.hermes.market.application.mapper.AddressMapper;
 import com.hermes.market.domain.user.Address;
 import com.hermes.market.domain.user.AddressStatus;
 import com.hermes.market.domain.user.User;
+import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.AddressRepository;
 import com.hermes.market.infrastructure.repository.OrderRepository;
 import com.hermes.market.infrastructure.repository.UserRepository;
@@ -58,6 +59,29 @@ public class AddressService {
         addressRepository.saveAndFlush(address);
 
         return AddressMapper.toResponse(address);
+    }
+
+    public AddressResponse updateAddress(Long userId, Long addressId, AddressRequest addressRequest) {
+
+        Address address = addressRepository.findByIdAndStatus(addressId, AddressStatus.ACTIVE.getCode())
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+
+        User user = userRepository.findByIdAndStatus(userId, UserStatus.ACTIVE.getCode())
+                .orElseThrow(() -> (new ResourceNotFoundException("User not found")));
+
+        if(!address.getUser().getId().equals(user.getId())){
+            throw new BusinessException("Address does not belong to this user");
+        }
+
+        address.updateAddress(addressRequest.getStreet(),
+                addressRequest.getNumber(),
+                addressRequest.getComplement(),
+                addressRequest.getNeighborhood(),
+                addressRequest.getCity(),
+                addressRequest.getState(),
+                addressRequest.getZipcode());
+
+        return AddressMapper.toResponse(addressRepository.save(address));
     }
 
     @Transactional
