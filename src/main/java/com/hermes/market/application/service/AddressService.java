@@ -74,12 +74,9 @@ public class AddressService {
             throw new BusinessException("Address does not belong to this user");
         }
 
-        if (addressRepository.existsByUserIdAndStreetAndNumberAndCityAndStateAndZipcodeAndIdNot(
+        if (addressRepository.existsByUserIdAndZipcodeAndNumberAndIdNot(
                 userId,
-                addressRequest.getStreet(),
                 addressRequest.getNumber(),
-                addressRequest.getCity(),
-                addressRequest.getState(),
                 addressRequest.getZipcode(),
                 addressId)){
             throw new BusinessException("Address already exists for this user");
