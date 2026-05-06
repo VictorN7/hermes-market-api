@@ -76,8 +76,8 @@ public class AddressService {
 
         if (addressRepository.existsByUserIdAndZipcodeAndNumberAndIdNot(
                 userId,
-                addressRequest.getNumber(),
                 addressRequest.getZipcode(),
+                addressRequest.getNumber(),
                 addressId)){
             throw new BusinessException("Address already exists for this user");
         }
