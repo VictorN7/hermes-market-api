@@ -42,8 +42,12 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public Page<OrderResponse> findAll(Pageable pageable) {
-        Page<Order> orders = orderRepository.findAll(pageable);
-        return orders.map(OrderMapper::toResponse);
+        return orderRepository.findAllByUserStatus(pageable, UserStatus.ACTIVE).map(OrderMapper::toResponse);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<OrderResponse> findAllByUserInactive(Pageable pageable) {
+        return orderRepository.findAllByUserStatus(pageable, UserStatus.INACTIVE).map(OrderMapper::toResponse);
     }
 
     @Transactional(readOnly = true)

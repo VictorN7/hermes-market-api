@@ -1,5 +1,6 @@
 package com.hermes.market.infrastructure.repository;
 
+import com.hermes.market.domain.user.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
     boolean existsByUserId(Long id);
 
     boolean existsByAddressId(Long id);
+
+    Page<Order> findAllByUserStatus(Pageable pageable, UserStatus userStatus);
 
 }
