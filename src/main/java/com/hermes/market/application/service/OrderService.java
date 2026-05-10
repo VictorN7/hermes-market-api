@@ -46,7 +46,7 @@ public class OrderService {
     }
 
     @Transactional(readOnly = true)
-    public Page<OrderResponse> findAllByUserInactive(Pageable pageable) {
+    public Page<OrderResponse> findOrdersByInactiveUser(Pageable pageable) {
         return orderRepository.findAllByUserStatus(pageable, UserStatus.INACTIVE).map(OrderMapper::toResponse);
     }
 
