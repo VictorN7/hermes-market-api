@@ -58,14 +58,11 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Page<OrderSummaryResponse> findOrdersByUser(Long id, Pageable pageable) {
 
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        if(!UserStatus.ACTIVE.equals(user.getStatus())) {
-            throw new  BusinessException("User is not active");
+        if(!userRepository.existsByIdAndStatus(id, UserStatus.ACTIVE.getCode())) {
+            throw new ResourceNotFoundException("User not found");
         }
 
-        Page<Order> orders = orderRepository.findByUserId(id, pageable);
-        return orders.map(OrderMapper::toSummary);
+        return orderRepository.findByUserId(id, pageable).map(OrderMapper::toSummary);
     }
 
     @Transactional
