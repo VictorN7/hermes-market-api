@@ -52,7 +52,7 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
-        return OrderMapper.toResponse(orderRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
+        return OrderMapper.toResponse(orderRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
     }
 
     @Transactional(readOnly = true)
