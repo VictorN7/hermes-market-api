@@ -31,7 +31,7 @@ public class OrderController {
 
 	@GetMapping("/inactive")
 	public ResponseEntity<Page<OrderResponse>> findAllByUserInactive(Pageable pageable){
-		return ResponseEntity.ok().body(orderService.findAllByUserInactive(pageable));
+		return ResponseEntity.ok().body(orderService.findOrdersByInactiveUser(pageable));
 	}
 
 	@GetMapping("/{id}")
