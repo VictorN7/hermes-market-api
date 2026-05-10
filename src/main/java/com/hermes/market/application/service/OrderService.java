@@ -17,6 +17,7 @@ import com.hermes.market.domain.order.PaymentMethod;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.Address;
 import com.hermes.market.domain.user.User;
+import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,8 +54,10 @@ public class OrderService {
     @Transactional(readOnly = true)
     public Page<OrderSummaryResponse> findOrdersByUser(Long id, Pageable pageable) {
 
-        if(!userRepository.existsById(id)){
-            throw new ResourceNotFoundException("User not found");
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        if(!UserStatus.ACTIVE.equals(user.getStatus())) {
+            throw new  BusinessException("User is not active");
         }
 
         Page<Order> orders = orderRepository.findByUserId(id, pageable);
