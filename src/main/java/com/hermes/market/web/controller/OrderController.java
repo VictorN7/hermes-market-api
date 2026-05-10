@@ -29,7 +29,7 @@ public class OrderController {
 		return ResponseEntity.ok().body(orderService.findAll(pageable));
 	}
 
-	@GetMapping("/inactive")
+	@GetMapping("/inactive-users")
 	public ResponseEntity<Page<OrderResponse>> findAllByUserInactive(Pageable pageable){
 		return ResponseEntity.ok().body(orderService.findOrdersByInactiveUser(pageable));
 	}
@@ -37,6 +37,11 @@ public class OrderController {
 	@GetMapping("/{id}")
 	public ResponseEntity<OrderResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(orderService.findById(id));
+	}
+
+	@GetMapping("/inactive-users/{id}")
+	public ResponseEntity<OrderResponse> findByIdInactiveUser(@PathVariable Long id){
+		return ResponseEntity.ok().body(orderService.findOrderByInactiveUser(id));
 	}
 
 	@PostMapping
