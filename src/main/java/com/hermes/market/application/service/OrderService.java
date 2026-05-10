@@ -42,17 +42,17 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public Page<OrderResponse> findAll(Pageable pageable) {
-        return orderRepository.findAllByUserStatus(pageable, UserStatus.ACTIVE).map(OrderMapper::toResponse);
+        return orderRepository.findAllByUserStatus(pageable, UserStatus.ACTIVE.getCode()).map(OrderMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     public Page<OrderResponse> findOrdersByInactiveUser(Pageable pageable) {
-        return orderRepository.findAllByUserStatus(pageable, UserStatus.INACTIVE).map(OrderMapper::toResponse);
+        return orderRepository.findAllByUserStatus(pageable, UserStatus.INACTIVE.getCode()).map(OrderMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
-        return OrderMapper.toResponse(orderRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
+        return OrderMapper.toResponse(orderRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
     }
 
     @Transactional(readOnly = true)
