@@ -90,8 +90,6 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        order.validateEditable();
-
         order.addItem(product, orderItemRequest.getQuantity());
         orderRepository.save(order);
 
@@ -102,8 +100,6 @@ public class OrderService {
     public OrderResponse updateOrderItemQuantity(Long orderId, Long itemId, OrderItemUpdateQuantityRequest request) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-
-        order.validateEditable();
 
         order.updateItemQuantity(itemId, request.getQuantity());
 
@@ -122,11 +118,6 @@ public class OrderService {
     public OrderResponse payOrder(Long orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-
-        if (order.getOrderItems().isEmpty()) {
-            throw new BusinessException("Order has no items");
-        }
-
         order.pay();
 
         for (OrderItem item : order.getOrderItems()) {
