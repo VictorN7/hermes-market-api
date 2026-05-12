@@ -16,6 +16,7 @@ import com.hermes.market.domain.order.OrderItem;
 import com.hermes.market.domain.order.PaymentMethod;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.Address;
+import com.hermes.market.domain.user.AddressStatus;
 import com.hermes.market.domain.user.User;
 import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.*;
@@ -72,19 +73,11 @@ public class OrderService {
     @Transactional
     public OrderResponse createOrder(OrderRequest orderRequest) {
 
-        Address address = addressRepository.findById(orderRequest.getAddressId()).orElseThrow(() -> new ResourceNotFoundException("Address not found!"));
-        User user = userRepository.findById(orderRequest.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        if (user.getStatus() != UserStatus.ACTIVE) {
-            throw new BusinessException("User is not active");
-        }
+        Address address = addressRepository.findByIdAndStatus(orderRequest.getAddressId(), AddressStatus.ACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Address not found!"));
+        User user = userRepository.findByIdAndStatus(orderRequest.getUserId(), UserStatus.ACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!address.getUser().getId().equals(user.getId())) {
             throw new BusinessException("Address does not belong to this user");
-        }
-
-        if(!address.isActive()){
-            throw new BusinessException("Address is inactive");
         }
 
         return OrderMapper.toResponse(orderRepository.save(OrderMapper.toCreate(
