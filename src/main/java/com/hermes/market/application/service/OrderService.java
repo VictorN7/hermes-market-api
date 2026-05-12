@@ -127,6 +127,11 @@ public class OrderService {
     public OrderResponse payOrder(Long orderId) {
 
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        if (order.getOrderItems().isEmpty()) {
+            throw new BusinessException("Order has no items");
+        }
+
         order.pay();
 
         for (OrderItem item : order.getOrderItems()) {
