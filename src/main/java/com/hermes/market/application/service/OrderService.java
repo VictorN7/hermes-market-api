@@ -83,8 +83,8 @@ public class OrderService {
             throw new BusinessException("Address does not belong to this user");
         }
 
-        if(address.){
-
+        if(!address.isActive()){
+            throw new BusinessException("Address is inactive");
         }
 
         return OrderMapper.toResponse(orderRepository.save(OrderMapper.toCreate(
