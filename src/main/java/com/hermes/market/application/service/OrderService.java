@@ -10,10 +10,7 @@ import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.OrderItemMapper;
 import com.hermes.market.application.mapper.OrderMapper;
-import com.hermes.market.domain.order.DeliveryMethod;
-import com.hermes.market.domain.order.Order;
-import com.hermes.market.domain.order.OrderItem;
-import com.hermes.market.domain.order.PaymentMethod;
+import com.hermes.market.domain.order.*;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.Address;
 import com.hermes.market.domain.user.AddressStatus;
@@ -93,7 +90,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-
+        order.validateEditable();
 
         order.addItem(product, orderItemRequest.getQuantity());
         orderRepository.save(order);

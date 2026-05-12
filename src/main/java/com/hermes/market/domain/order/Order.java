@@ -75,6 +75,12 @@ public class Order {
         setAddress(address);
     }
 
+    public void validateEditable(){
+        if (getStatus() != OrderStatus.CREATED){
+            throw new BusinessException("Only created orders can receive new items");
+        }
+    }
+
     private void setUser(User user) {
 
         if (user == null) {
