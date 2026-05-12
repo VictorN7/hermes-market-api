@@ -75,6 +75,10 @@ public class Order {
         setAddress(address);
     }
 
+    public boolean isPaid() {
+        return getStatus() == OrderStatus.PAID;
+    }
+
     private void setUser(User user) {
 
         if (user == null) {
