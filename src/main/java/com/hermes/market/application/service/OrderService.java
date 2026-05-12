@@ -93,6 +93,8 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
+
+
         order.addItem(product, orderItemRequest.getQuantity());
         orderRepository.save(order);
 
