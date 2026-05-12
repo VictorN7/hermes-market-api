@@ -75,6 +75,10 @@ public class OrderService {
         Address address = addressRepository.findById(orderRequest.getAddressId()).orElseThrow(() -> new ResourceNotFoundException("Address not found!"));
         User user = userRepository.findById(orderRequest.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        if (user.getStatus() != UserStatus.ACTIVE) {
+            throw new BusinessException("User is not active");
+        }
+
         if (!address.getUser().getId().equals(user.getId()))
             throw new BusinessException("Address does not belong to this user");
 
