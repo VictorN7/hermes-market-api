@@ -75,6 +75,10 @@ public class Address {
 
     }
 
+    public boolean isActive() {
+        return getStatus() == AddressStatus.ACTIVE;
+    }
+
     public void deactivate() {
 
         if (!AddressStatus.ACTIVE.equals(getStatus())) {

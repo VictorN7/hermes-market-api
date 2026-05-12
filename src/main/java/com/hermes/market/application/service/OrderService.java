@@ -79,8 +79,13 @@ public class OrderService {
             throw new BusinessException("User is not active");
         }
 
-        if (!address.getUser().getId().equals(user.getId()))
+        if (!address.getUser().getId().equals(user.getId())) {
             throw new BusinessException("Address does not belong to this user");
+        }
+
+        if(address.){
+
+        }
 
         return OrderMapper.toResponse(orderRepository.save(OrderMapper.toCreate(
                 PaymentMethod.valueOf(orderRequest.getPayment()),
