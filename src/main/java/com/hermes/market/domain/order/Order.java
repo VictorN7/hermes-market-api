@@ -23,6 +23,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import org.springframework.boot.ansi.Ansi8BitColor;
 
 @Entity
 @Table(name = "tb_orders")
@@ -192,9 +193,10 @@ public class Order {
 
     private void processStock() {
 
-        for (int x = 0; x < orderItems.size(); x++) {
-            orderItems.get(x).getProduct().decreaseStock(orderItems.get(x).getQuantity());
+        for (OrderItem item : orderItems) {
+            item.getProduct().decreaseStock(item.getQuantity());
         }
+
     }
 
     public void ship(){
