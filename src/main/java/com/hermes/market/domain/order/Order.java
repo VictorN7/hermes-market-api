@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.product.Product;
@@ -224,6 +225,13 @@ public class Order {
         setStatus(OrderStatus.CANCELED);
     }
 
+    private Optional<OrderItem> findItemByProduct(Product product) {
+
+      return orderItems.stream()
+               .filter(x -> x.getProduct().getId().equals(product.getId()))
+               .findFirst();
+    }
+
     public void addItem(Product product, Integer quantity) {
 
         if (OrderStatus.CANCELED.equals(getStatus())) {
@@ -245,6 +253,8 @@ public class Order {
         if (product.getQuantityInStock() == null || product.getQuantityInStock() < quantity) {
             throw new BusinessException("Insufficient Stock or null");
         }
+
+        Optional<OrderItem> existingItem = findItemByProduct(product);
 
         BigDecimal price = product.getEffectivePrice();
 
