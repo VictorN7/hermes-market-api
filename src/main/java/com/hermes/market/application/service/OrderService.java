@@ -98,10 +98,10 @@ public class OrderService {
         Order order = findOrderByIdOrThrow(orderId);
         Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        order.addItem(product, orderItemRequest.getQuantity());
+        OrderItem item = order.addItem(product, orderItemRequest.getQuantity());
         orderRepository.save(order);
 
-        return OrderItemMapper.toResponse(order.getOrderItems().get(order.getOrderItems().size() - 1));
+        return OrderItemMapper.toResponse(item);
     }
 
     @Transactional
