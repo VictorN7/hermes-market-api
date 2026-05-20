@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import ch.qos.logback.core.status.InfoStatus;
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.user.Address;
@@ -71,10 +72,14 @@ public class Order {
         setStatus(OrderStatus.CREATED);
         setTotalPrice(BigDecimal.ZERO);
         createdAt = Instant.now();
-        updatedAt = Instant.now();
+        touch();
         setPayment(payment);
         setDelivery(delivery);
         setAddress(address);
+    }
+
+    private void touch(){
+        updatedAt = Instant.now();
     }
 
     private void setUser(User user) {
@@ -90,7 +95,7 @@ public class Order {
             throw new BusinessException("Order status cannot be null");
         }
         this.status = status.getCode();
-        this.updatedAt = Instant.now();
+        touch();
     }
 
     private void setTotalPrice(BigDecimal totalPrice) {
@@ -176,7 +181,7 @@ public class Order {
         }
 
         setTotalPrice(calculateTotalPrice());
-        this.updatedAt = Instant.now();
+        touch();
     }
 
     public void pay() {
@@ -197,7 +202,6 @@ public class Order {
         for (OrderItem item : orderItems) {
             item.getProduct().decreaseStock(item.getQuantity());
         }
-
     }
 
     public void ship(){
@@ -262,7 +266,7 @@ public class Order {
 
             updateItemQuantity(orderItem.getId(), quantity);
 
-            updatedAt = Instant.now();
+            touch();
             return;
         }
 
@@ -270,7 +274,7 @@ public class Order {
 
         OrderItem item = new OrderItem(product, quantity, price);
         item.setOrder(this);
-        updatedAt = Instant.now();
+        touch();
         orderItems.add(item);
         setTotalPrice(calculateTotalPrice());
     }
