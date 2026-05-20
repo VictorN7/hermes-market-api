@@ -256,6 +256,16 @@ public class Order {
 
         Optional<OrderItem> existingItem = findItemByProduct(product);
 
+        if (existingItem.isPresent()){
+
+            OrderItem orderItem = existingItem.get();
+
+            updateItemQuantity(orderItem.getId(), quantity);
+
+            updatedAt = Instant.now();
+            return;
+        }
+
         BigDecimal price = product.getEffectivePrice();
 
         OrderItem item = new OrderItem(product, quantity, price);
