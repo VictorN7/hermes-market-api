@@ -236,7 +236,7 @@ public class Order {
                .findFirst();
     }
 
-    public void addItem(Product product, Integer quantity) {
+    public OrderItem addItem(Product product, Integer quantity) {
 
         if (OrderStatus.CANCELED.equals(getStatus())) {
             throw new BusinessException("Cannot add items with a CANCELED status");
@@ -267,16 +267,18 @@ public class Order {
             updateItemQuantity(orderItem.getId(), quantity);
 
             touch();
-            return;
+            return orderItem;
         }
 
         BigDecimal price = product.getEffectivePrice();
 
         OrderItem item = new OrderItem(product, quantity, price);
         item.setOrder(this);
-        touch();
         orderItems.add(item);
         setTotalPrice(calculateTotalPrice());
+        touch();
+
+        return item;
     }
 
     public Instant getUpdatedAt() {
