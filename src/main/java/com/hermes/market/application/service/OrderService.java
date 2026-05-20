@@ -42,6 +42,9 @@ public class OrderService {
         return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
     }
 
+    private OrderResponse saveAndMapToResponse(Order order){
+        return OrderMapper.toResponse(orderRepository.save(order));
+    }
 
     @Transactional(readOnly = true)
     public Page<OrderResponse> findAll(Pageable pageable) {
@@ -82,11 +85,11 @@ public class OrderService {
             throw new BusinessException("Address does not belong to this user");
         }
 
-        return OrderMapper.toResponse(orderRepository.save(OrderMapper.toCreate(
+        return saveAndMapToResponse(OrderMapper.toCreate(
                 PaymentMethod.valueOf(orderRequest.getPayment()),
                 DeliveryMethod.valueOf(orderRequest.getDelivery()),
                 user,
-                address)));
+                address));
     }
 
     @Transactional
@@ -108,7 +111,7 @@ public class OrderService {
 
         order.updateItemQuantity(itemId, request.getQuantity());
 
-        return OrderMapper.toResponse(orderRepository.save(order));
+        return saveAndMapToResponse(order);
     }
 
     @Transactional
@@ -116,7 +119,7 @@ public class OrderService {
 
         Order order = findOrderByIdOrThrow(orderId);
         order.cancel();
-        return OrderMapper.toResponse(orderRepository.save(order));
+        return saveAndMapToResponse(order);
     }
 
     @Transactional
@@ -128,7 +131,7 @@ public class OrderService {
         for (OrderItem item : order.getOrderItems()) {
             productRepository.save(item.getProduct());
         }
-        return OrderMapper.toResponse(orderRepository.save(order));
+        return saveAndMapToResponse(order);
     }
 
     @Transactional
@@ -137,7 +140,7 @@ public class OrderService {
         Order order = findOrderByIdOrThrow(orderId);
         order.ship();
 
-        return OrderMapper.toResponse(orderRepository.save(order));
+        return saveAndMapToResponse(order);
     }
 
     @Transactional
@@ -146,7 +149,7 @@ public class OrderService {
         Order order = findOrderByIdOrThrow(orderId);
         order.deliver();
 
-        return OrderMapper.toResponse(orderRepository.save(order));
+        return saveAndMapToResponse(order);
     }
 
     @Transactional
@@ -156,7 +159,7 @@ public class OrderService {
 
         order.deleteOrderItem(itemId);
 
-        return OrderMapper.toResponse(orderRepository.save(order));
+        return saveAndMapToResponse(order);
     }
 
 }
