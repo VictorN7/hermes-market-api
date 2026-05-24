@@ -93,15 +93,15 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderItemResponse createOrderItem(Long orderId, OrderItemRequest orderItemRequest) {
+    public OrderResponse createOrderItem(Long orderId, OrderItemRequest orderItemRequest) {
 
         Order order = findOrderByIdOrThrow(orderId);
         Product product = productRepository.findById(orderItemRequest.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        OrderItem item = order.addItem(product, orderItemRequest.getQuantity());
+        order.addItem(product, orderItemRequest.getQuantity());
         orderRepository.save(order);
 
-        return OrderItemMapper.toResponse(item);
+        return OrderMapper.toResponse(order);
     }
 
     @Transactional

@@ -50,7 +50,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/{id}/items")
-	public ResponseEntity<OrderItemResponse> createOrderItem(@PathVariable Long id, @RequestBody @Valid OrderItemRequest orderItemRequest){
+	public ResponseEntity<OrderResponse> createOrderItem(@PathVariable Long id, @RequestBody @Valid OrderItemRequest orderItemRequest){
 		return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrderItem(id,orderItemRequest));
 	}
 
