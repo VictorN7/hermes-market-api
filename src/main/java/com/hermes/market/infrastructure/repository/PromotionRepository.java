@@ -15,4 +15,6 @@ public interface PromotionRepository extends JpaRepository<Promotion, Long> {
 
     Optional<Promotion> findByIdAndStatus(Long id, Integer status);
 
+    boolean existsByNameIgnoreCaseAndStatus(String name, Integer status);
+
 }

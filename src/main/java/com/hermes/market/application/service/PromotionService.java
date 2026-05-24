@@ -2,6 +2,7 @@ package com.hermes.market.application.service;
 
 import com.hermes.market.application.dto.request.PromotionRequest;
 import com.hermes.market.application.dto.response.PromotionResponse;
+import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.PromotionMapper;
 import com.hermes.market.domain.product.Product;
@@ -46,6 +47,10 @@ public class PromotionService {
 
     @Transactional
     public PromotionResponse createPromotion(PromotionRequest promotionRequest){
+
+    if (promotionRepository.existsByNameIgnoreCaseAndStatus(promotionRequest.getName(), PromotionStatus.ACTIVE.getCode())) {
+        throw new BusinessException("Promotion name already exists");
+    }
         return PromotionMapper.toResponse(promotionRepository.save(PromotionMapper.toCreate(promotionRequest,
                 PromotionType.valueOf(promotionRequest.getType()))));
     }
