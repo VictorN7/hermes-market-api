@@ -25,4 +25,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Optional<Product> findByIdAndStatus(Long id, Integer status);
 
+    Page<Product> findByPromotionsId(Long promotionId, Pageable pageable);
+
 }

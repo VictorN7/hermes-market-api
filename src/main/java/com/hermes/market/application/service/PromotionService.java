@@ -1,9 +1,11 @@
 package com.hermes.market.application.service;
 
 import com.hermes.market.application.dto.request.PromotionRequest;
+import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.PromotionResponse;
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
+import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.application.mapper.PromotionMapper;
 import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.product.Promotion;
@@ -61,6 +63,10 @@ public class PromotionService {
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         promotion.addProduct(product);
         return PromotionMapper.toResponse(promotionRepository.save(promotion));
+    }
+
+    public Page<ProductResponse> findProductsByPromotion(Long promotionId, Pageable pageable) {
+        return productRepository.findByPromotionsId(promotionId,pageable).map(ProductMapper::toResponse);
     }
 
     @Transactional

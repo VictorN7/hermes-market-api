@@ -1,5 +1,6 @@
 package com.hermes.market.infrastructure.repository;
 
+import com.hermes.market.domain.product.Product;
 import com.hermes.market.domain.product.Promotion;
 import com.hermes.market.domain.product.PromotionStatus;
 import org.springframework.data.domain.Page;
