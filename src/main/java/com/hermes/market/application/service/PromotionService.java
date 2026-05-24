@@ -28,13 +28,12 @@ public class PromotionService {
 
     @Transactional(readOnly = true)
     public Page<PromotionResponse> findAll(Pageable pageable) {
-        Page<Promotion> promotions = promotionRepository.findAll(pageable);
-        return promotions.map(PromotionMapper::toResponse);
+        return promotionRepository.findByStatus(PromotionStatus.ACTIVE.getCode(), pageable).map(PromotionMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     public PromotionResponse findById(Long id){
-        return PromotionMapper.toResponse(promotionRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Id not found: "+ id)));
+        return PromotionMapper.toResponse(promotionRepository.findByIdAndStatus(id, PromotionStatus.ACTIVE.getCode()).orElseThrow( () -> new ResourceNotFoundException("Promotion not found")));
     }
 
     @Transactional
@@ -48,8 +47,7 @@ public class PromotionService {
         Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         promotion.addProduct(product);
-        promotionRepository.save(promotion);
-        return PromotionMapper.toResponse(promotion);
+        return PromotionMapper.toResponse(promotionRepository.save(promotion));
     }
 
     @Transactional
@@ -77,17 +75,14 @@ public class PromotionService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PromotionResponse> findInactivePromotions(Pageable pageable){
+    public Page<PromotionResponse> findAllInactive(Pageable pageable){
         Page<Promotion> promotions = promotionRepository.findByStatus(PromotionStatus.INACTIVE.getCode(), pageable);
         return promotions.map(PromotionMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
-    public PromotionResponse findInactivePromotionById(Long promotionId){
-        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
-        if(!PromotionStatus.INACTIVE.equals(promotion.getStatus())){
-            throw new ResourceNotFoundException("Inactive promotion not found");
-        }
+    public PromotionResponse findInactiveById(Long promotionId){
+        Promotion promotion = promotionRepository.findByIdAndStatus(promotionId, PromotionStatus.INACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
         return PromotionMapper.toResponse(promotion);
     }
 

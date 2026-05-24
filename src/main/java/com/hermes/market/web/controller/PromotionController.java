@@ -27,12 +27,12 @@ public class PromotionController {
 
     @GetMapping("/inactive")
     public ResponseEntity<Page<PromotionResponse>> findInactivePromotions(Pageable pageable){
-        return ResponseEntity.ok().body(promotionService.findInactivePromotions(pageable));
+        return ResponseEntity.ok().body(promotionService.findAllInactive(pageable));
     }
 
     @GetMapping("/inactive/{id}")
     public ResponseEntity<PromotionResponse> findInactivePromotionById(@PathVariable Long id){
-        return ResponseEntity.ok().body(promotionService.findInactivePromotionById(id));
+        return ResponseEntity.ok().body(promotionService.findInactiveById(id));
     }
 
     @GetMapping("/{id}")
