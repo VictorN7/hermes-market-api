@@ -26,6 +26,14 @@ public class PromotionService {
         this.productRepository = productRepository;
     }
 
+    private Promotion findPromotionByIdOrThrow (Long id, PromotionStatus status){
+        return promotionRepository.findByIdAndStatus(id, status.getCode()).orElseThrow( () -> new ResourceNotFoundException("Promotion not found"));
+    }
+
+    private Promotion findPromotionByIdOrThrow (Long id){
+        return promotionRepository.findById(id).orElseThrow( () -> new ResourceNotFoundException("Promotion not found"));
+    }
+
     @Transactional(readOnly = true)
     public Page<PromotionResponse> findAll(Pageable pageable) {
         return promotionRepository.findByStatus(PromotionStatus.ACTIVE.getCode(), pageable).map(PromotionMapper::toResponse);
@@ -33,7 +41,7 @@ public class PromotionService {
 
     @Transactional(readOnly = true)
     public PromotionResponse findById(Long id){
-        return PromotionMapper.toResponse(promotionRepository.findByIdAndStatus(id, PromotionStatus.ACTIVE.getCode()).orElseThrow( () -> new ResourceNotFoundException("Promotion not found")));
+        return PromotionMapper.toResponse(findPromotionByIdOrThrow(id, PromotionStatus.ACTIVE));
     }
 
     @Transactional
@@ -44,7 +52,7 @@ public class PromotionService {
 
     @Transactional
     public PromotionResponse insertProduct(Long productId, Long promotionId){
-        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+        Promotion promotion = findPromotionByIdOrThrow(promotionId, PromotionStatus.ACTIVE);
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         promotion.addProduct(product);
         return PromotionMapper.toResponse(promotionRepository.save(promotion));
@@ -52,22 +60,21 @@ public class PromotionService {
 
     @Transactional
     public void deactivatePromotion(Long promotionId){
-        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+        Promotion promotion = findPromotionByIdOrThrow(promotionId);
         promotion.deactivate();
         promotionRepository.save(promotion);
     }
 
     @Transactional
     public void activatePromotion(Long promotionId){
-        Promotion promotion = promotionRepository.findById(promotionId).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+        Promotion promotion = findPromotionByIdOrThrow(promotionId);
         promotion.activate();
         promotionRepository.save(promotion);
     }
 
     @Transactional
     public PromotionResponse deleteProduct(Long promotionId, Long productId){
-        Promotion promotion = promotionRepository.findById(promotionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+        Promotion promotion = findPromotionByIdOrThrow(promotionId, PromotionStatus.ACTIVE);
 
         promotion.deleteProduct(productId);
 
@@ -76,13 +83,12 @@ public class PromotionService {
 
     @Transactional(readOnly = true)
     public Page<PromotionResponse> findAllInactive(Pageable pageable){
-        Page<Promotion> promotions = promotionRepository.findByStatus(PromotionStatus.INACTIVE.getCode(), pageable);
-        return promotions.map(PromotionMapper::toResponse);
+        return promotionRepository.findByStatus(PromotionStatus.INACTIVE.getCode(), pageable).map(PromotionMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     public PromotionResponse findInactiveById(Long promotionId){
-        Promotion promotion = promotionRepository.findByIdAndStatus(promotionId, PromotionStatus.INACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Promotion not found"));
+        Promotion promotion = findPromotionByIdOrThrow(promotionId, PromotionStatus.INACTIVE);
         return PromotionMapper.toResponse(promotion);
     }
 
