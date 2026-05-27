@@ -5,15 +5,18 @@ import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.PromotionResponse;
 import com.hermes.market.application.service.PromotionService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/promotions")
+@Validated
 public class PromotionController {
 
     private final PromotionService promotionService;
@@ -28,22 +31,22 @@ public class PromotionController {
     }
 
     @GetMapping("/inactive")
-    public ResponseEntity<Page<PromotionResponse>> findInactivePromotions(Pageable pageable){
+    public ResponseEntity<Page<PromotionResponse>> findInactivePromotions(@PageableDefault(size = 10, sort = "id") Pageable pageable){
         return ResponseEntity.ok().body(promotionService.findAllInactive(pageable));
     }
 
     @GetMapping("/inactive/{id}")
-    public ResponseEntity<PromotionResponse> findInactivePromotionById(@PathVariable Long id){
+    public ResponseEntity<PromotionResponse> findInactivePromotionById(@PathVariable @Positive Long id){
         return ResponseEntity.ok().body(promotionService.findInactiveById(id));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PromotionResponse> findById(@PathVariable Long id){
+    public ResponseEntity<PromotionResponse> findById(@PathVariable @Positive Long id){
         return ResponseEntity.ok().body(promotionService.findById(id));
     }
 
     @GetMapping("/{id}/products")
-    public ResponseEntity<Page<ProductResponse>> findProductsByPromotion(@PathVariable Long id, Pageable pageable){
+    public ResponseEntity<Page<ProductResponse>> findProductsByPromotion(@PathVariable @Positive Long id, @PageableDefault(size = 10, sort = "id") Pageable pageable){
         return ResponseEntity.ok().body(promotionService.findProductsByPromotion(id, pageable));
     }
 
@@ -53,24 +56,24 @@ public class PromotionController {
     }
 
     @PostMapping("/{promotionId}/products")
-    public ResponseEntity<PromotionResponse> insertProduct(@PathVariable Long promotionId, @RequestBody Long productId){
+    public ResponseEntity<PromotionResponse> insertProduct(@PathVariable @Positive Long promotionId, @RequestBody @Positive Long productId){
         return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(productId, promotionId));
     }
 
     @PatchMapping("/{id}/deactivate")
-    public ResponseEntity<Void> deactivatePromotion(@PathVariable Long id){
+    public ResponseEntity<Void> deactivatePromotion(@PathVariable @Positive Long id){
         promotionService.deactivatePromotion(id);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/activate")
-    public ResponseEntity<Void> activatePromotion(@PathVariable Long id){
+    public ResponseEntity<Void> activatePromotion(@PathVariable @Positive Long id){
         promotionService.activatePromotion(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{promotionId}/products/{productId}")
-    public ResponseEntity<PromotionResponse> deleteProduct(@PathVariable Long promotionId, @PathVariable Long productId){
+    public ResponseEntity<PromotionResponse> deleteProduct(@PathVariable @Positive Long promotionId, @PathVariable @Positive Long productId){
         return ResponseEntity.ok().body(promotionService.deleteProduct(promotionId, productId));
     }
 
