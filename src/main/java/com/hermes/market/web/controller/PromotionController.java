@@ -7,6 +7,7 @@ import com.hermes.market.application.service.PromotionService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class PromotionController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<PromotionResponse>> findAll(Pageable pageable){
+    public ResponseEntity<Page<PromotionResponse>> findAll(@PageableDefault(size = 10, sort = "id") Pageable pageable){
         return ResponseEntity.ok().body(promotionService.findAll(pageable));
     }
 
@@ -51,8 +52,8 @@ public class PromotionController {
         return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.createPromotion(promotionRequest));
     }
 
-    @PostMapping("/{promotionId}/products/{productId}")
-    public ResponseEntity<PromotionResponse> insertProduct(@PathVariable Long promotionId, @PathVariable Long productId){
+    @PostMapping("/{promotionId}/products")
+    public ResponseEntity<PromotionResponse> insertProduct(@PathVariable Long promotionId, @RequestBody Long productId){
         return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(productId, promotionId));
     }
 
