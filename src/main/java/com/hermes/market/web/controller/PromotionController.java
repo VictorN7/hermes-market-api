@@ -1,6 +1,7 @@
 package com.hermes.market.web.controller;
 
 import com.hermes.market.application.dto.request.PromotionRequest;
+import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.PromotionResponse;
 import com.hermes.market.application.service.PromotionService;
 import jakarta.validation.Valid;
@@ -38,6 +39,11 @@ public class PromotionController {
     @GetMapping("/{id}")
     public ResponseEntity<PromotionResponse> findById(@PathVariable Long id){
         return ResponseEntity.ok().body(promotionService.findById(id));
+    }
+
+    @GetMapping("/{id}/products")
+    public ResponseEntity<Page<ProductResponse>> findProductsByPromotion(@PathVariable Long id, Pageable pageable){
+        return ResponseEntity.ok().body(promotionService.findProductsByPromotion(id, pageable));
     }
 
     @PostMapping
