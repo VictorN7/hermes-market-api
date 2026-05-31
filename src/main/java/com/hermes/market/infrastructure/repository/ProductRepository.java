@@ -31,5 +31,4 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Page<Product> findByCategoryId(Long brandId, Pageable pageable);
 
-
 }

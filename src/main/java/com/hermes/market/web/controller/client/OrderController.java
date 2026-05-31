@@ -18,7 +18,7 @@ import com.hermes.market.application.service.OrderService;
 public class OrderController {
 
 	private final OrderService orderService;
-	
+
 	public OrderController(OrderService orderService) {
 		this.orderService = orderService;
 	}
@@ -28,19 +28,9 @@ public class OrderController {
 		return ResponseEntity.ok().body(orderService.findAll(pageable));
 	}
 
-	@GetMapping("/inactive-users")
-	public ResponseEntity<Page<OrderResponse>> findAllByUserInactive(Pageable pageable){
-		return ResponseEntity.ok().body(orderService.findOrdersByInactiveUser(pageable));
-	}
-
 	@GetMapping("/{id}")
 	public ResponseEntity<OrderResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(orderService.findById(id));
-	}
-
-	@GetMapping("/inactive-users/{id}")
-	public ResponseEntity<OrderResponse> findByIdInactiveUser(@PathVariable Long id){
-		return ResponseEntity.ok().body(orderService.findOrderByInactiveUser(id));
 	}
 
 	@PostMapping
@@ -63,21 +53,6 @@ public class OrderController {
 	@PatchMapping("/{id}/cancel")
 	public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long id){
 		return ResponseEntity.ok().body(orderService.cancelOrder(id));
-	}
-
-	@PatchMapping("/{id}/pay")
-	public ResponseEntity<OrderResponse> payOrder(@PathVariable Long id){
-		return ResponseEntity.ok().body(orderService.payOrder(id));
-	}
-
-	@PatchMapping("/{id}/ship")
-	public ResponseEntity<OrderResponse> shipOrder(@PathVariable Long id){
-		return ResponseEntity.ok().body(orderService.shipOrder(id));
-	}
-
-	@PatchMapping("/{id}/deliver")
-	public ResponseEntity<OrderResponse> deliverOrder(@PathVariable Long id){
-		return ResponseEntity.ok().body(orderService.deliverOrder(id));
 	}
 
 	@DeleteMapping("/{id}/items/{itemId}")
