@@ -69,6 +69,10 @@ public class PromotionService {
     }
 
     public Page<ProductResponse> findProductsByPromotion(Long promotionId, Pageable pageable) {
+        return productRepository.findByPromotionsId(promotionId,pageable).map(ProductMapper::toResponse);
+    }
+
+    public Page<ProductResponse> findProductsByPromotionAdmin(Long promotionId, Pageable pageable) {
         return productRepository.findByPromotionsId(promotionId,pageable).map(ProductMapper::toAdminResponse);
     }
 
