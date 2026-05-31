@@ -56,8 +56,8 @@ public class PromotionController {
     }
 
     @PostMapping("/{promotionId}/products")
-    public ResponseEntity<PromotionResponse> insertProduct(@PathVariable @Positive Long promotionId, @RequestBody @Positive Long productId){
-        return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(productId, promotionId));
+    public ResponseEntity<Page<ProductResponse>> insertProduct(@PathVariable @Positive Long promotionId, @RequestBody @Positive Long productId, Pageable pageable){
+        return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(productId, promotionId, pageable));
     }
 
     @PatchMapping("/{id}/deactivate")

@@ -14,6 +14,7 @@ import com.hermes.market.domain.product.PromotionType;
 import com.hermes.market.infrastructure.repository.ProductRepository;
 import com.hermes.market.infrastructure.repository.PromotionRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,11 +59,13 @@ public class PromotionService {
     }
 
     @Transactional
-    public PromotionResponse insertProduct(Long productId, Long promotionId){
+    public Page<ProductResponse> insertProduct(Long productId, Long promotionId, Pageable pageable){
         Promotion promotion = findPromotionByIdOrThrow(promotionId, PromotionStatus.ACTIVE);
         Product product = productRepository.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         promotion.addProduct(product);
-        return PromotionMapper.toResponse(promotionRepository.save(promotion));
+        promotionRepository.save(promotion);
+
+        return productRepository.findByPromotionsId(promotion.getId(), pageable).map(ProductMapper::toResponse);
     }
 
     public Page<ProductResponse> findProductsByPromotion(Long promotionId, Pageable pageable) {
