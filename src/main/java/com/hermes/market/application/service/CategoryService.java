@@ -2,9 +2,11 @@ package com.hermes.market.application.service;
 
 import com.hermes.market.application.dto.request.CategoryRequest;
 import com.hermes.market.application.dto.response.CategoryResponse;
+import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.CategoryMapper;
+import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Category;
 import com.hermes.market.domain.product.CategoryStatus;
 import com.hermes.market.infrastructure.repository.ProductRepository;
@@ -36,6 +38,10 @@ public class CategoryService {
 
 		return CategoryMapper.toResponse(categoryRepository.findByIdAndStatus(id, CategoryStatus.ACTIVE.getCode())
 				.orElseThrow(() -> new ResourceNotFoundException("Category not found")));
+	}
+
+	public Page<ProductResponse> findProductsByCategoryId(Long id, Pageable pageable) {
+		return productRepository.findByCategoryId(id,pageable).map(ProductMapper::toResponse);
 	}
 
 	@Transactional

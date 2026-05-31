@@ -29,5 +29,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     Page<Product> findByBrandId(Long brandId, Pageable pageable);
 
+    Page<Product> findByCategoryId(Long brandId, Pageable pageable);
+
 
 }
