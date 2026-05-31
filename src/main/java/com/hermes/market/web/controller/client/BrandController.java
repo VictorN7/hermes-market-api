@@ -28,52 +28,14 @@ public class BrandController {
         return ResponseEntity.ok().body(brandService.findAll(pageable));
     }
 
-        @GetMapping("/{id}/products")
-        public ResponseEntity<Page<ProductResponse>> findProductsById(@PathVariable @Positive Long id, Pageable pageable) {
-            return ResponseEntity.ok().body(brandService.findProductsByBrandId(id, pageable));
-        }
-
-    @GetMapping("/inactive")
-    public ResponseEntity<Page<BrandDetailResponse>> findInactiveBrands(Pageable pageable) {
-        return ResponseEntity.ok().body(brandService.findInactiveBrands(pageable));
-    }
-
-    @GetMapping("/inactive/{id}")
-    public ResponseEntity<BrandDetailResponse> findInactiveBrandById(@PathVariable Long id) {
-        return ResponseEntity.ok().body(brandService.findInactiveBrandById(id));
+    @GetMapping("/{id}/products")
+    public ResponseEntity<Page<ProductResponse>> findProductsByBrandId(@PathVariable @Positive Long id, Pageable pageable) {
+        return ResponseEntity.ok().body(brandService.findProductsByBrandId(id, pageable));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BrandDetailResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(brandService.findById(id));
-    }
-
-    @PostMapping
-    public ResponseEntity<BrandDetailResponse> createBrand(@RequestBody @Valid BrandRequest brandRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(brandService.createBrand(brandRequest));
-    }
-
-    @PatchMapping("/{id}/name")
-    public ResponseEntity<BrandDetailResponse> updateBrand(@PathVariable Long id, @RequestBody @Valid BrandRequest brandRequest) {
-        return ResponseEntity.ok().body(brandService.updateBrand(id, brandRequest));
-    }
-
-    @PatchMapping("/{id}/activate")
-    public ResponseEntity<Void> activateBrand(@PathVariable Long id) {
-        brandService.activateBrand(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PatchMapping("/{id}/deactivate")
-    public ResponseEntity<Void> deactivateBrand(@PathVariable Long id) {
-        brandService.deactivateBrand(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrDeactivateBrand(@PathVariable Long id) {
-        brandService.deleteOrDeactivateBrand(id);
-        return ResponseEntity.noContent().build();
     }
 
 }
