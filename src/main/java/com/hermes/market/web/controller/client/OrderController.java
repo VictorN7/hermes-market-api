@@ -23,11 +23,6 @@ public class OrderController {
 		this.orderService = orderService;
 	}
 
-	@GetMapping
-	public ResponseEntity<Page<OrderResponse>> findAll(Pageable pageable){
-		return ResponseEntity.ok().body(orderService.findAll(pageable));
-	}
-
 	@GetMapping("/{id}")
 	public ResponseEntity<OrderResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(orderService.findById(id));

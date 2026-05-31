@@ -26,7 +26,7 @@ public class UserController {
 	private final UserService userService;
 	private final OrderService orderService;
 	private final AddressService addressService;
-	
+
 	public UserController(UserService userService, OrderService orderService, AddressService addressService) {
 		this.userService = userService;
 		this.orderService = orderService;
@@ -37,7 +37,7 @@ public class UserController {
 	public ResponseEntity<Page<UserResponse>> findAll(Pageable pageable) {
 		return ResponseEntity.ok().body(userService.findAll(pageable));
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<UserResponse> findById(@PathVariable Long id){
 		return ResponseEntity.ok().body(userService.findById(id));
