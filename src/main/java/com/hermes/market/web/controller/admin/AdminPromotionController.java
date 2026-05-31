@@ -27,6 +27,11 @@ public class AdminPromotionController {
         this.promotionService = promotionService;
     }
 
+    @GetMapping("/{id}/products")
+    public ResponseEntity<Page<ProductResponse>> findProductsByPromotion(@PathVariable @Positive Long id, @PageableDefault(size = 10, sort = "name") Pageable pageable){
+        return ResponseEntity.ok().body(promotionService.findProductsByPromotionAdmin(id, pageable));
+    }
+
     @GetMapping("/inactive")
     public ResponseEntity<Page<PromotionResponse>> findInactivePromotions(@PageableDefault(size = 10, sort = "id") Pageable pageable){
         return ResponseEntity.ok().body(promotionService.findAllInactive(pageable));

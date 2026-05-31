@@ -37,7 +37,7 @@ public class PromotionController {
     }
 
     @GetMapping("/{id}/products")
-    public ResponseEntity<Page<ProductResponse>> findProductsByPromotion(@PathVariable @Positive Long id, @PageableDefault(size = 10, sort = "id") Pageable pageable){
+    public ResponseEntity<Page<ProductResponse>> findProductsByPromotion(@PathVariable @Positive Long id, Pageable pageable){
         return ResponseEntity.ok().body(promotionService.findProductsByPromotion(id, pageable));
     }
 
