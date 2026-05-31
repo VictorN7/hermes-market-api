@@ -55,7 +55,6 @@ public class ProductMapper {
     private static BigDecimal calculatePromotionPrice(Product product){
 
         return product.getPromotions().stream()
-                .filter(x -> x.getStatus() == PromotionStatus.ACTIVE)
                 .findFirst()
                 .map(x -> product.getPrice()
                         .subtract(product.getPrice()
