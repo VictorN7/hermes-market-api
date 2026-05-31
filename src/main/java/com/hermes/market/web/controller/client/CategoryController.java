@@ -1,4 +1,4 @@
-package com.hermes.market.web.controller;
+package com.hermes.market.web.controller.client;
 
 import com.hermes.market.application.dto.request.CategoryRequest;
 import com.hermes.market.application.dto.response.CategoryResponse;

@@ -1,4 +1,4 @@
-package com.hermes.market.web.controller;
+package com.hermes.market.web.controller.client;
 
 import com.hermes.market.application.dto.request.BrandRequest;
 import com.hermes.market.application.dto.response.BrandDetailResponse;
@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/brands")

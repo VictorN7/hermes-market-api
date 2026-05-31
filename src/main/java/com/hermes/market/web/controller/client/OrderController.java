@@ -1,9 +1,8 @@
-package com.hermes.market.web.controller;
+package com.hermes.market.web.controller.client;
 
 import com.hermes.market.application.dto.request.OrderItemRequest;
 import com.hermes.market.application.dto.request.OrderItemUpdateQuantityRequest;
 import com.hermes.market.application.dto.request.OrderRequest;
-import com.hermes.market.application.dto.response.OrderItemResponse;
 import com.hermes.market.application.dto.response.OrderResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
