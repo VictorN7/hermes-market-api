@@ -3,9 +3,11 @@ package com.hermes.market.application.service;
 import com.hermes.market.application.dto.request.BrandRequest;
 import com.hermes.market.application.dto.response.BrandDetailResponse;
 import com.hermes.market.application.dto.response.BrandMenuResponse;
+import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.exception.ResourceNotFoundException;
 import com.hermes.market.application.mapper.BrandMapper;
+import com.hermes.market.application.mapper.ProductMapper;
 import com.hermes.market.domain.product.Brand;
 import com.hermes.market.domain.product.BrandStatus;
 import com.hermes.market.infrastructure.repository.BrandRepository;
@@ -30,6 +32,10 @@ public class BrandService {
     public Page<BrandMenuResponse> findAll(Pageable pageable) {
         Page<Brand> brands = brandRepository.findAllByStatus(BrandStatus.ACTIVE.getCode(), pageable);
         return brands.map(BrandMapper::toMenu);
+    }
+
+    public Page<ProductResponse> findProductsByBrandId(Long brandId, Pageable pageable) {
+        return productRepository.findByBrandId(brandId, pageable).map(ProductMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
