@@ -1,5 +1,6 @@
 package com.hermes.market.web.controller;
 
+import com.hermes.market.application.dto.request.ProductIdRequest;
 import com.hermes.market.application.dto.request.PromotionRequest;
 import com.hermes.market.application.dto.response.ProductResponse;
 import com.hermes.market.application.dto.response.PromotionResponse;
@@ -56,8 +57,8 @@ public class PromotionController {
     }
 
     @PostMapping("/{promotionId}/products")
-    public ResponseEntity<Page<ProductResponse>> insertProduct(@PathVariable @Positive Long promotionId, @RequestBody @Positive Long productId, Pageable pageable){
-        return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(productId, promotionId, pageable));
+    public ResponseEntity<Page<ProductResponse>> insertProduct(@PathVariable @Positive Long promotionId, @RequestBody @Valid ProductIdRequest request, Pageable pageable){
+        return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.insertProduct(request.getProductId(), promotionId, pageable));
     }
 
     @PatchMapping("/{id}/deactivate")
