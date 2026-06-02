@@ -18,7 +18,7 @@ import com.hermes.market.domain.order.PaymentMethod;
 import com.hermes.market.domain.user.User;
 
 @Configuration
-@Profile("test")
+@Profile("dev")
 public class TestConfig implements CommandLineRunner {
 
 	private final CategoryRepository categoryRepository;
