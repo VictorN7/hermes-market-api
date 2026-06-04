@@ -45,6 +45,7 @@ public class TestConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+		/*
 		// =========================
 		// USERS
 		// =========================
@@ -602,5 +603,8 @@ public class TestConfig implements CommandLineRunner {
 		promoCarnes.addProduct(coxinha);
 
 		promotionRepository.saveAll(Arrays.asList(promoNestle, promoBebidas, promoCarnes));
+			*/
+
 	}
+
 }
