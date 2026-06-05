@@ -59,6 +59,7 @@ public class AddressService {
         }
 
         Address address = AddressMapper.toCreate(addressRequest, user);
+        user.addAddress(address);
         addressRepository.saveAndFlush(address);
 
         return AddressMapper.toResponse(address);
