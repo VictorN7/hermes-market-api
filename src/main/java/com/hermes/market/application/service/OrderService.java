@@ -61,11 +61,6 @@ public class OrderService {
         return OrderMapper.toResponse(orderRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
     }
 
-    @Transactional(readOnly = true)
-    public OrderResponse findByOrderId(Long userId, Long id) {
-        return OrderMapper.toResponse(orderRepository.findByIdAndUserStatus(id, UserStatus.ACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
-    }
-
     public OrderResponse findOrderByInactiveUser(Long id){
         return OrderMapper.toResponse(orderRepository.findByIdAndUserStatus(id, UserStatus.INACTIVE.getCode()).orElseThrow(() -> new ResourceNotFoundException("Order not found")));
     }
