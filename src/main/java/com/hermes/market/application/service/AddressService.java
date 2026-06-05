@@ -68,6 +68,8 @@ public class AddressService {
     @Transactional
     public AddressResponse updateAddress(Long userId, Long addressId, AddressRequest addressRequest) {
 
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
         Address address = addressRepository.findByIdAndStatus(addressId, AddressStatus.ACTIVE.getCode())
                 .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
 
@@ -91,6 +93,7 @@ public class AddressService {
                 addressRequest.getState(),
                 addressRequest.getZipcode());
 
+        user.addAddress(address);
         return AddressMapper.toResponse(addressRepository.save(address));
     }
 
