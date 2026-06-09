@@ -41,7 +41,7 @@ public class Promotion {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "tb_product_promotion",
+            name = "tb_products_promotions",
             joinColumns = @JoinColumn(name = "promotion_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
