@@ -415,24 +415,20 @@ public class TestConfig implements CommandLineRunner {
 		// =========================
 
 		// user1 — 3 pedidos
-		Order order1 = new Order(user1, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY, addr1);
+		Order order1 = new Order(user1, PaymentMethod.CREDIT_CARD,
+		DeliveryMethod.HOME_DELIVERY, addr1);
 		order1.addItem(banana, 3);
 		order1.addItem(leite, 2);
 		order1.addItem(paoIntegral, 1);
 		order1.addItem(iogurteFruta, 4);
-
-		Order order2 = new Order(user1, PaymentMethod.PIX, DeliveryMethod.PICKUP, addr11);
+		Order order2 = new Order(user1, PaymentMethod.PIX,
+		DeliveryMethod.PICKUP, addr11);
 		order2.addItem(arroz, 2);
 		order2.addItem(feijao, 2);
 		order2.addItem(detergente, 1);
 		order2.addItem(sabao, 1);
-
-		Order order3 = new Order(user1, PaymentMethod.BOLETO, DeliveryMethod.HOME_DELIVERY, addr1);
-		order3.addItem(frango, 2);
-		order3.addItem(batataFrita, 3);
-		order3.addItem(cocaCola, 2);
-
-		// user2 — 1 pedido
+		Order order3 = new Order(user1, PaymentMethod.BOLETO,
+		DeliveryMethod.HOME_DELIVERY, addr1);// user2 — 1 pedido
 		Order order4 = new Order(user2, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY, addr2);
 		order4.addItem(queijo, 1);
 		order4.addItem(presunto, 2);
@@ -558,6 +554,11 @@ public class TestConfig implements CommandLineRunner {
 		order23.addItem(vassoura, 1);
 		order23.addItem(rodo, 1);
 		order23.addItem(esponja, 2);
+		order3.addItem(frango, 2);
+		order3.addItem(batataFrita, 3);
+		order3.addItem(cocaCola, 2);
+
+
 
 		orderRepository.saveAll(Arrays.asList(
 				order1, order2, order3, order4, order5, order6, order7, order8,
