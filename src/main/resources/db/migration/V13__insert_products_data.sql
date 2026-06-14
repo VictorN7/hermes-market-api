@@ -357,7 +357,45 @@ VALUES ("Fio Dental 50m", "Encerado", 3.99, 110,
 
 -- PRODUCTS — FRIOS E EMBUTIDOS
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Presunto Fatiado 200g", "Defumado", 8.99, 70,
+        "https://images.unsplash.com/photo-1544025162-d76694265947", 1, CURRENT_TIMESTAMP, 9, 7);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Peito de Peru 200g", "Light", 11.99, 65,
+        "https://images.unsplash.com/photo-1604503468506-a8da13d82791", 1, CURRENT_TIMESTAMP, 9, 9);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Salame Italiano 100g", "Fatiado", 9.49, 60,
+        "https://images.unsplash.com/photo-1544025162-d76694265947", 1, CURRENT_TIMESTAMP, 9, 8);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Mortadela Fatiada 200g", "Tradicional", 6.99, 80,
+        "https://images.unsplash.com/photo-1544025162-d76694265947", 1, CURRENT_TIMESTAMP, 9, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Linguiça Defumada 300g", "Fatiada", 10.99, 55,
+        "https://images.unsplash.com/photo-1558030137-a56c1b004fa0", 1, CURRENT_TIMESTAMP, 9, 9);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Queijo Provolone 200g", "Defumado", 15.99, 45,
+        "https://images.unsplash.com/photo-1486297678162-eb2a19b0a318", 1, CURRENT_TIMESTAMP, 9, 10);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Queijo Gouda 200g", "Fatiado", 14.49, 50,
+        "https://images.unsplash.com/photo-1452195100486-9cc805987862", 1, CURRENT_TIMESTAMP, 9, 10);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Blanquet de Peru 150g", "Zero gordura", 10.49, 60,
+        "https://images.unsplash.com/photo-1604503468506-a8da13d82791", 1, CURRENT_TIMESTAMP, 9, 8);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Coppa Italiana 100g", "Fatiada", 12.99, 40,
+        "https://images.unsplash.com/photo-1544025162-d76694265947", 1, CURRENT_TIMESTAMP, 9, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Patê de Frango 150g", "Cremoso", 7.99, 55,
+        "https://images.unsplash.com/photo-1603833665858-e61d17a86224", 1, CURRENT_TIMESTAMP, 9, 9);
 
 
 -- PRODUCTS — CONGELADOS
