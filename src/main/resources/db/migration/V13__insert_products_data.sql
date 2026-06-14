@@ -53,6 +53,7 @@ VALUES ('Limão Taiti', 'Limão fresco', 2.99, 150,
         'https://images.unsplash.com/photo-1582087677879-6c69b11fe18c', 1,
         CURRENT_TIMESTAMP, 1, 2);
 
+
 -- PRODUCTS — BEBIDAS
 
 INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
@@ -311,11 +312,51 @@ INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, st
 VALUES ("Tortinha de Limão 2un", "Recheada", 7.99, 45,
         "https://images.unsplash.com/photo-1565958011703-44f9829ba187", 1, CURRENT_TIMESTAMP, 7, 5);
 
+
 -- PRODUCTS — HIGIENE PESSOAL
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Shampoo Anticaspa 400ml", "Controle de oleosidade", 14.99, 80,
+        "https://images.unsplash.com/photo-1585751119414-ef2636f8aede", 1, CURRENT_TIMESTAMP, 8, 13);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Condicionador 400ml", "Hidratação profunda", 13.99, 75,
+        "https://images.unsplash.com/photo-1585751119414-ef2636f8aede", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Sabonete Antibacterial 90g", "Elimina germes", 2.99, 200,
+        "https://images.unsplash.com/photo-1556228578-dd539282b964", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Pasta de Dente 90g", "Clareadora", 4.99, 150,
+        "https://images.unsplash.com/photo-1559591937-abc1dc4a38f4", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Desodorante Roll-on 50ml", "48h proteção", 8.99, 100,
+        "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Escova de Dente Macia", "Cerdas macias", 4.49, 120,
+        "https://images.unsplash.com/photo-1559591937-abc1dc4a38f4", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Lâmina de Barbear 2un", "Descartável", 5.99, 90,
+        "https://images.unsplash.com/photo-1503951914875-452162b0f3f1", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Absorvente com Abas 8un", "Proteção total", 6.99, 80,
+        "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Papel Higiênico 12 rolos", "Folha dupla", 14.99, 100,
+        "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae", 1, CURRENT_TIMESTAMP, 8, 13);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Fio Dental 50m", "Encerado", 3.99, 110,
+        "https://images.unsplash.com/photo-1559591937-abc1dc4a38f4", 1, CURRENT_TIMESTAMP, 8, 13);
 
 -- PRODUCTS — FRIOS E EMBUTIDOS
+
 
 
 
