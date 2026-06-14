@@ -400,7 +400,45 @@ VALUES ("Patê de Frango 150g", "Cremoso", 7.99, 55,
 
 -- PRODUCTS — CONGELADOS
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Pizza Margherita 460g", "Congelada", 19.99, 40,
+        "https://images.unsplash.com/photo-1574071318508-1cdbab80d002", 1, CURRENT_TIMESTAMP, 10, 5);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Pizza Calabreza 460g", "Congelada", 21.99, 38,
+        "https://images.unsplash.com/photo-1574071318508-1cdbab80d002", 1, CURRENT_TIMESTAMP, 10, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Lasanha Bolonhesa 600g", "Congelada", 24.99, 35,
+        "https://images.unsplash.com/photo-1560781290-7dc94c0f8f4f", 1, CURRENT_TIMESTAMP, 10, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Nuggets de Frango 300g", "Congelado", 13.99, 55,
+        "https://images.unsplash.com/photo-1562967914-608f82629710", 1, CURRENT_TIMESTAMP, 10, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Batata Palito Congelada 400g", "Pré-frita", 10.99, 60,
+        "https://images.unsplash.com/photo-1518977676601-b53f82aba655", 1, CURRENT_TIMESTAMP, 10, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Hambúrguer Bovino 4un", "Congelado", 16.99, 50,
+        "https://images.unsplash.com/photo-1568901346375-23c9450c58cd", 1, CURRENT_TIMESTAMP, 10, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Esfiha de Carne 4un", "Congelada", 11.99, 45,
+        "https://images.unsplash.com/photo-1601924638867-3a6de6b7a500", 1, CURRENT_TIMESTAMP, 10, 8);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Panqueca Recheada 2un", "Congelada", 9.99, 40,
+        "https://images.unsplash.com/photo-1565299543923-37dd37887442", 1, CURRENT_TIMESTAMP, 10, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Sorvete Creme Flocos 1.5L", "Cremoso", 22.99, 30,
+        "https://images.unsplash.com/photo-1501443762994-82bd5dace89a", 1, CURRENT_TIMESTAMP, 10, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Picolé Morango 3un", "Sorbet", 7.99, 50,
+        "https://images.unsplash.com/photo-1501443762994-82bd5dace89a", 1, CURRENT_TIMESTAMP, 10, 5);
 
 
 -- PRODUCTS — BEBIDAS
