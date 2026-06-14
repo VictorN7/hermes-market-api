@@ -142,8 +142,45 @@ VALUES ("Saco de Lixo 100L c/10", "Reforçado", 7.49, 200,
 
 -- PRODUCTS — GRÃOS E CEREAIS
 
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Arroz Branco 5kg", "Tipo 1 agulhinha", 22.99, 100,
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c", 1, CURRENT_TIMESTAMP, 4, 3);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Feijão Carioca 1kg", "Feijão tipo 1", 8.99, 120,
+        "https://images.unsplash.com/photo-1619566636858-adf3ef46400b", 1, CURRENT_TIMESTAMP, 4, 3);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Feijão Preto 1kg", "Feijão tipo 1", 9.49, 100,
+        "https://images.unsplash.com/photo-1619566636858-adf3ef46400b", 1, CURRENT_TIMESTAMP, 4, 3);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Aveia em Flocos 500g", "Flocos finos", 6.99, 80,
+        "https://images.unsplash.com/photo-1614961233913-a5113a4a34ed", 1, CURRENT_TIMESTAMP, 4, 6);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Granola Tradicional 500g", "Com frutas secas", 12.99, 60,
+        "https://images.unsplash.com/photo-1517093728432-a0440f8d45af", 1, CURRENT_TIMESTAMP, 4, 6);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Milho para Pipoca 500g", "Grão selecionado", 4.99, 90,
+        "https://images.unsplash.com/photo-1578849278619-e73505e9610f", 1, CURRENT_TIMESTAMP, 4, 3);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Lentilha 500g", "Lentilha tipo 1", 7.49, 70,
+        "https://images.unsplash.com/photo-1585664811087-47f65abbad64", 1, CURRENT_TIMESTAMP, 4, 3);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Grão-de-Bico 500g", "Grão selecionado", 8.49, 65,
+        "https://images.unsplash.com/photo-1515543904379-3d757afe72e4", 1, CURRENT_TIMESTAMP, 4, 3);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Farinha de Trigo 1kg", "Tipo 1 especial", 5.99, 110,
+        "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b", 1, CURRENT_TIMESTAMP, 4, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Macarrão Espaguete 500g", "Grano duro", 4.49, 130,
+        "https://images.unsplash.com/photo-1551462147-ff29053bfc14", 1, CURRENT_TIMESTAMP, 4, 5);
 
 
 -- PRODUCTS — LATICÍNIOS
