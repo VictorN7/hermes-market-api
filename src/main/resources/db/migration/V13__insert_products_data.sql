@@ -99,13 +99,45 @@ VALUES ("Energético 250ml", "Bebida energética", 9.49, 45,
 
 -- PRODUCTS — LIMPEZA
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Detergente Neutro 500ml", "Detergente neutro", 2.99, 200,
+        "https://images.unsplash.com/photo-1581578731548-c64695cc6952", 1, CURRENT_TIMESTAMP, 3, 1);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Sabão em Pó 1kg", "Sabão em pó", 12.99, 90,
+        "https://images.unsplash.com/photo-1598032895397-b9472444bf93", 1, CURRENT_TIMESTAMP, 3, 1);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Desinfetante Lavanda 2L", "Desinfetante perfumado", 6.99, 110,
+        "https://images.unsplash.com/photo-1583947581924-860bda6a26df", 1, CURRENT_TIMESTAMP, 3, 1);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Amaciante Floral 2L", "Amaciante floral", 9.99, 80,
+        "https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2", 1, CURRENT_TIMESTAMP, 3, 1);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Limpador Multiuso 500ml", "Limpeza geral", 4.49, 120,
+        "https://images.unsplash.com/photo-1585771724684-38269d6639fd", 1, CURRENT_TIMESTAMP, 3, 1);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Esponja Dupla Face 3un", "Pack com 3 unidades", 3.99, 150,
+        "https://images.unsplash.com/photo-1563453392212-326f5e854473", 1, CURRENT_TIMESTAMP, 3, 14);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Luva de Borracha M", "Par de luvas domésticas", 5.99, 100,
+        "https://images.unsplash.com/photo-1603484477859-abe6a73f9366", 1, CURRENT_TIMESTAMP, 3, 14);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Vassoura Cerdas Macias", "Vassoura doméstica", 14.99, 60,
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64", 1, CURRENT_TIMESTAMP, 3, 14);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Rodo 60cm", "Com cabo de madeira", 12.99, 55,
+        "https://images.unsplash.com/photo-1558618666-fcd25c85cd64", 1, CURRENT_TIMESTAMP, 3, 14);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Saco de Lixo 100L c/10", "Reforçado", 7.49, 200,
+        "https://images.unsplash.com/photo-1605600659908-0ef719419d41", 1, CURRENT_TIMESTAMP, 3, 14);
 
 
 -- PRODUCTS — GRÃOS E CEREAIS
