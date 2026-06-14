@@ -185,8 +185,45 @@ VALUES ("Macarrão Espaguete 500g", "Grano duro", 4.49, 130,
 
 -- PRODUCTS — LATICÍNIOS
 
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Leite Integral 1L", "Longa vida", 4.99, 150,
+        "https://images.unsplash.com/photo-1563636619-e9143da7973b", 1, CURRENT_TIMESTAMP, 5, 11);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Leite Desnatado 1L", "Zero gordura", 5.29, 120,
+        "https://images.unsplash.com/photo-1563636619-e9143da7973b", 1, CURRENT_TIMESTAMP, 5, 10);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Iogurte Natural 170g", "Integral", 3.49, 100,
+        "https://images.unsplash.com/photo-1488477181946-6428a0291777", 1, CURRENT_TIMESTAMP, 5, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Iogurte Morango 170g", "Com pedaços de fruta", 3.99, 90,
+        "https://images.unsplash.com/photo-1488477181946-6428a0291777", 1, CURRENT_TIMESTAMP, 5, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Queijo Mussarela 400g", "Fatiado", 14.99, 70,
+        "https://images.unsplash.com/photo-1486297678162-eb2a19b0a318", 1, CURRENT_TIMESTAMP, 5, 10);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Queijo Minas Frescal 400g", "Fresco", 12.99, 65,
+        "https://images.unsplash.com/photo-1452195100486-9cc805987862", 1, CURRENT_TIMESTAMP, 5, 11);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Manteiga com Sal 200g", "Cremosa", 8.99, 80,
+        "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d", 1, CURRENT_TIMESTAMP, 5, 11);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Creme de Leite 200g", "Tradicional", 3.49, 110,
+        "https://images.unsplash.com/photo-1615485290382-441e4d049cb5", 1, CURRENT_TIMESTAMP, 5, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Requeijão Cremoso 200g", "Cremoso", 7.49, 90,
+        "https://images.unsplash.com/photo-1603833665858-e61d17a86224", 1, CURRENT_TIMESTAMP, 5, 10);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Nata Fresca 200g", "Nata fresca", 6.99, 60,
+        "https://images.unsplash.com/photo-1615485290382-441e4d049cb5", 1, CURRENT_TIMESTAMP, 5, 11);
 
 
 -- PRODUCTS — CARNES E AVES
