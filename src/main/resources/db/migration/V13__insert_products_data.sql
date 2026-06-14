@@ -228,36 +228,105 @@ VALUES ("Nata Fresca 200g", "Nata fresca", 6.99, 60,
 
 -- PRODUCTS — CARNES E AVES
 
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Frango Inteiro 1kg", "Resfriado", 14.99, 60,
+        "https://images.unsplash.com/photo-1587593810167-a84920ea0781", 1, CURRENT_TIMESTAMP, 6, 7);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Filé de Frango 1kg", "Sem osso", 18.99, 55,
+        "https://images.unsplash.com/photo-1604503468506-a8da13d82791", 1, CURRENT_TIMESTAMP, 6, 8);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Coxinha da Asa 1kg", "Temperada", 16.99, 50,
+        "https://images.unsplash.com/photo-1527477396000-e27163b481c2", 1, CURRENT_TIMESTAMP, 6, 9);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Patinho Moído 500g", "Bovino fresco", 19.99, 45,
+        "https://images.unsplash.com/photo-1546833998-877b37c2e5c6", 1, CURRENT_TIMESTAMP, 6, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Alcatra 500g", "Corte bovino", 34.99, 30,
+        "https://images.unsplash.com/photo-1546833998-877b37c2e5c6", 1, CURRENT_TIMESTAMP, 6, 8);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Linguiça Toscana 500g", "Suína fresca", 13.99, 55,
+        "https://images.unsplash.com/photo-1558030137-a56c1bette0", 1, CURRENT_TIMESTAMP, 6, 9);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Bacon Fatiado 200g", "Defumado", 9.99, 70,
+        "https://images.unsplash.com/photo-1528607929212-2636ec44253e", 1, CURRENT_TIMESTAMP, 6, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Costela Suína 1kg", "Fresca", 22.99, 35,
+        "https://images.unsplash.com/photo-1544025162-d76694265947", 1, CURRENT_TIMESTAMP, 6, 8);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Filé de Tilápia 500g", "Congelado", 21.99, 40,
+        "https://images.unsplash.com/photo-1534482421-64566f976cfa", 1, CURRENT_TIMESTAMP, 6, 7);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Camarão Limpo 300g", "Congelado", 29.99, 25,
+        "https://images.unsplash.com/photo-1565680018434-b513d5e5fd47", 1, CURRENT_TIMESTAMP, 6, 9);
 
 
 -- PRODUCTS — PADARIA E CONFEITARIA
 
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Pão de Forma 500g", "Macio e fofinho", 6.99, 80,
+        "https://images.unsplash.com/photo-1509440159596-0249088772ff", 1, CURRENT_TIMESTAMP, 7, 12);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Pão Integral 500g", "Com grãos", 8.49, 70,
+        "https://images.unsplash.com/photo-1509440159596-0249088772ff", 1, CURRENT_TIMESTAMP, 7, 12);
 
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Bisnaguinha 200g", "Macia", 4.99, 90,
+        "https://images.unsplash.com/photo-1555507036-ab1f4038808a", 1, CURRENT_TIMESTAMP, 7, 12);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Bolo de Chocolate 400g", "Fatiado", 11.99, 50,
+        "https://images.unsplash.com/photo-1578985545062-69928b1d9587", 1, CURRENT_TIMESTAMP, 7, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Bolo de Laranja 400g", "Fatiado", 10.99, 50,
+        "https://images.unsplash.com/photo-1565958011703-44f9829ba187", 1, CURRENT_TIMESTAMP, 7, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Cookie Chocolate 100g", "Crocante", 5.99, 100,
+        "https://images.unsplash.com/photo-1558961363-fa8fdf82db35", 1, CURRENT_TIMESTAMP, 7, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Biscoito Cream Cracker 200g", "Salgado crocante", 3.99, 120,
+        "https://images.unsplash.com/photo-1558961363-fa8fdf82db35", 1, CURRENT_TIMESTAMP, 7, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Wafer Baunilha 160g", "Crocante", 3.49, 110,
+        "https://images.unsplash.com/photo-1558961363-fa8fdf82db35", 1, CURRENT_TIMESTAMP, 7, 5);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Croissant Manteiga 4un", "Folhado", 9.99, 40,
+        "https://images.unsplash.com/photo-1555507036-ab1f4038808a", 1, CURRENT_TIMESTAMP, 7, 12);
+
+INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
+VALUES ("Tortinha de Limão 2un", "Recheada", 7.99, 45,
+        "https://images.unsplash.com/photo-1565958011703-44f9829ba187", 1, CURRENT_TIMESTAMP, 7, 5);
 
 -- PRODUCTS — HIGIENE PESSOAL
 
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
 
 
 -- PRODUCTS — FRIOS E EMBUTIDOS
-
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
-
 
 
 
 -- PRODUCTS — CONGELADOS
 
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
+
 
 
 -- PRODUCTS — BEBIDAS
 
--- name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id
+
 
 
 
