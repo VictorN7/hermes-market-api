@@ -137,16 +137,26 @@ public class TestConfig implements CommandLineRunner {
 		// PRODUCTS — BEBIDAS
 		// =========================
 
-		Product cocaCola = new Product("Coca-Cola 2L", "Refrigerante gelado", BigDecimal.valueOf(9.99), 50, "https://images.unsplash.com/photo-1622484212850-eb596d769edc", bebidas, cocaColaBrand);
-		Product suco = new Product("Suco de Uva 1L", "Suco integral", BigDecimal.valueOf(7.99), 40, "https://images.unsplash.com/photo-1600271886742-f049cd451bba", bebidas, cocaColaBrand);
-		Product agua = new Product("Água Mineral 1.5L", "Água sem gás", BigDecimal.valueOf(2.49), 150, "https://images.unsplash.com/photo-1564419320461-6870880221ad", bebidas, cocaColaBrand);
-		Product aguaCom = new Product("Água com Gás 1L", "Água gaseificada", BigDecimal.valueOf(3.49), 100, "https://images.unsplash.com/photo-1523362628745-0c100150b504", bebidas, cocaColaBrand);
-		Product sprite = new Product("Sprite 2L", "Refrigerante limão", BigDecimal.valueOf(8.99), 60, "https://images.unsplash.com/photo-1625772299848-391b6a87d7b3", bebidas, cocaColaBrand);
-		Product nesquik = new Product("Achocolatado Nesquik 1L", "Achocolatado pronto", BigDecimal.valueOf(6.99), 70, "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed", bebidas, nestleBrand);
-		Product sucoLaranja = new Product("Suco de Laranja 1L", "Suco integral", BigDecimal.valueOf(7.49), 55, "https://images.unsplash.com/photo-1600271886742-f049cd451bba", bebidas, nestleBrand);
-		Product isotonico = new Product("Isotônico Limão 500ml", "Repositor energético", BigDecimal.valueOf(4.99), 80, "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d", bebidas, cocaColaBrand);
-		Product chaPronto = new Product("Chá Pronto Pêssego 1L", "Chá gelado", BigDecimal.valueOf(5.49), 65, "https://images.unsplash.com/photo-1556679343-c7306c1976bc", bebidas, nestleBrand);
-		Product energetico = new Product("Energético 250ml", "Bebida energética", BigDecimal.valueOf(9.49), 45, "https://images.unsplash.com/photo-1621939514649-280e2ee25f60", bebidas, cocaColaBrand);
+		Product cocaCola = new Product("Coca-Cola 2L", "Refrigerante gelado", BigDecimal.valueOf(9.99), 50,
+		"https://images.unsplash.com/photo-1622484212850-eb596d769edc", bebidas, cocaColaBrand);
+		Product suco = new Product("Suco de Uva 1L", "Suco integral", BigDecimal.valueOf(7.99), 40,
+		"https://images.unsplash.com/photo-1600271886742-f049cd451bba", bebidas, cocaColaBrand);
+		Product agua = new Product("Água Mineral 1.5L", "Água sem gás", BigDecimal.valueOf(2.49), 150,
+		"https://images.unsplash.com/photo-1564419320461-6870880221ad", bebidas, cocaColaBrand);
+		Product aguaCom = new Product("Água com Gás 1L", "Água gaseificada", BigDecimal.valueOf(3.49), 100,
+		"https://images.unsplash.com/photo-1523362628745-0c100150b504", bebidas, cocaColaBrand);
+		Product sprite = new Product("Sprite 2L", "Refrigerante limão", BigDecimal.valueOf(8.99), 60,
+		"https://images.unsplash.com/photo-1625772299848-391b6a87d7b3", bebidas, cocaColaBrand);
+		Product nesquik = new Product("Achocolatado Nesquik 1L", "Achocolatado pronto", BigDecimal.valueOf(6.99), 70,
+		"https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed", bebidas, nestleBrand);
+		Product sucoLaranja = new Product("Suco de Laranja 1L", "Suco integral", BigDecimal.valueOf(7.49), 55,
+		"https://images.unsplash.com/photo-1600271886742-f049cd451bba", bebidas, nestleBrand);
+		Product isotonico = new Product("Isotônico Limão 500ml", "Repositor energético", BigDecimal.valueOf(4.99), 80,
+		"https://images.unsplash.com/photo-1553361371-9b22f78e8b1d", bebidas, cocaColaBrand);
+		Product chaPronto = new Product("Chá Pronto Pêssego 1L", "Chá gelado", BigDecimal.valueOf(5.49), 65,
+		"https://images.unsplash.com/photo-1556679343-c7306c1976bc", bebidas, nestleBrand);
+		Product energetico = new Product("Energético 250ml", "Bebida energética", BigDecimal.valueOf(9.49), 45,
+		"https://images.unsplash.com/photo-1621939514649-280e2ee25f60", bebidas, cocaColaBrand);
 
 		bebidas.addProduct(cocaCola); bebidas.addProduct(suco); bebidas.addProduct(agua);
 		bebidas.addProduct(aguaCom); bebidas.addProduct(sprite); bebidas.addProduct(nesquik);
