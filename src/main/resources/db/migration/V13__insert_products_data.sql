@@ -439,13 +439,3 @@ VALUES ("Sorvete Creme Flocos 1.5L", "Cremoso", 22.99, 30,
 INSERT INTO tb_products(name, description, price, quantity_in_stock, img_url, status, created_at, category_id, brand_id)
 VALUES ("Picolé Morango 3un", "Sorbet", 7.99, 50,
         "https://images.unsplash.com/photo-1501443762994-82bd5dace89a", 1, CURRENT_TIMESTAMP, 10, 5);
-
-
--- PRODUCTS — BEBIDAS
-
-
-
-
-
-
-
