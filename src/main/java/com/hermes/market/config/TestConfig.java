@@ -421,14 +421,23 @@ public class TestConfig implements CommandLineRunner {
 		order1.addItem(leite, 2);
 		order1.addItem(paoIntegral, 1);
 		order1.addItem(iogurteFruta, 4);
+
 		Order order2 = new Order(user1, PaymentMethod.PIX,
 		DeliveryMethod.PICKUP, addr11);
 		order2.addItem(arroz, 2);
 		order2.addItem(feijao, 2);
 		order2.addItem(detergente, 1);
 		order2.addItem(sabao, 1);
+
 		Order order3 = new Order(user1, PaymentMethod.BOLETO,
-		DeliveryMethod.HOME_DELIVERY, addr1);// user2 — 1 pedido
+		DeliveryMethod.HOME_DELIVERY, addr1);
+		order3.addItem(queijo, 1);
+		order3.addItem(presunto, 2);
+		order3.addItem(paoDeFarma, 1);
+		order3.addItem(manteiga, 1);
+
+		// user2 — 1 pedido
+
 		Order order4 = new Order(user2, PaymentMethod.CREDIT_CARD, DeliveryMethod.HOME_DELIVERY, addr2);
 		order4.addItem(queijo, 1);
 		order4.addItem(presunto, 2);
