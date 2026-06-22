@@ -159,142 +159,172 @@ Global exception handling via `@ControllerAdvice` with a standardized `StandardE
 
 ---
 
+# 📋 API Endpoints
+
 ## 🔐 Authentication
 
-The project now includes a basic authentication endpoint:
-
-```text
-POST /api/v1/auth/login
-```
+| Method | Endpoint             | Description                                |
+| ------ | -------------------- | ------------------------------------------ |
+| POST   | `/api/v1/auth/login` | Authenticate user using email and password |
 
 ---
 
-## 🔍 Dynamic Filtering
-
-Products support optional and combinable query parameters:
-
-```
-GET /api/v1/products?brandId=2&categoryId=1&name=lar&onSale=true
-```
-
-Filters available:
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `categoryId` | Long | Filter by category |
-| `brandId` | Long | Filter by brand |
-| `name` | String | Partial name search (case-insensitive) |
-| `onSale` | Boolean | Filter products with active promotions |
-
-Implemented via **Spring Data JPA Specification with Join** — no manual queries.
-
----
-
-## 🌐 Available Endpoints
-
-### Authentication
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/auth/login` | Authenticate user by email and password |
+## 👤 Client Endpoints
 
 ### Users
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/users` | List all active users |
-| GET | `/api/v1/users/{id}` | Get active user by id |
-| GET | `/api/v1/users/{id}/orders` | List orders by user |
-| GET | `/api/v1/users/{id}/addresses` | List addresses by user |
-| GET | `/api/v1/users/inactive` | List inactive users |
-| GET | `/api/v1/users/inactive/{id}` | Get inactive user by id |
-| POST | `/api/v1/users` | Create a new user |
-| PUT | `/api/v1/users/{id}` | Update user basic information |
-| PATCH | `/api/v1/users/{id}/password` | Change user password |
-| PATCH | `/api/v1/users/{id}/activate` | Activate user |
-| PATCH | `/api/v1/users/{id}/deactivate` | Deactivate user |
-| PATCH | `/api/v1/users/{id}/block` | Block user |
-| PATCH | `/api/v1/users/{id}/unlock` | Unlock user |
-| DELETE | `/api/v1/users/{id}` | Delete user if never purchased, otherwise deactivate |
-
-### Addresses
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/users/{id}/addresses` | Add a new address to the user |
-| DELETE | `/api/v1/users/{id}/addresses/{addressId}` | Delete address only if it was never used in an order |
+| Method | Endpoint                                   | Description                                             |
+| ------ | ------------------------------------------ | ------------------------------------------------------- |
+| GET    | `/api/v1/users/{id}`                       | Get active user by id                                   |
+| GET    | `/api/v1/users/{id}/orders`                | List orders by user                                     |
+| GET    | `/api/v1/users/{id}/addresses`             | List addresses by user                                  |
+| GET    | `/api/v1/users/{id}/addresses/{addressId}` | Get address by id                                       |
+| POST   | `/api/v1/users`                            | Create a new user                                       |
+| POST   | `/api/v1/users/{id}/addresses`             | Add a new address to the user                           |
+| PUT    | `/api/v1/users/{id}`                       | Update user information                                 |
+| PUT    | `/api/v1/users/{id}/addresses/{addressId}` | Update address information                              |
+| PATCH  | `/api/v1/users/{id}/password`              | Change user password                                    |
+| PATCH  | `/api/v1/users/{id}/deactivate`            | Deactivate user account                                 |
+| DELETE | `/api/v1/users/{id}`                       | Delete user if no purchases exist, otherwise deactivate |
+| DELETE | `/api/v1/users/{id}/addresses/{addressId}` | Delete address if never used in an order                |
 
 ### Categories
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/categories` | List all active categories |
-| GET | `/api/v1/categories/{id}` | Get active category by id |
-| GET | `/api/v1/categories/inactive` | List inactive categories |
-| GET | `/api/v1/categories/inactive/{id}` | Get inactive category by id |
-| POST | `/api/v1/categories` | Create a new category |
-| PATCH | `/api/v1/categories/{id}/name` | Update category name |
-| PATCH | `/api/v1/categories/{id}/activate` | Activate category |
-| PATCH | `/api/v1/categories/{id}/deactivate` | Deactivate category |
-| DELETE | `/api/v1/categories/{id}` | Delete category if it has no products, otherwise deactivate |
+| Method | Endpoint                           | Description                |
+| ------ | ---------------------------------- | -------------------------- |
+| GET    | `/api/v1/categories`               | List all active categories |
+| GET    | `/api/v1/categories/{id}`          | Get active category by id  |
+| GET    | `/api/v1/categories/{id}/products` | List products by category  |
 
 ### Brands
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/brands` | List all active brands |
-| GET | `/api/v1/brands/{id}` | Get active brand by id |
-| GET | `/api/v1/brands/inactive` | List inactive brands |
-| GET | `/api/v1/brands/inactive/{id}` | Get inactive brand by id |
-| POST | `/api/v1/brands` | Create a new brand |
-| PATCH | `/api/v1/brands/{id}/name` | Update brand name |
-| PATCH | `/api/v1/brands/{id}/activate` | Activate brand |
-| PATCH | `/api/v1/brands/{id}/deactivate` | Deactivate brand |
-| DELETE | `/api/v1/brands/{id}` | Delete brand if it has no products, otherwise deactivate |
+| Method | Endpoint                       | Description            |
+| ------ | ------------------------------ | ---------------------- |
+| GET    | `/api/v1/brands`               | List all active brands |
+| GET    | `/api/v1/brands/{id}`          | Get active brand by id |
+| GET    | `/api/v1/brands/{id}/products` | List products by brand |
 
 ### Products
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/products` | List products with optional filters |
-| GET | `/api/v1/products/{id}` | Get product by id |
-| GET | `/api/v1/products/inactive` | List inactive products |
-| GET | `/api/v1/products/inactive/{id}` | Get inactive product by id |
-| POST | `/api/v1/products` | Create a new product |
-| PUT | `/api/v1/products/{id}` | Fully update product information |
-| PATCH | `/api/v1/products/{id}/stock` | Update product stock quantity |
-| PATCH | `/api/v1/products/{id}/activate` | Activate product |
-| PATCH | `/api/v1/products/{id}/deactivate` | Deactivate product |
-| DELETE | `/api/v1/products/{id}` | Delete product if never sold, otherwise deactivate |
+| Method | Endpoint                | Description                         |
+| ------ | ----------------------- | ----------------------------------- |
+| GET    | `/api/v1/products`      | List products with optional filters |
+| GET    | `/api/v1/products/{id}` | Get product by id                   |
 
 ### Orders
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/orders` | List all orders |
-| GET | `/api/v1/orders/{id}` | Get order by id |
-| POST | `/api/v1/orders` | Create a new order |
-| POST | `/api/v1/orders/{id}/items` | Add item to order |
-| PATCH | `/api/v1/orders/{orderId}/items/{itemId}/quantity` | Update order item quantity |
-| PATCH | `/api/v1/orders/{id}/pay` | Mark order as paid |
-| PATCH | `/api/v1/orders/{id}/ship` | Mark order as shipped |
-| PATCH | `/api/v1/orders/{id}/deliver` | Mark order as delivered |
-| PATCH | `/api/v1/orders/{id}/cancel` | Cancel order when status is CREATED |
-| DELETE | `/api/v1/orders/{id}/items/{itemId}` | Remove item from order when status is CREATED |
+| Method | Endpoint                                      | Description                         |
+| ------ | --------------------------------------------- | ----------------------------------- |
+| GET    | `/api/v1/orders/{id}`                         | Get order by id                     |
+| POST   | `/api/v1/orders`                              | Create a new order                  |
+| POST   | `/api/v1/orders/{id}/items`                   | Add item to order                   |
+| PATCH  | `/api/v1/orders/{id}/items/{itemId}/quantity` | Update item quantity                |
+| PATCH  | `/api/v1/orders/{id}/cancel`                  | Cancel order when status is CREATED |
+| DELETE | `/api/v1/orders/{id}/items/{itemId}`          | Remove item when status is CREATED  |
 
 ### Promotions
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/promotions` | List all active promotions |
-| GET | `/api/v1/promotions/{id}` | Get active promotion by id |
-| GET | `/api/v1/promotions/inactive` | List inactive promotions |
-| GET | `/api/v1/promotions/inactive/{id}` | Get inactive promotion by id |
-| POST | `/api/v1/promotions` | Create a new promotion |
-| POST | `/api/v1/promotions/{promotionId}/products/{productId}` | Add product to promotion |
-| PATCH | `/api/v1/promotions/{id}/activate` | Activate promotion |
-| PATCH | `/api/v1/promotions/{id}/deactivate` | Deactivate promotion |
-| DELETE | `/api/v1/promotions/{promotionId}/products/{productId}` | Remove product from promotion |
+| Method | Endpoint                           | Description                |
+| ------ | ---------------------------------- | -------------------------- |
+| GET    | `/api/v1/promotions`               | List all active promotions |
+| GET    | `/api/v1/promotions/{id}`          | Get active promotion by id |
+| GET    | `/api/v1/promotions/{id}/products` | List products by promotion |
+
+### Internal Orders (System)
+
+| Method | Endpoint                               | Description             |
+| ------ | -------------------------------------- | ----------------------- |
+| PATCH  | `/api/v1/internal/orders/{id}/pay`     | Mark order as paid      |
+| PATCH  | `/api/v1/internal/orders/{id}/ship`    | Mark order as shipped   |
+| PATCH  | `/api/v1/internal/orders/{id}/deliver` | Mark order as delivered |
+
+---
+
+## 🔧 Admin Endpoints
+
+### Admin Users
+
+| Method | Endpoint                            | Description             |
+| ------ | ----------------------------------- | ----------------------- |
+| GET    | `/api/v1/admin/users`               | List all users          |
+| GET    | `/api/v1/admin/users/{id}`          | Get user by id          |
+| GET    | `/api/v1/admin/users/inactive`      | List inactive users     |
+| GET    | `/api/v1/admin/users/inactive/{id}` | Get inactive user by id |
+| GET    | `/api/v1/admin/users/blocked`       | List blocked users      |
+| PATCH  | `/api/v1/admin/users/{id}/activate` | Activate user           |
+| PATCH  | `/api/v1/admin/users/{id}/block`    | Block user              |
+| PATCH  | `/api/v1/admin/users/{id}/unlock`   | Unlock user             |
+
+### Admin Categories
+
+| Method | Endpoint                                   | Description                           |
+| ------ | ------------------------------------------ | ------------------------------------- |
+| GET    | `/api/v1/admin/categories/inactive`        | List inactive categories              |
+| GET    | `/api/v1/admin/categories/inactive/{id}`   | Get inactive category by id           |
+| POST   | `/api/v1/admin/categories`                 | Create a new category                 |
+| PATCH  | `/api/v1/admin/categories/{id}/name`       | Update category name                  |
+| PATCH  | `/api/v1/admin/categories/{id}/activate`   | Activate category                     |
+| PATCH  | `/api/v1/admin/categories/{id}/deactivate` | Deactivate category                   |
+| DELETE | `/api/v1/admin/categories/{id}`            | Delete category if it has no products |
+
+### Admin Brands
+
+| Method | Endpoint                               | Description                        |
+| ------ | -------------------------------------- | ---------------------------------- |
+| GET    | `/api/v1/admin/brands/inactive`        | List inactive brands               |
+| GET    | `/api/v1/admin/brands/inactive/{id}`   | Get inactive brand by id           |
+| POST   | `/api/v1/admin/brands`                 | Create a new brand                 |
+| PATCH  | `/api/v1/admin/brands/{id}/name`       | Update brand name                  |
+| PATCH  | `/api/v1/admin/brands/{id}/activate`   | Activate brand                     |
+| PATCH  | `/api/v1/admin/brands/{id}/deactivate` | Deactivate brand                   |
+| DELETE | `/api/v1/admin/brands/{id}`            | Delete brand if it has no products |
+
+### Admin Products
+
+| Method | Endpoint                                 | Description                      |
+| ------ | ---------------------------------------- | -------------------------------- |
+| GET    | `/api/v1/admin/products/inactive`        | List inactive products           |
+| GET    | `/api/v1/admin/products/inactive/{id}`   | Get inactive product by id       |
+| POST   | `/api/v1/admin/products`                 | Create a new product             |
+| PUT    | `/api/v1/admin/products/{id}`            | Fully update product information |
+| PATCH  | `/api/v1/admin/products/{id}/stock`      | Update stock quantity            |
+| PATCH  | `/api/v1/admin/products/{id}/activate`   | Activate product                 |
+| PATCH  | `/api/v1/admin/products/{id}/deactivate` | Deactivate product               |
+| DELETE | `/api/v1/admin/products/{id}`            | Delete product if never sold     |
+
+### Admin Orders
+
+| Method | Endpoint                                   | Description                        |
+| ------ | ------------------------------------------ | ---------------------------------- |
+| GET    | `/api/v1/admin/orders`                     | List all orders                    |
+| GET    | `/api/v1/admin/orders/{id}`                | Get order by id                    |
+| GET    | `/api/v1/admin/orders/inactive-users`      | List orders from inactive users    |
+| GET    | `/api/v1/admin/orders/inactive-users/{id}` | Get order from inactive user by id |
+
+### Admin Promotions
+
+| Method | Endpoint                                                      | Description                   |
+| ------ | ------------------------------------------------------------- | ----------------------------- |
+| GET    | `/api/v1/admin/promotions/inactive`                           | List inactive promotions      |
+| GET    | `/api/v1/admin/promotions/inactive/{id}`                      | Get inactive promotion by id  |
+| GET    | `/api/v1/admin/promotions/{id}/products`                      | List products by promotion    |
+| POST   | `/api/v1/admin/promotions`                                    | Create a new promotion        |
+| POST   | `/api/v1/admin/promotions/{promotionId}/products`             | Add product to promotion      |
+| PATCH  | `/api/v1/admin/promotions/{id}/activate`                      | Activate promotion            |
+| PATCH  | `/api/v1/admin/promotions/{id}/deactivate`                    | Deactivate promotion          |
+| DELETE | `/api/v1/admin/promotions/{promotionId}/products/{productId}` | Remove product from promotion |
+
+---
+
+## 📊 Summary
+
+| Section        | Total Endpoints |
+| -------------- | --------------- |
+| Authentication | 1               |
+| Client         | 32              |
+| Admin          | 42              |
+| **Total**      | **75**          |
+
 
 ---
 
