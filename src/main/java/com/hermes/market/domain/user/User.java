@@ -3,6 +3,7 @@ package com.hermes.market.domain.user;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -10,10 +11,12 @@ import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.domain.order.Order;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "tb_users")
-public class User {
+public class User implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -214,6 +217,44 @@ public class User {
 		this.status = status.getCode();
 	}
 
+	// UserDetails
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of();
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	@Override
+	public String getUsername() {
+		return "";
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	// -------------------------------------------------------------
+
 	public String getCpf() {
 		return cpf;
 	}
@@ -232,10 +273,6 @@ public class User {
 
 	public String getEmail() {
 		return email;
-	}
-
-	public String getPassword() {
-		return password;
 	}
 
 	public LocalDate getBirthDate() {
