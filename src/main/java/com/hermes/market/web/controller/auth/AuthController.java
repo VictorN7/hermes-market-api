@@ -28,6 +28,7 @@ public class AuthController {
         return ResponseEntity.ok().body(userService.toLogin(loginRequest));
     }
 
+    @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody @Valid UserRequest userRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
     }
