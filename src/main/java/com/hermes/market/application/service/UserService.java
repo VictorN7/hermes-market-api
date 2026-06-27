@@ -15,6 +15,7 @@ import com.hermes.market.infrastructure.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hermes.market.infrastructure.repository.UserRepository;
@@ -25,10 +26,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, OrderRepository orderRepository) {
+    public UserService(UserRepository userRepository, OrderRepository orderRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -48,7 +51,16 @@ public class UserService {
                 userRepository.existsByEmail(userRequest.getEmail().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("User is already exists");
         }
-        return UserMapper.toResponse(userRepository.save(UserMapper.toCreate(userRequest)));
+
+        String encodedPassword = passwordEncoder.encode(userRequest.getPassword());
+
+        User user = new User(userRequest.getName().trim().replaceAll("\\s+", " "),
+                userRequest.getEmail().trim().replaceAll("\\s+", " "),
+                encodedPassword,
+                userRequest.getBirthDate(),
+                userRequest.getCpf().trim().replaceAll("\\s+", " "));
+
+        return UserMapper.toResponse(userRepository.save(user));
     }
 
     @Transactional(readOnly = true)

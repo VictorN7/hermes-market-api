@@ -16,11 +16,6 @@ public class UserMapper {
                 user.getStatus().name(), user.getRole().name());
     }
 
-    public static User toCreate(UserRequest userRequest){
-        return new User(userRequest.getName().trim().replaceAll("\\s+", " "), userRequest.getEmail().trim().replaceAll("\\s+", " ")
-                , userRequest.getPassword().trim().replaceAll("\\s+", " "), userRequest.getBirthDate(), userRequest.getCpf().trim().replaceAll("\\s+", " "));
-    }
-
     public static LoginResponse toLogin(User user){
         return new LoginResponse(user.getId(), user.getName().trim(), user.getEmail().trim(), user.getRole().name().trim());
     }
