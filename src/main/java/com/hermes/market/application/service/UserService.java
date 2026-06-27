@@ -52,7 +52,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public LoginResponse toLogin(LoginRequest loginRequest) {
+    public LoginResponse authenticate(LoginRequest loginRequest) {
         User user = userRepository.findByEmailIgnoreCase(loginRequest.getEmail().trim().replaceAll("\\s+", " ")).orElseThrow(() -> new BusinessException("Invalid email or password"));
         if (!user.getStatus().equals(UserStatus.ACTIVE)) {
             throw new BusinessException("User is inactive or blocked");
