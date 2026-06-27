@@ -14,6 +14,7 @@ import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.hermes.market.infrastructure.repository.UserRepository;
@@ -28,6 +29,11 @@ public class UserService {
     public UserService(UserRepository userRepository, OrderRepository orderRepository) {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+    }
+
+    @Transactional
+    public UserDetails loadUserByEmail(String email){
+
     }
 
     @Transactional(readOnly = true)

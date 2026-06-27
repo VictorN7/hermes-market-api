@@ -1,7 +1,8 @@
-package com.hermes.market.web.controller.exception;
+package com.hermes.market.web.controller.auth;
 
 import com.hermes.market.application.dto.request.LoginRequest;
 import com.hermes.market.application.dto.response.LoginResponse;
+import com.hermes.market.application.dto.response.RegisterUserResponse;
 import com.hermes.market.application.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest){
         return ResponseEntity.ok().body(userService.toLogin(loginRequest));
+    }
+
+    public ResponseEntity<RegisterUserResponse>  registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest){
+        return ResponseEntity.ok().body(userService.)
     }
 
 }

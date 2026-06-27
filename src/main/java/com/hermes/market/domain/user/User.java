@@ -217,7 +217,7 @@ public class User implements UserDetails {
 		this.status = status.getCode();
 	}
 
-	// UserDetails
+	// UserDetails ------------------------------------------------------------------
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -253,7 +253,7 @@ public class User implements UserDetails {
 		return true;
 	}
 
-	// -------------------------------------------------------------
+	// --------------------------------------------------------------------------------
 
 	public String getCpf() {
 		return cpf;
