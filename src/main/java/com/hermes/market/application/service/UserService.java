@@ -72,7 +72,7 @@ public class UserService {
         if (!user.getPassword().equals(loginRequest.getPassword().trim().replaceAll("\\s+", " "))) {
             throw new BusinessException("Invalid email or password");
         }
-        return UserMapper.toLogin(user);
+        return UserMapper.toLogin(user.getPassword(), user);
     }
 
     @Transactional

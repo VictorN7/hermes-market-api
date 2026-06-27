@@ -1,7 +1,6 @@
 package com.hermes.market.application.mapper;
 
-import com.hermes.market.application.dto.request.LoginRequest;
-import com.hermes.market.application.dto.request.UserRequest;
+
 import com.hermes.market.application.dto.response.LoginResponse;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.domain.user.User;
@@ -16,8 +15,8 @@ public class UserMapper {
                 user.getStatus().name(), user.getRole().name());
     }
 
-    public static LoginResponse toLogin(User user){
-        return new LoginResponse(user.getId(), user.getName().trim(), user.getEmail().trim(), user.getRole().name().trim());
+    public static LoginResponse toLogin(String token, User user){
+        return new LoginResponse(token, UserMapper.toResponse(user));
     }
 
 }

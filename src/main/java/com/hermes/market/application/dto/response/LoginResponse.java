@@ -2,11 +2,8 @@ package com.hermes.market.application.dto.response;
 
 public class LoginResponse {
 
-    private String token;
-    private UserResponse user;
-
-    private LoginResponse(){
-    }
+    private final String token;
+    private final UserResponse user;
 
     public LoginResponse(String token, UserResponse user) {
         this.token = token;
