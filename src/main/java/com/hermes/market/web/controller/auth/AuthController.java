@@ -1,10 +1,12 @@
 package com.hermes.market.web.controller.auth;
 
 import com.hermes.market.application.dto.request.LoginRequest;
+import com.hermes.market.application.dto.request.UserRequest;
 import com.hermes.market.application.dto.response.LoginResponse;
-import com.hermes.market.application.dto.response.RegisterUserResponse;
+import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.service.UserService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +28,8 @@ public class AuthController {
         return ResponseEntity.ok().body(userService.toLogin(loginRequest));
     }
 
-    public ResponseEntity<RegisterUserResponse>  registerUser(@RequestBody @Valid RegisterUserRequest registerUserRequest){
-        return ResponseEntity.ok().body(userService.)
+    public ResponseEntity<UserResponse> registerUser(@RequestBody @Valid UserRequest userRequest){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(userRequest));
     }
 
 }

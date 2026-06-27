@@ -31,11 +31,6 @@ public class UserService {
         this.orderRepository = orderRepository;
     }
 
-    @Transactional
-    public UserDetails loadUserByEmail(String email){
-
-    }
-
     @Transactional(readOnly = true)
     public Page<UserResponse> findAll(Pageable pageable) {
         Page<User> users = userRepository.findByStatus(UserStatus.ACTIVE.getCode(), pageable);
