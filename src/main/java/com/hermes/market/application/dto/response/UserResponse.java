@@ -2,14 +2,11 @@ package com.hermes.market.application.dto.response;
 
 public class UserResponse {
 
-    private Long id;
-    private String name;
-    private String email;
-    private String status;
-    private String role;
-
-    public UserResponse(){
-    }
+    private final Long id;
+    private final String name;
+    private final String email;
+    private final String status;
+    private final String role;
 
     public UserResponse(Long id, String name, String email, String status, String role) {
         this.id = id;

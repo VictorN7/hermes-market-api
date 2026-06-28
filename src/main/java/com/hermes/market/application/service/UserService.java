@@ -69,10 +69,12 @@ public class UserService {
         if (!user.getStatus().equals(UserStatus.ACTIVE)) {
             throw new BusinessException("User is inactive or blocked");
         }
-        if (!user.getPassword().equals(loginRequest.getPassword().trim().replaceAll("\\s+", " "))) {
+
+        if (!passwordEncoder.matches(loginRequest.getPassword().trim().replaceAll("\\s+", " "), user.getPassword())) {
             throw new BusinessException("Invalid email or password");
         }
-        return UserMapper.toLogin(user.getPassword(), user);
+
+        return UserMapper.toLogin("token here", user);
     }
 
     @Transactional
