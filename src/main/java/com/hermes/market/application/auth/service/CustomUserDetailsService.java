@@ -1,4 +1,4 @@
-package com.hermes.market.application.service;
+package com.hermes.market.application.auth.service;
 
 import com.hermes.market.infrastructure.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;

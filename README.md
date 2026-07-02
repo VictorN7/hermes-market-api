@@ -5,8 +5,7 @@ O Hermes Market é uma API REST desenvolvida com Java 21 e Spring Boot que simul
 
 O projeto foi concebido para aplicar conceitos utilizados em aplicações corporativas, como arquitetura em camadas, modelagem de domínio, separação de responsabilidades, persistência com PostgreSQL, versionamento do banco de dados com Flyway e documentação da API com OpenAPI/Swagger.
 
-Atualmente, a API contempla módulos para gerenciamento de usuários, endereços, categorias, marcas, produtos, promoções e pedidos, enquanto a camada de segurança baseada em Spring Security e JWT está sendo implementada de forma incremental.
-
+Atualmente, a API contempla módulos para gerenciamento de usuários, endereços, categorias, marcas, produtos, promoções e pedidos. A autenticação está sendo estruturada em um módulo dedicado utilizando Spring Security, enquanto a implementação completa baseada em JWT está sendo desenvolvida de forma incremental.
 
 ![Java](https://img.shields.io/badge/Java-21-red)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen)
@@ -65,7 +64,7 @@ Atualmente, a API contempla módulos para gerenciamento de usuários, endereços
 - ✅ Mais de 70 endpoints REST
 - ✅ 18 migrations com Flyway
 - ✅ 8 entidades de domínio
-- ✅ Arquitetura organizada em 6 camadas
+- ✅ Arquitetura em camadas com módulos especializados
 - ✅ Controllers separados para Cliente, Administrador, Autenticação e Operações Internas
 - ✅ Documentação completa com Swagger/OpenAPI
 
@@ -79,6 +78,11 @@ O Hermes Market segue uma arquitetura em camadas, promovendo separação de resp
 com.hermes.market
 │
 ├── application
+│   ├── auth
+│   │   ├── dto
+│   │   ├── security
+│   │   └── service
+│   │
 │   ├── dto
 │   ├── exception
 │   ├── mapper
@@ -108,7 +112,7 @@ com.hermes.market
 
 | Camada             | Responsabilidade                                                                                                                                      |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **application**    | Contém os serviços da aplicação, DTOs, mappers e exceções utilizadas pelos casos de uso.                                                              |
+| **application**    | Contém os casos de uso da aplicação, organizados em serviços, DTOs, mappers, exceções e módulos específicos, como autenticação.                                                              |
 | **config**         | Configurações da aplicação, incluindo Spring Security e configurações de ambiente.                                                                    |
 | **domain**         | Entidades, enums e regras de negócio organizadas por contexto (`user`, `product` e `order`).                                                          |
 | **infrastructure** | Repositórios JPA e Specifications responsáveis pela persistência e consultas dinâmicas.                                                               |
@@ -378,6 +382,7 @@ Entre os principais objetivos estão:
 - Organização do código utilizando arquitetura em camadas.
 - Separação entre entidades e contratos da API através de DTOs.
 - Evolução incremental da camada de segurança.
+- Organização modular da autenticação utilizando Spring Security.
 - Utilização de ferramentas amplamente adotadas no ecossistema Java, como Spring Boot, Spring Data JPA, Flyway e PostgreSQL.
 
 ---

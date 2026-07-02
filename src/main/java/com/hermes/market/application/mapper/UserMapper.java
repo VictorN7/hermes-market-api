@@ -1,7 +1,7 @@
 package com.hermes.market.application.mapper;
 
 
-import com.hermes.market.application.dto.response.LoginResponse;
+import com.hermes.market.application.auth.dto.response.LoginResponse;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.domain.user.User;
 

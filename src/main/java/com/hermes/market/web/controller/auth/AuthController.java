@@ -1,8 +1,8 @@
 package com.hermes.market.web.controller.auth;
 
-import com.hermes.market.application.dto.request.LoginRequest;
+import com.hermes.market.application.auth.dto.request.LoginRequest;
 import com.hermes.market.application.dto.request.UserRequest;
-import com.hermes.market.application.dto.response.LoginResponse;
+import com.hermes.market.application.auth.dto.response.LoginResponse;
 import com.hermes.market.application.dto.response.UserResponse;
 import com.hermes.market.application.service.UserService;
 import jakarta.validation.Valid;

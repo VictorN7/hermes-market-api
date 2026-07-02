@@ -1,4 +1,6 @@
-package com.hermes.market.application.dto.response;
+package com.hermes.market.application.auth.dto.response;
+
+import com.hermes.market.application.dto.response.UserResponse;
 
 public class LoginResponse {
 

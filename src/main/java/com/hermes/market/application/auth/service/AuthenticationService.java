@@ -1,7 +1,7 @@
-package com.hermes.market.application.service;
+package com.hermes.market.application.auth.service;
 
-import com.hermes.market.application.dto.request.LoginRequest;
-import com.hermes.market.application.dto.response.LoginResponse;
+import com.hermes.market.application.auth.dto.request.LoginRequest;
+import com.hermes.market.application.auth.dto.response.LoginResponse;
 import com.hermes.market.application.exception.BusinessException;
 import com.hermes.market.application.mapper.UserMapper;
 import com.hermes.market.domain.user.User;
