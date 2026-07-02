@@ -7,14 +7,13 @@ O projeto foi concebido para aplicar conceitos utilizados em aplicações corpor
 
 Atualmente, a API contempla módulos para gerenciamento de usuários, endereços, categorias, marcas, produtos, promoções e pedidos, enquanto a camada de segurança baseada em Spring Security e JWT está sendo implementada de forma incremental.
 
----
 
 ![Java](https://img.shields.io/badge/Java-21-red)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
----
+----
 
 ## ⚙️ Tecnologias
 
@@ -43,7 +42,7 @@ Atualmente, a API contempla módulos para gerenciamento de usuários, endereços
 - Lombok
 - Bean Validation
 
----
+----
 
 ## 📌 Principais Recursos
 
