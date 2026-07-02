@@ -12,17 +12,13 @@ import com.hermes.market.domain.user.UserStatus;
 import com.hermes.market.infrastructure.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.hermes.market.infrastructure.repository.UserRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
@@ -32,11 +28,6 @@ public class UserService implements UserDetailsService {
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmailIgnoreCase(username).orElseThrow(() -> new UsernameNotFoundException("Credentials not found"));
     }
 
     @Transactional(readOnly = true)
